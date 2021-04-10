@@ -2,7 +2,7 @@ name: Horn (speaker) checks
 on:
   pull_request:
     paths:
-      - horn/
+      - 'horn/**'
 
 jobs:
   unit:

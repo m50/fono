@@ -2,7 +2,7 @@ name: Record (control panel) checks
 on:
   pull_request:
     paths:
-      - record/
+      - 'record/**'
 
 jobs:
   unit:
