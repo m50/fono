@@ -22,11 +22,18 @@
   "dependencies": {
     "@fono/horn": "1.0.0",
     "@fono/record": "1.0.0",
+    "apollo-server": "^2.22.2",
     "chalk": "^4.1.0",
     "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "dotenv-expand": "^5.1.0",
     "fastify": "^3.14.1",
     "fastify-websocket": "^3.1.0",
-    "whatwg-fetch": "^3.6.2"
+    "knex": "^0.95.4",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "whatwg-fetch": "^3.6.2",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",

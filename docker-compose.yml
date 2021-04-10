@@ -31,7 +31,6 @@ services:
       retries: 3
       start_period: 40s
     ports:
-      - "17333:17333"
       - "3000:3000"
     depends_on:
       - db
@@ -48,12 +47,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    depends_on:
-      - db
-      - cache
-      - gramophone
     networks:
-      - backend
       - frontend
   cache:
     image: redis:alpine

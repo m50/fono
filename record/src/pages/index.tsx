@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import useSocket from 'hooks/useSocket';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const { SocketContext } = useSocket();
-  const socket = useContext(SocketContext);
+  const ws = useSocket();
+  useEffect(() => {
+    ws?.on('welcome', (data) => console.log(data));
+    ws?.send('test', { value: 'hi!' });
+  }, [ws]);
   return (
     <div className={styles.container}>
       <Head>

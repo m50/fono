@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
+import WS from 'lib/WS';
+import { isClientSide, isProduction } from 'lib/helpers';
+import { useIsMounted } from './useIsMounted';
 
-const SocketContext = React.createContext<WebSocket | null>(null);
+export const SocketContext = React.createContext<Record<string, WS>>({});
 
-const useSocket = () => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  useEffect(() => {
-    if (!socket) {
-      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      setSocket(new WebSocket(`${proto}://${window.location.hostname}/g/ws`));
-    } else {
-      socket.onopen = () => {
-        console.log('ready?', socket.readyState);
-        socket.send('hello');
-      };
-      socket.onmessage = (ev) => {
-        console.log(ev.data);
-      };
+const useSocket = (path: string = 'g/ws') => {
+  const sockets = useContext(SocketContext);
+  const isMounted = useIsMounted();
+  const ws = useMemo(() => {
+    if (!isMounted) {
+      return undefined;
     }
-  }, [socket]);
+    let socket = sockets[path];
+    if (!socket && isClientSide()) {
+      socket = new WS(path);
+      sockets[path] = socket;
+      if (!isProduction()) {
+        // @ts-ignore
+        window.sockets = sockets;
+      }
+    }
+    return socket;
+  }, [sockets, path, isMounted]);
 
-  return { SocketContext, socket };
+  return ws;
 };
 
 export default useSocket;

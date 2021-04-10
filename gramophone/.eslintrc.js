@@ -26,6 +26,7 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
+    'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-first-prop-new-line': 'off',
@@ -51,7 +52,6 @@ module.exports = {
     }],
     'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.tsx'] }],
-    'import/no-unresolved': 'error',
     'no-multiple-empty-lines': ['error', {
       max: 1,
       maxEOF: 1,
