@@ -13,10 +13,10 @@
       "es2020"
     ],
     "typeRoots": [
-      "node_modules/@types",
       "gramophone/src/@types",
       "record/src/@types",
-      "horn/src/@types"
+      "horn/src/@types",
+      "node_modules/@types"
     ],
     "moduleResolution": "node",
     "target": "es5",

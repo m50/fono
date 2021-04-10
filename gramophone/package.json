@@ -25,6 +25,7 @@
     "chalk": "^4.1.0",
     "cross-env": "^7.0.3",
     "fastify": "^3.14.1",
+    "fastify-websocket": "^3.1.0",
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {

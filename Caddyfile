@@ -1,13 +1,14 @@
 {$BASE_URL}
 
-reverse_proxy {$UI}:3000
+reverse_proxy {$UI}:3000 {
+	header_up Host {host}
+	header_up X-Real-IP {remote}
+}
 handle /g/* {
 	uri strip_prefix /g
-	reverse_proxy {$API}:3000
+	reverse_proxy {$API}:3000 {
+		header_up Host {host}
+		header_up X-Real-IP {remote}
+	}
 }
 
-@websockets {
-	header Connection *Upgrade*
-	header Upgrade    websocket
-}
-reverse_proxy @websockets {$API}:17333

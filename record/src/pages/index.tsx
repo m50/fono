@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import useSocket from 'hooks/useSocket';
 
 export default function Home() {
+  const { SocketContext } = useSocket();
+  const socket = useContext(SocketContext);
   return (
     <div className={styles.container}>
       <Head>
