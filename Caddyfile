@@ -1,0 +1,13 @@
+{$BASE_URL}
+
+reverse_proxy {$UI}:3000
+handle /g/* {
+	uri strip_prefix /g
+	reverse_proxy {$API}:3000
+}
+
+@websockets {
+	header Connection *Upgrade*
+	header Upgrade    websocket
+}
+reverse_proxy @websockets {$API}:17333

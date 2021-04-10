@@ -1,5 +1,5 @@
 {
-  "name": "horn",
+  "name": "@fono/horn",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -7,6 +7,11 @@
     "name": "Marisa Clardy",
     "url": "https://clardy.eu",
     "email": "marisa@clardy.eu"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "@fono/gramophone": "1.0.0",
+    "@fono/record": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
@@ -27,10 +32,5 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "typescript": "^4.2.3"
-  },
-  "dependencies": {
-    "cross-env": "^7.0.3",
-    "gramophone": "1.0.0",
-    "record": "1.0.0"
   }
 }

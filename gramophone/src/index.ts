@@ -1,5 +1,8 @@
 import 'whatwg-fetch';
 import fastify from 'fastify';
+import chalk from 'chalk';
+
+const PORT = 3000;
 
 const server = fastify({
   logger: true,
@@ -10,7 +13,14 @@ server.get('/', async (request, reply) => {
   return { hello: 'world' };
 });
 
-server.listen(3001, (err, address) => {
-  if (err) throw err;
-  server.log.info(`server listening on ${address}`);
-})
+const start = async () => {
+  console.log(`\n\t🎉 Server started at ${chalk.cyan(`http://127.0.0.1:${PORT}/`)} 🎉\n`);
+  try {
+    await server.listen(3000, '0.0.0.0');
+  } catch (err) {
+    server.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();

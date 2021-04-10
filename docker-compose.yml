@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+  router:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      UI: record
+      API: gramophone
+      BASE_URL: "${BASE_URL}"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:433"
+      - "2019:2019"
+    networks:
+      - frontend
+    depends_on:
+      - record
+      - gramophone
+  gramophone:
+    image: ghcr.io/m50/fono/gramophone:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    ports:
+      - "17333:17333"
+      - "3000:3000"
+    depends_on:
+      - db
+      - cache
+    networks:
+      - backend
+      - frontend
+  record:
+    image: ghcr.io/m50/fono/record:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - db
+      - cache
+      - gramophone
+    networks:
+      - backend
+      - frontend
+  cache:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - backend
+  db:
+    image: mariadb:10.5
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: fono
+    volumes:
+      - database:/var/lib/mysql
+
+volumes:
+  logs:
+  database:
+  caddy_data:
+  caddy_config:
+
+networks:
+  frontend:
+  backend:

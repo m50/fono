@@ -1,4 +1,21 @@
 {
+  "name": "fono",
+  "description": "A free-and-open-source Sonos-a-like.",
   "private": true,
-  "workspaces": ["gramophone", "horn", "record"]
+  "license": "MIT",
+  "author": {
+    "name": "Marisa Clardy",
+    "url": "https://clardy.eu",
+    "email": "marisa@clardy.eu"
+  },
+  "workspaces": ["gramophone", "horn", "record"],
+  "scripts": {
+    "install-esbuild": "node ./node_modules/esbuild/install.js",
+    "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "start": "docker-compose up",
+    "build:record": "docker build -t ghcr.io/m50/fono/record:latest -f record/Dockerfile .",
+    "build:gramophone": "docker build -t ghcr.io/m50/fono/gramophone:latest -f gramophone/Dockerfile .",
+    "r": "yarn workspace @fono/record",
+    "g": "yarn workspace @fono/gramophone"
+  }
 }

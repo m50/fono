@@ -1,6 +1,8 @@
 # Fono
 
-A free-and-open-source Sonos-a-like.
+A free-and-open-source wifi speaker system.
+
+Think of Sonos, but completely DIY.
 
 Fono offers all the software components necessary to self-host a distributed and
 groupable speaker setup in your house. Unlike Sonos though, it is BYOS (bring
