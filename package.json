@@ -16,6 +16,7 @@
     "build:record": "docker build -t ghcr.io/m50/fono/record:latest -f record/Dockerfile .",
     "build:gramophone": "docker build -t ghcr.io/m50/fono/gramophone:latest -f gramophone/Dockerfile .",
     "r": "yarn workspace @fono/record",
-    "g": "yarn workspace @fono/gramophone"
+    "g": "yarn workspace @fono/gramophone",
+    "postinstall": "test -f .env || (cp .env.example .env && echo '✨  Created new .env file!')"
   }
 }

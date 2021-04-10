@@ -15,7 +15,8 @@
     "typeRoots": [
       "node_modules/@types",
       "gramophone/src/@types",
-      "record/src/@types"
+      "record/src/@types",
+      "horn/src/@types"
     ],
     "moduleResolution": "node",
     "target": "es5",
