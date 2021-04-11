@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import ws, { SocketStream } from 'fastify-websocket';
 import WebSocket from 'ws';
-import { sha256 } from 'utils/sha256';
+import { sha256 } from 'utils/hash';
 import handlers from './handlers';
 import { Packet, WS } from './types';
 

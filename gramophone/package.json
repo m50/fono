@@ -13,8 +13,12 @@
     "start:dev": "yarn install-esbuild && nodemon",
     "start": "node dist/index.js",
     "build": "esbuild src/index.ts --minify --platform=node --target=node14 --bundle --outfile=dist/index.js",
+    "migrate:create": "ts-node migrate.ts create",
+    "migrate:up": "ts-node migrate.ts up",
+    "migrate:rollback": "ts-node migrate.ts rollback",
+    "migrate:reset": "ts-node migrate.ts reset",
     "test": "jest --silent",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint src --ext .js,.ts",
     "lint:fix": "yarn lint --fix",
     "lint:ci": "yarn lint --quiet",
     "lint:types": "tsc --noEmit --pretty"
@@ -22,7 +26,6 @@
   "dependencies": {
     "@fono/horn": "1.0.0",
     "@fono/record": "1.0.0",
-    "apollo-server": "^2.22.2",
     "chalk": "^4.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
@@ -30,6 +33,7 @@
     "fastify": "^3.14.1",
     "fastify-websocket": "^3.1.0",
     "knex": "^0.95.4",
+    "lodash": "^4.17.21",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
     "whatwg-fetch": "^3.6.2",
@@ -41,6 +45,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.13.9",
     "@jest/types": "^26.6.2",
+    "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -54,6 +59,8 @@
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.3"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "yargs": "^16.2.0"
   }
 }
