@@ -32,7 +32,7 @@ module.exports = {
     'json',
     'ts',
     'tsx',
-    'jsx'
+    'jsx',
   ],
   testURL: 'http://localhost',
   snapshotResolver: '<rootDir>/snapshotResolver.js',
