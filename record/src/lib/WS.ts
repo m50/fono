@@ -1,4 +1,4 @@
-import { isProduction } from 'lib/helpers';
+import { isProduction } from './helpers';
 
 /* eslint-disable no-console */
 interface Packet<T> {

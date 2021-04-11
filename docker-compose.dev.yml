@@ -22,3 +22,9 @@ services:
   db:
     ports:
       - "3306:3306"
+    volumes:
+      - database_dev:/var/lib/mysql
+
+volumes:
+  logs_dev:
+  database_dev:
