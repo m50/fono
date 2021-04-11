@@ -16,14 +16,14 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: record/node_modules/
-          key: ${{ runner.os }}-modules-${{ hashFiles('record/yarn.lock') }}
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
       - run: cd record/
       - name: Install Modules
-        run: yarn
+        run: yarn r install
       - name: Run Tests
-        run: yarn test
+        run: yarn r test
 
   lint:
     name: Lint
@@ -36,14 +36,14 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: record/node_modules/
-          key: ${{ runner.os }}-modules-${{ hashFiles('record/yarn.lock') }}
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
       - run: cd record/
       - name: Install Modules
-        run: yarn
+        run: yarn r install
       - name: Run Lint
-        run: yarn lint:ci
+        run: yarn r lint:ci
 
   types:
     name: Typecheck
@@ -56,14 +56,14 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: record/node_modules/
-          key: ${{ runner.os }}-modules-${{ hashFiles('record/yarn.lock') }}
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
       - run: cd record/
       - name: Install Modules
-        run: yarn
+        run: yarn r install
       - name: Run Type Check
-        run: yarn lint:types
+        run: yarn r lint:types
 
   build:
     name: Test Build
@@ -76,11 +76,11 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: record/node_modules/
-          key: ${{ runner.os }}-modules-${{ hashFiles('record/yarn.lock') }}
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
       - run: cd record/
       - name: Install Modules
-        run: yarn
+        run: yarn r install
       - name: Run build
-        run: yarn build
+        run: yarn r build
