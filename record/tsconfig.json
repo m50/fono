@@ -4,7 +4,7 @@
     "baseUrl": "src",
     "skipLibCheck": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "react",
   },
   "include": [
     "src"

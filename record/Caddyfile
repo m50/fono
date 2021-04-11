@@ -1,0 +1,4 @@
+:3000
+
+root * dist
+file_server browse

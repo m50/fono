@@ -1,27 +1,15 @@
-FROM node:15-alpine AS base
+FROM node:15-alpine AS build
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock tsconfig.json ./
 COPY ./gramophone ./gramophone
 COPY ./horn ./horn
 COPY ./record ./record
 
-FROM base AS build
+RUN yarn r install --frozen-lockfile 2>/dev/null
+RUN yarn r build
 
-RUN yarn workspace @fono/record install --frozen-lockfile \
-    && yarn --cwd=record build
-
-FROM base AS install
-ENV NODE_ENV=production
-
-RUN yarn workspace @fono/record install --frozen-lockfile
-
-FROM node:15-alpine
-ENV NODE_ENV=production
-
-WORKDIR /app
-
-COPY --from=build /app/record/.next ./.next
-COPY --from=install /app/node_modules ./node_modules
-COPY record/public/ record/src/ record/package.json ./
+FROM caddy:2-alpine
+WORKDIR /usr/share/caddy
+COPY --from=build /app/record/dist ./
+RUN printf ":3000\n\nroot * /usr/share/caddy\nfile_server\n" > /etc/caddy/Caddyfile
 EXPOSE 3000
-CMD [ "yarn", "start" ]
