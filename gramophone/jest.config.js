@@ -17,5 +17,5 @@ module.exports = {
     'ts',
   ],
   testURL: 'http://localhost',
-  snapshotResolver: '<rootDir>/snapshotResolver.ts',
+  snapshotResolver: '<rootDir>/snapshotResolver.js',
 };
