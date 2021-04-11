@@ -1,4 +1,6 @@
 *.config.js
-prepare.js
+prepare.ts
 *.snap.tsx
 *.snap.jsx
+*.snap.ts
+*.snap.js
