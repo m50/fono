@@ -14,7 +14,7 @@ module.exports = {
     '<rootDir>/.next/',
     '<rootDir>/out/',
   ],
-  moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules', '<rootDir>/../node_modules'],
+  moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules', '<rootDir>/../node_modules', '<rootDir>'],
   moduleFileExtensions: [
     'js',
     'json',
@@ -23,5 +23,5 @@ module.exports = {
     'jsx',
   ],
   testURL: 'http://localhost',
-  snapshotResolver: '<rootDir>/snapshotResolver.ts',
+  snapshotResolver: '<rootDir>/snapshotResolver.js',
 };

@@ -6,7 +6,6 @@
   "include": [
     "src",
     "migrate.ts",
-    "snapshotResolver.ts",
     "prepare.ts"
   ],
   "exclude": [
