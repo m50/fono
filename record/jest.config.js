@@ -1,32 +1,20 @@
 module.exports = {
   clearMocks: true,
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts',
-    '<rootDir>/src/**/*.tsx',
-    '<rootDir>/src/**/*.js',
-    '<rootDir>/src/**/*.jsx',
-  ],
-  coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-  ],
-  coverageProvider: 'v8',
-  coverageReporters: [
-    'text',
-  ],
   setupFiles: [
-    '<rootDir>/prepare.js',
+    '<rootDir>/prepare.ts',
   ],
   testMatch: [
-    '<rootDir>/src/**/?(*.)+(spec|test).[tj]sx?',
+    '<rootDir>/src/**/?(*.)+(spec|test).[tj]sx',
+    '<rootDir>/src/**/?(*.)+(spec|test).[tj]s',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
+    '<rootDir>/../node_modules/',
     '<rootDir>/public/',
     '<rootDir>/.next/',
-    '<rootDir>/.out/',
+    '<rootDir>/out/',
   ],
-  moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules'],
+  moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules', '<rootDir>/../node_modules'],
   moduleFileExtensions: [
     'js',
     'json',
@@ -35,5 +23,5 @@ module.exports = {
     'jsx',
   ],
   testURL: 'http://localhost',
-  snapshotResolver: '<rootDir>/snapshotResolver.js',
+  snapshotResolver: '<rootDir>/snapshotResolver.ts',
 };
