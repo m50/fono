@@ -1,5 +1,3 @@
-import WebSocket from 'ws';
-
 export interface Packet<T> {
   message: string;
   data: T;
