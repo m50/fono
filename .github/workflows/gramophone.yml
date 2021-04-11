@@ -19,7 +19,6 @@ jobs:
           path: "**/node_modules/"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
-      - run: cd gramophone/
       - name: Install Modules
         run: yarn g install
       - name: Run Tests
@@ -39,7 +38,6 @@ jobs:
           path: "**/node_modules/"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
-      - run: cd gramophone/
       - name: Install Modules
         run: yarn g install
       - name: Run Lint
@@ -59,7 +57,6 @@ jobs:
           path: "**/node_modules/"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
-      - run: cd gramophone/
       - name: Install Modules
         run: yarn g install
       - name: Run Type Check
@@ -79,7 +76,6 @@ jobs:
           path: "**/node_modules/"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-modules-
-      - run: cd gramophone/
       - name: Install Modules
         run: yarn g install
       - name: Run build
