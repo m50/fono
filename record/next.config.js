@@ -1,6 +1,6 @@
-const { NODE_ENV, CONTEXT } = process.env;
-
 require('./prepare');
+
+const { NODE_ENV, CONTEXT } = process.env;
 
 module.exports = {
   target: 'experimental-serverless-trace',

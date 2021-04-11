@@ -8,6 +8,7 @@
   },
   "include": [
     "src",
+    "snapshotResolver.ts"
   ],
   "exclude": [
     "node_modules",

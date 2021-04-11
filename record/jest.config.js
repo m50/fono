@@ -1,7 +1,7 @@
 module.exports = {
   clearMocks: true,
   setupFiles: [
-    '<rootDir>/prepare.ts',
+    '<rootDir>/prepare.js',
   ],
   testMatch: [
     '<rootDir>/src/**/?(*.)+(spec|test).[tj]sx',
