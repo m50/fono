@@ -7,7 +7,8 @@ services:
     environment:
       UI: record
       API: gramophone
-      BASE_URL: "${BASE_URL}"
+    env_file:
+      - .env
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -30,6 +31,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    env_file:
+      - .env
+      - gramophone/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -47,6 +51,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    env_file:
+      - .env
+      - record/.env
     networks:
       - frontend
   cache:
@@ -61,7 +68,9 @@ services:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_DATABASE: fono
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
     volumes:
       - database:/var/lib/mysql
 

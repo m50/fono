@@ -19,3 +19,6 @@ services:
       NODE_ENV: development
     volumes:
       - ./:/app
+  db:
+    ports:
+      - "3306:3306"

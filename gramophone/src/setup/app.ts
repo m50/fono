@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import { setup as setupSockets } from './sockets';
+import { setup as setupSockets } from '../sockets';
 
 const app = fastify({ logger: true });
 
