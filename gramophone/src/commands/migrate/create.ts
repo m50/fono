@@ -1,7 +1,16 @@
 import { join } from 'path';
 import { snakeCase, camelCase, upperFirst } from 'lodash';
 import { writeFile } from 'fs/promises';
+import { existsSync } from 'fs';
 import { singular, plural } from 'pluralize';
+import { exec } from 'child_process';
+import chalk from 'chalk';
+
+function open(path: string) {
+  if (process.platform === 'darwin' && process.env.NODE_ENV !== 'test') {
+    exec(`open "${path}"`);
+  }
+}
 
 export default async (tablename: string) => {
   const table = plural(snakeCase(tablename)).toLowerCase();
@@ -35,5 +44,14 @@ export const down = async () => {
 };
 `;
   const path = join(__dirname, '..', '..', 'schema', `${typename}.ts`);
+  if (existsSync(path)) {
+    console.log(chalk.red('\nMigration already exists.\n'));
+    open(path);
+    return;
+  }
   await writeFile(path, template);
+  const fname = chalk.cyan(`${typename}.ts`);
+  const tname = chalk.cyan(table);
+  console.log(`\nCreated migration ${fname} for table \`${tname}\` \n\tat ${chalk.dim(path)}\n`);
+  open(path);
 };
