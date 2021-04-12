@@ -16,6 +16,7 @@
     "migrate:create": "ts-node -r tsconfig-paths/register migrate.ts create",
     "migrate:up": "ts-node -r tsconfig-paths/register migrate.ts up",
     "migrate:rollback": "ts-node -r tsconfig-paths/register migrate.ts rollback",
+    "migrate:down": "ts-node -r tsconfig-paths/register migrate.ts rollback",
     "migrate:reset": "ts-node -r tsconfig-paths/register migrate.ts reset",
     "test": "jest",
     "lint": "eslint src --ext .js,.ts",
