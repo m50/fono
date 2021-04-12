@@ -18,7 +18,7 @@ function broadcast<T>(id: string, message: string, data: T) {
 }
 
 const createWS = (socket: WebSocket): WS => {
-  const id = sha256(new Date().getMilliseconds());
+  const id = sha256(Date.now());
   return {
     id,
     broadcast: (message, data) => broadcast(id, message, data),
