@@ -1,6 +1,7 @@
 import fastify from 'fastify';
 import { setup as setupSockets } from '../sockets';
 import '../middleware';
+import 'endpoints/login';
 
 const app = fastify({ logger: true });
 
