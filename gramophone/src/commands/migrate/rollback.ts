@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
 import { sha256 } from 'utils/hash';
@@ -5,6 +6,7 @@ import db from '../../setup/db';
 import { MigrationFile } from './types';
 
 export default async () => {
+  console.log('\nRolling back latest migrations!\n');
   if (!(await db.schema.hasTable('migrations'))) {
     console.log('Nothing to rollback.');
     return;
@@ -20,6 +22,7 @@ export default async () => {
 
   const dir = join(__dirname, '..', '..', 'schema');
   const files = await readdir(dir);
+  let count = 1;
   // eslint-disable-next-line
   const promises = files.map((file) => [file, require(`${dir}/${file}`)] as MigrationFile)
     .sort((a: MigrationFile, b: MigrationFile) => (a[1].timestamp > b[1].timestamp ? -1 : 1))
@@ -37,7 +40,9 @@ export default async () => {
         .where('migrationId', migrationId)
         .where('eventId', eventId)
         .delete();
-      console.log(`Rolled ${file} back. [${timestamp} round ${eventId}]`);
+      console.log(`  🚨 ${count}. Rolled ${chalk.cyan(file)} back. ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
+      count += 1;
     });
   await Promise.all(promises);
+  console.log('');
 };
