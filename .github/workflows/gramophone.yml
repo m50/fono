@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'gramophone/**'
+      - yarn.lock
 
 jobs:
   unit:
