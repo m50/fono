@@ -1,10 +1,11 @@
 import { readdir } from 'fs/promises';
 import { join } from 'path';
-import db from '../setup/db';
+import { sha256 } from 'utils/hash';
+import db from '../../setup/db';
+import { Migration } from './types';
 
 export default async () => {
   if (!(await db.schema.hasTable('migrations'))) {
-    console.log('Nothing to rollback!');
     return;
   }
 
@@ -12,24 +13,25 @@ export default async () => {
     .then((v) => (v?.eid ?? -1) as number);
 
   if (eventId === -1) {
-    console.log('Nothing to rollback!');
     return;
   }
 
-  const dir = join(__dirname, '..', 'schema');
+  const dir = join(__dirname, '..', '..', 'schema');
   const files = await readdir(dir);
   // eslint-disable-next-line
   const promises = files.map((file) => require(`${dir}/${file}`))
+    .sort((a: Migration, b: Migration) => (a.timestamp > b.timestamp ? 1 : -1))
     .map(async (schema) => {
       const { down, timestamp } = schema;
-      const exists = await db('migrations').where('migrationId', timestamp)
+      const migrationId = sha256(timestamp);
+      const exists = await db('migrations').where('migrationId', migrationId)
         .then((migrations) => migrations.length > 0);
       if (!exists) {
         return;
       }
       await down();
       await db('migrations')
-        .where('migrationId', timestamp)
+        .where('migrationId', migrationId)
         .where('eventId', eventId)
         .delete();
     });

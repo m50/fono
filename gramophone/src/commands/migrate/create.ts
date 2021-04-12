@@ -1,15 +1,25 @@
 import { join } from 'path';
-import upperFirst from 'lodash/upperFirst';
-import camelCase from 'lodash/camelCase';
+import { snakeCase, camelCase, upperFirst } from 'lodash';
 import { writeFile } from 'fs/promises';
+import { singular, plural } from 'pluralize';
 
 export default async (tablename: string) => {
-  const table = tablename.toLowerCase();
-  const typename = upperFirst(camelCase(table));
+  const table = plural(snakeCase(tablename)).toLowerCase();
+  const typename = upperFirst(camelCase(singular(table)));
   const timestamp = Date.now();
-  const template = `import db from '../setup/db';
+  const template = `import { DateTime } from 'luxon';
+import db from 'setup/db';
 
 export const timestamp = ${timestamp};
+
+export const ${plural(typename)} = () => db<${typename}>('${table}');
+
+export interface ${typename} {
+  id: number;
+
+  createdAt: DateTime;
+  updatedAt: DateTime;
+}
 
 export const up = async () => {
   await db.schema.createTable('${table}', (table) => {
@@ -23,14 +33,7 @@ export const up = async () => {
 export const down = async () => {
   await db.schema.dropTableIfExists('${table}');
 };
-
-export interface ${typename} {
-  id: number;
-
-  createdAt: string;
-  updatedAt: string;
-}
 `;
-  const path = join(__dirname, '..', 'schema', `${typename}.ts`);
+  const path = join(__dirname, '..', '..', 'schema', `${typename}.ts`);
   await writeFile(path, template);
 };

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`migrate create creates a migration file with PascalCase param 1`] = `
+"import { DateTime } from 'luxon';
+import db from 'setup/db';
+
+export const timestamp = 1618196206380;
+
+export const MigrationTests = () => db<MigrationTest>('migration_tests');
+
+export interface MigrationTest {
+  id: number;
+
+  createdAt: DateTime;
+  updatedAt: DateTime;
+}
+
+export const up = async () => {
+  await db.schema.createTable('migration_tests', (table) => {
+    table.increments();
+
+    table.timestamp('createdAt').defaultTo(db.fn.now());
+    table.timestamp('updatedAt').defaultTo(db.fn.now());
+  });
+};
+
+export const down = async () => {
+  await db.schema.dropTableIfExists('migration_tests');
+};
+"
+`;
+
+exports[`migrate create creates a migration file with snake_case param 1`] = `
+"import { DateTime } from 'luxon';
+import db from 'setup/db';
+
+export const timestamp = 1618196206369;
+
+export const MigrationTests = () => db<MigrationTest>('migration_tests');
+
+export interface MigrationTest {
+  id: number;
+
+  createdAt: DateTime;
+  updatedAt: DateTime;
+}
+
+export const up = async () => {
+  await db.schema.createTable('migration_tests', (table) => {
+    table.increments();
+
+    table.timestamp('createdAt').defaultTo(db.fn.now());
+    table.timestamp('updatedAt').defaultTo(db.fn.now());
+  });
+};
+
+export const down = async () => {
+  await db.schema.dropTableIfExists('migration_tests');
+};
+"
+`;
