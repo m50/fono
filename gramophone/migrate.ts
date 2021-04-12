@@ -2,10 +2,10 @@
 /* eslint-disable */
 import './src/setup/env';
 import yargs from 'yargs';
-import reset from './src/commands/reset';
-import rollback from './src/commands/rollback';
-import up from './src/commands/up';
-import create from './src/commands/create';
+import reset from './src/commands/migrate/reset';
+import rollback from './src/commands/migrate/rollback';
+import up from './src/commands/migrate/up';
+import create from './src/commands/migrate/create';
 import chalk from 'chalk';
 
 const { argv } = yargs
