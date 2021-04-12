@@ -1,6 +1,6 @@
 import app from 'setup/app';
 import { FastifyRequest } from 'fastify';
-import { unauthenticated } from './utils';
+import { refreshToken, unauthenticated } from './utils';
 import { jwtAuth } from './jwtAuth';
 import { passwordAuth } from './passwordAuth';
 import { AuthParams } from './types';
@@ -24,4 +24,6 @@ app.decorateRequest('user', {})
       throw new Error('Authenticated succesfully but user not found.');
     }
     req.user = user;
+    const newToken = refreshToken(user);
+    reply.header('X-Refresh-Token', newToken);
   });
