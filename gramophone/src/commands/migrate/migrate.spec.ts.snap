@@ -34,7 +34,7 @@ exports[`migrate create creates a migration file with snake_case param 1`] = `
 "import { DateTime } from 'luxon';
 import db from 'setup/db';
 
-export const timestamp = 1618196206369;
+export const timestamp = 1618196206380;
 
 export const MigrationTests = () => db<MigrationTest>('migration_tests');
 
