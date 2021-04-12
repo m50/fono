@@ -1,4 +1,4 @@
 *.config.js
 prepare.js
-*.snap.ts
-*.snap.js
+*.snap
+*.snap

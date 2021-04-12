@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'import/no-cycle': 'off',
     'no-console': 'off',
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
