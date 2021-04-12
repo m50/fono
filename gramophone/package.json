@@ -9,8 +9,7 @@
     "email": "marisa@clardy.eu"
   },
   "scripts": {
-    "install-esbuild": "node ../node_modules/esbuild/install.js",
-    "start:dev": "yarn install-esbuild && nodemon",
+    "start:dev": "nodemon",
     "start": "node dist/index.js",
     "build": "tsc --build",
     "migrate:create": "ts-node -r tsconfig-paths/register migrate.ts create",
@@ -60,7 +59,6 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-jest": "^26.6.3",
-    "esbuild": "^0.11.11",
     "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.2.0",
