@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
 import { sha256 } from 'utils/hash';
@@ -5,6 +6,7 @@ import db from '../../setup/db';
 import { MigrationFile } from './types';
 
 export default async () => {
+  console.log('\nRunning migrations!\n');
   if (!(await db.schema.hasTable('migrations'))) {
     await db.schema.createTable('migrations', (table) => {
       table.string('migrationId').primary().unique();
@@ -19,6 +21,7 @@ export default async () => {
 
   const dir = join(__dirname, '..', '..', 'schema');
   const files = await readdir(dir);
+  let count = 1;
   // eslint-disable-next-line
   const promises = files.map((file) => [file, require(`${dir}/${file}`)] as MigrationFile)
     .sort((a: MigrationFile, b: MigrationFile) => (a[1].timestamp > b[1].timestamp ? 1 : -1))
@@ -33,7 +36,9 @@ export default async () => {
       }
       await up();
       await db('migrations').insert({ migrationId, eventId });
-      console.log(`Migrated ${file} [${timestamp} round ${eventId}]`);
+      console.log(`  ✨ ${count}. Migrated ${chalk.cyan(file)} ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
+      count += 1;
     });
   await Promise.all(promises);
+  console.log('');
 };
