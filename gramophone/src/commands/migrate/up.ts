@@ -2,7 +2,7 @@ import { readdir } from 'fs/promises';
 import { join } from 'path';
 import { sha256 } from 'utils/hash';
 import db from '../../setup/db';
-import { Migration } from './types';
+import { MigrationFile } from './types';
 
 export default async () => {
   if (!(await db.schema.hasTable('migrations'))) {
@@ -20,9 +20,10 @@ export default async () => {
   const dir = join(__dirname, '..', '..', 'schema');
   const files = await readdir(dir);
   // eslint-disable-next-line
-  const promises = files.map((file) => require(`${dir}/${file}`))
-    .sort((a: Migration, b: Migration) => (a.timestamp > b.timestamp ? 1 : -1))
-    .map(async (schema) => {
+  const promises = files.map((file) => [file, require(`${dir}/${file}`)] as MigrationFile)
+    .sort((a: MigrationFile, b: MigrationFile) => (a[1].timestamp > b[1].timestamp ? 1 : -1))
+    .map(async (migrationFile: MigrationFile) => {
+      const [file, schema] = migrationFile;
       const { up, timestamp } = schema;
       const migrationId = sha256(timestamp);
       const exists = await db('migrations').where('migrationId', migrationId)
@@ -32,6 +33,7 @@ export default async () => {
       }
       await up();
       await db('migrations').insert({ migrationId, eventId });
+      console.log(`Migrated ${file} [${timestamp} round ${eventId}]`);
     });
   await Promise.all(promises);
 };
