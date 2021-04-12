@@ -1,7 +1,12 @@
 pull_request_rules:
-  - name: Automatic merge on approval
+  - name: Automatic merge for Dependency pull requests
     conditions:
-      - "#approved-reviews-by>=1"
+      - label=dependencies
+      - check-success=Analyze (javascript)
+      - check-success=Run Unit Tests
+      - check-success=Lint
+      - check-success=Typecheck
+      - check-success=Test Build
     actions:
       merge:
-        method: merge
+        method: rebase
