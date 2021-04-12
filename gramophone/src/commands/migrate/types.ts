@@ -4,3 +4,5 @@ export interface Migration {
   timestamp: number;
   [key: string]: unknown;
 }
+
+export type MigrationFile = [string, Migration];
