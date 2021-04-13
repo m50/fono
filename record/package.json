@@ -9,7 +9,7 @@
     "email": "marisa@clardy.eu"
   },
   "scripts": {
-    "install-esbuild": "node ../node_modules/snowpack/node_modules/esbuild/install.js",
+    "install-esbuild": "node ../node_modules/esbuild/install.js",
     "build": "yarn install-esbuild && snowpack build",
     "start:dev": "yarn install-esbuild && snowpack dev",
     "test": "jest --silent",
