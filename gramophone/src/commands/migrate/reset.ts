@@ -3,10 +3,11 @@ import { readdir } from 'fs/promises';
 import { join } from 'path';
 import db from '../../setup/db';
 import { Migration } from './types';
+import { log } from './utils';
 
-export default async () => {
+export default async (silent: boolean = false) => {
   if (!(await db.schema.hasTable('migrations'))) {
-    console.log('Nothing to reset.');
+    log(silent, 'Nothing to reset.');
     return;
   }
 
@@ -21,5 +22,5 @@ export default async () => {
     });
   await Promise.all(promises);
   await db.schema.dropTableIfExists('migrations');
-  console.log(chalk.yellow('\n\t⚠️  Rolled back all migrations. ⚠️\n'));
+  log(silent, chalk.yellow('\n\t⚠️  Rolled back all migrations. ⚠️\n'));
 };

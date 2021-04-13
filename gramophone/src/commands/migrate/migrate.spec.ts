@@ -7,41 +7,33 @@ import reset from './reset';
 import create from './create';
 import db from '../../setup/db';
 
-const { log } = console;
-
 describe('migrate', () => {
-  beforeAll(() => { console.log = jest.fn(); });
-  afterAll(() => { console.log = log; });
-
-  afterEach(() => rollback());
+  afterEach(() => rollback(true));
 
   describe('up', () => {
     it('can run migrations', async () => {
-      await up();
+      await up(true);
       const count = await db('migrations').count('migrationId');
       expect(count[0]['count(`migrationId`)']).toBeGreaterThan(0);
-      expect(console.log).toHaveBeenCalled();
     });
   });
   describe('rollback', () => {
     it('can rollback migrations', async () => {
-      await up();
+      await up(true);
       const count = await db('migrations').count('migrationId');
       expect(count[0]['count(`migrationId`)']).toBeGreaterThan(0);
-      expect(console.log).toHaveBeenCalled();
 
-      await rollback();
+      await rollback(true);
       const count2 = await db('migrations').count('migrationId');
       expect(count2[0]['count(`migrationId`)']).toBe(0);
-      expect(console.log).toHaveBeenCalled();
     });
   });
   describe('reset', () => {
     it('empties database', async () => {
-      await up();
+      await up(true);
       const count = await db('migrations').count('migrationId');
       expect(count[0]['count(`migrationId`)']).toBeGreaterThan(0);
-      await reset();
+      await reset(true);
       const migrationsExist = await db.schema.hasTable('migrations');
       expect(migrationsExist).toBe(false);
     });
@@ -64,13 +56,12 @@ describe('migrate', () => {
       expect(file).toMatch(/export const down = async/);
       expect(file).toMatch(/export const timestamp = \d+;/);
       expect(file).toMatchSnapshot();
-      expect(console.log).toHaveBeenCalled();
       await rm(path);
     });
 
     it('creates a migration file with PascalCase param', async () => {
       Date.now = jest.fn(() => 1618196206380);
-      await create('MigrationTest');
+      await create('MigrationTest', true);
       const path = join(__dirname, '..', '..', 'schema', 'MigrationTest.ts');
       expect(existsSync(path)).toBeTruthy();
       const fileData = await readFile(path);

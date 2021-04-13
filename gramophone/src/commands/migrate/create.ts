@@ -1,10 +1,11 @@
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { snakeCase, camelCase, upperFirst } from 'lodash';
-import { writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { singular, plural } from 'pluralize';
 import { exec } from 'child_process';
 import chalk from 'chalk';
+import { log } from './utils';
 
 function open(path: string) {
   if (process.platform === 'darwin' && process.env.NODE_ENV !== 'test') {
@@ -12,7 +13,9 @@ function open(path: string) {
   }
 }
 
-export default async (tablename: string) => {
+export default async (passedName: string, silent: boolean = false) => {
+  const buildPath = passedName.split('/');
+  const tablename = buildPath.pop();
   const table = plural(snakeCase(tablename)).toLowerCase();
   const typename = upperFirst(camelCase(singular(table)));
   const timestamp = Date.now();
@@ -43,15 +46,18 @@ export const down = async () => {
   await db.schema.dropTableIfExists('${table}');
 };
 `;
-  const path = join(__dirname, '..', '..', 'schema', `${typename}.ts`);
+  const path = join(__dirname, '..', '..', 'schema', ...buildPath, `${typename}.ts`);
+  if (!existsSync(dirname(path))) {
+    await mkdir(dirname(path), { recursive: true });
+  }
   if (existsSync(path)) {
-    console.log(chalk.red('\nMigration already exists.\n'));
+    log(silent, chalk.red('\nMigration already exists.\n'));
     open(path);
     return;
   }
   await writeFile(path, template);
   const fname = chalk.cyan(`${typename}.ts`);
   const tname = chalk.cyan(table);
-  console.log(`\nCreated migration ${fname} for table \`${tname}\` \n\tat ${chalk.dim(path)}\n`);
+  log(silent, `\nCreated migration ${fname} for table \`${tname}\` \n\tat ${chalk.dim(path)}\n`);
   open(path);
 };
