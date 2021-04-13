@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { readdir } from 'fs/promises';
+import glob from 'glob-promise';
 import { join } from 'path';
 import db from '../../setup/db';
 import { Migration } from './types';
@@ -12,9 +12,9 @@ export default async (silent: boolean = false) => {
   }
 
   const dir = join(__dirname, '..', '..', 'schema');
-  const files = await readdir(dir);
+  const files = await glob(`${dir}/**.ts`);
   // eslint-disable-next-line
-  const promises = files.map((file) => require(`${dir}/${file}`) as Migration)
+  const promises = files.map((file) => require(file) as Migration)
     .sort((a: Migration, b: Migration) => (a.timestamp > b.timestamp ? -1 : 1))
     .map(async (schema: Migration) => {
       const { down } = schema;
