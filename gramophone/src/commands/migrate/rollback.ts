@@ -4,11 +4,12 @@ import { join } from 'path';
 import { sha256 } from 'utils/hash';
 import db from '../../setup/db';
 import { MigrationFile } from './types';
+import { log } from './utils';
 
-export default async () => {
-  console.log('\nRolling back latest migrations!\n');
+export default async (silent: boolean = false) => {
+  log(silent, '\nRolling back latest migrations!\n');
   if (!(await db.schema.hasTable('migrations'))) {
-    console.log('Nothing to rollback.');
+    log(silent, 'Nothing to rollback.');
     return;
   }
 
@@ -16,7 +17,7 @@ export default async () => {
     .then((v) => (v?.eid ?? -1) as number);
 
   if (eventId === -1) {
-    console.log('Nothing to rollback.');
+    log(silent, 'Nothing to rollback.');
     return;
   }
 
@@ -40,9 +41,9 @@ export default async () => {
         .where('migrationId', migrationId)
         .where('eventId', eventId)
         .delete();
-      console.log(`  🚨 ${count}. Rolled ${chalk.cyan(file)} back. ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
+      log(silent, `  🚨 ${count}. Rolled ${chalk.cyan(file)} back. ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
       count += 1;
     });
   await Promise.all(promises);
-  console.log('');
+  log(silent, '');
 };

@@ -4,9 +4,10 @@ import { join } from 'path';
 import { sha256 } from 'utils/hash';
 import db from '../../setup/db';
 import { MigrationFile } from './types';
+import { log } from './utils';
 
-export default async () => {
-  console.log('\nRunning migrations!\n');
+export default async (silent: boolean = false) => {
+  log(silent, '\nRunning migrations!\n');
   if (!(await db.schema.hasTable('migrations'))) {
     await db.schema.createTable('migrations', (table) => {
       table.string('migrationId').primary().unique();
@@ -27,7 +28,10 @@ export default async () => {
     .sort((a: MigrationFile, b: MigrationFile) => (a[1].timestamp > b[1].timestamp ? 1 : -1))
     .map(async (migrationFile: MigrationFile) => {
       const [file, schema] = migrationFile;
-      const { up, timestamp } = schema;
+      const { up, timestamp, test } = schema;
+      if (test && process.env.NODE_ENV !== 'test') {
+        return;
+      }
       const migrationId = sha256(timestamp);
       const exists = await db('migrations').where('migrationId', migrationId)
         .then((migrations) => migrations.length > 0);
@@ -36,9 +40,9 @@ export default async () => {
       }
       await up();
       await db('migrations').insert({ migrationId, eventId });
-      console.log(`  ✨ ${count}. Migrated ${chalk.cyan(file)} ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
+      log(silent, `  ✨ ${count}. Migrated ${chalk.cyan(file)} ${chalk.dim(`[${timestamp} round ${eventId}]`)}`);
       count += 1;
     });
   await Promise.all(promises);
-  console.log('');
+  log(silent, '');
 };
