@@ -9,9 +9,8 @@
       "*": ["./src/*"]
     },
     "module": "commonjs",
-    "noEmit": false,
-    "resolveJsonModule": true,
-    "outDir": "dist"
+    "noEmit": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src",

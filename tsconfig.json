@@ -23,7 +23,7 @@
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "module": "esnext",
     "resolveJsonModule": true
   },
