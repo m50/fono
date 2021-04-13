@@ -29,7 +29,7 @@ const createWS = (socket: WebSocket): WS => {
 
 export const setup = (app: FastifyInstance) => {
   app.register(ws);
-  app.get('/ws', { websocket: true }, (connection: SocketStream) => {
+  app.decorateRequest('auth', false).get('/ws', { websocket: true }, (connection: SocketStream) => {
     const socket = createWS(connection.socket);
     connections.push(socket);
     connection.socket.on('close', () => removeConnection(socket.id));

@@ -1,7 +1,7 @@
 import 'setup/env';
 import 'whatwg-fetch';
 import chalk from 'chalk';
-import app from 'setup/app';
+import setupServer from 'setup/app';
 import up from 'commands/migrate/up';
 
 const PORT = process.env.PORT ?? 3000;
@@ -9,6 +9,10 @@ const URL = process.env.BASE_URL ?? `http://127.0.0.1:${PORT}`;
 
 const start = async () => {
   console.log(`\n\t🎉 Server started at ${chalk.cyan(`${URL}/`)} 🎉\n`);
+  const app = setupServer();
+  console.log(app.printRoutes());
+  console.log(app.printPlugins());
+  console.log('test');
   try {
     if (process.env.NODE_ENV === 'production') {
       await up();
