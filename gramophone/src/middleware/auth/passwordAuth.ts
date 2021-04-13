@@ -4,19 +4,25 @@ import { check } from 'utils/bcrypt';
 import { AuthParams } from './types';
 
 export const passwordAuth = async (req: FastifyRequest<AuthParams>): Promise<User | null> => {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const { email, username, password } = req.body;
+  if ((!email && !username) || !password) {
     throw new Error('Authentication params missing.');
+  }
+  let column = 'username';
+  let search = username;
+  if (email) {
+    column = 'email';
+    search = email;
   }
 
   const user = await Users()
-    .where('email', email)
+    .where(column, search)
     .first();
   if (!user) {
-    throw new Error(`User not found: ${email}`);
+    throw new Error(`User not found: ${search}`);
   }
 
-  const valid = check(password, user.password);
+  const valid = await check(password, user.password);
   if (!valid) {
     throw new Error('Password invalid!');
   }

@@ -1,17 +1,35 @@
 import fastify from 'fastify';
-import { setup as setupSockets } from '../sockets';
-import '../middleware';
-import 'endpoints/login';
+import { setup as sockets } from 'sockets';
+import * as middleware from 'middleware';
+import * as endpoints from 'endpoints';
 
-const app = fastify({ logger: true });
+export default () => {
+  const server = fastify({ logger: true });
+  server.decorateRequest('auth', true);
 
-// Health check endpoint.
-app.get('/ping', async (request, reply) => {
-  reply.type('application/json').code(200);
-  return { message: 'pong' };
-});
+  // Setup Middleware/Hooks.
+  Object.values(middleware)
+    .forEach((hook) => server.register(hook));
 
-// Setup Web Sockets.
-setupSockets(app);
+  // Health check endpoint.
+  server.register(async (app) => {
+    app.decorateRequest('auth', false);
+    app.get('/ping', async (request, reply) => {
+      reply.type('application/json').code(200);
+      return { message: 'pong' };
+    });
+  });
+  server.get('/ping', async (request, reply) => {
+    reply.type('application/json').code(200);
+    return { message: 'pong' };
+  });
 
-export default app;
+  // Setup Web Sockets.
+  server.register(sockets);
+
+  // Setup all over endpoints.
+  Object.values(endpoints)
+    .forEach((endpoint) => server.register(endpoint));
+
+  return server;
+};
