@@ -3,16 +3,19 @@ version: "3.9"
 services:
   gramophone:
     image: node:15-alpine
-    command: "yarn --cwd=/app/gramophone start:dev"
+    command: "yarn start:dev"
+    working_dir: /app/gramophone
     expose:
       - 3000
     environment:
       NODE_ENV: development
     volumes:
       - ./:/app
+      - node_modules:/app/node_modules/bcrypt/lib
   record:
     image: node:15-alpine
-    command: "yarn --cwd=/app/record start:dev"
+    command: "yarn r start:dev"
+    working_dir: /app
     expose:
       - 3000
     environment:
@@ -28,3 +31,4 @@ services:
 volumes:
   logs_dev:
   database_dev:
+  node_modules:

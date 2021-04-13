@@ -1,12 +1,16 @@
 {
   "extends": "../tsconfig.json",
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
-    "baseUrl": "src/",
-    "module": "commonjs",
+    "baseUrl": "./",
     "paths": {
-      "*": ["*"]
+      "*": ["./src/*"]
     },
+    "module": "commonjs",
     "noEmit": false,
+    "resolveJsonModule": true,
     "outDir": "dist"
   },
   "include": [

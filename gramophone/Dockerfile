@@ -7,7 +7,7 @@ COPY ./record ./record
 
 FROM base AS build
 RUN yarn g install --frozen-lockfile 2>/dev/null
-RUN yarn g build
+RUN yarn g build:prod
 
 FROM base AS install
 ENV NODE_ENV=production
