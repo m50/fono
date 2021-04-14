@@ -11,7 +11,7 @@ export interface User {
   username: string;
   password: string;
 
-  apiKeys?: ApiKey[];
+  apiKeys?: () => Promise<ApiKey[]>;
 
   createdAt: DateTime;
   updatedAt: DateTime;

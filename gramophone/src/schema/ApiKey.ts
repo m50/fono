@@ -12,7 +12,7 @@ export interface ApiKey {
   token: string;
   type: 'refresh' | 'personal_access_token' | 'one_use';
 
-  user?: User;
+  user?: () => Promise<User>;
 
   expiresAt: DateTime;
   createdAt: DateTime;
