@@ -12,4 +12,4 @@ your own speakers), so be prepared to set everything up yourself, and have a
 server you can host the control panel locally.
 
 [mergify]: https://mergify.io
-[mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/<owner>/<repo>&style=flat
+[mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/m50/fono&style=flat
