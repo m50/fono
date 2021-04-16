@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginCallback } from 'fastify';
 import ws, { SocketStream } from 'fastify-websocket';
 import WebSocket from 'ws';
 import { sha256 } from 'utils/hash';
@@ -27,7 +27,7 @@ const createWS = (socket: WebSocket): WS => {
   };
 };
 
-export const setup = (app: FastifyInstance) => {
+export const setup: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   app.register(ws);
   app.decorateRequest('auth', false).get('/ws', { websocket: true }, (connection: SocketStream) => {
     const socket = createWS(connection.socket);
@@ -41,4 +41,6 @@ export const setup = (app: FastifyInstance) => {
     });
     connection.socket.send(JSON.stringify({ message: 'welcome', data: { message: 'Welcome!' } }));
   });
+
+  done();
 };

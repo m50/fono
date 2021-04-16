@@ -1,11 +1,11 @@
-import { FastifyInstance, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyPluginCallback, FastifyRequest } from 'fastify';
 import { refreshToken, unauthenticated } from './utils';
 import { jwtAuth } from './jwtAuth';
 import { passwordAuth } from './passwordAuth';
 import { AuthParams } from './types';
 
-export default async function register(app: FastifyInstance) {
-  app.decorateRequest('user', {})
+export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
+  app.decorateRequest('user', { getter: () => ({}) })
     .addHook('preHandler', async (req: FastifyRequest<AuthParams>, reply) => {
       if (!req.auth) {
         return;
@@ -30,4 +30,6 @@ export default async function register(app: FastifyInstance) {
       const newToken = refreshToken(user);
       reply.header('X-Refresh-Token', newToken);
     });
-}
+
+  done();
+};
