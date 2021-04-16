@@ -1,7 +1,7 @@
 import 'setup/env';
 import 'whatwg-fetch';
 import chalk from 'chalk';
-import setupServer from 'setup/app';
+import setupServer from 'setup/server';
 import up from 'commands/migrate/up';
 
 const PORT = process.env.PORT ?? 3000;

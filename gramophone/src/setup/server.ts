@@ -1,19 +1,14 @@
 import fastify from 'fastify';
+import cors from 'fastify-cors';
 import { setup as sockets } from 'sockets';
-import * as middleware from 'middleware';
 import * as endpoints from 'endpoints';
 
 export default () => {
   const server = fastify({ logger: true });
-  server.decorateRequest('auth', true);
-
-  // Setup Middleware/Hooks.
-  Object.values(middleware)
-    .forEach((hook) => server.register(hook));
+  server.register(cors);
 
   // Health check endpoint.
   server.register(async (app, _, done) => {
-    app.decorateRequest('auth', false);
     app.get('/ping', async (request, reply) => {
       reply.type('application/json').code(200);
       return { message: 'pong' };

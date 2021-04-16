@@ -5,10 +5,10 @@ export interface JWT {
 }
 
 export interface AuthParams {
-  Querystring: {
+  Querystring?: {
     authKey?: string;
   },
-  Body: {
+  Body?: {
     email?: string;
     username?: string;
     password?: string;
