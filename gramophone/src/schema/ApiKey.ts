@@ -14,7 +14,7 @@ export interface ApiKey {
 
   user?: () => Promise<User>;
 
-  expiresAt: DateTime;
+  expiresAt?: DateTime;
   createdAt: DateTime;
   updatedAt: DateTime;
 }
