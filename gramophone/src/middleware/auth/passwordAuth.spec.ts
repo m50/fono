@@ -2,8 +2,8 @@ import { up, rollback } from 'commands/migrate';
 import { passwordAuth } from './passwordAuth';
 
 describe('passwordAuth', () => {
-  afterAll(async () => rollback());
-  beforeAll(async () => up());
+  afterAll(async () => rollback(true));
+  beforeAll(async () => up(true));
 
   it('returns user with correct username/password', async () => {
     const request = {

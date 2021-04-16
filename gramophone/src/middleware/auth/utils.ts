@@ -11,7 +11,7 @@ export const getJwt = (headers: FastifyRequest['headers']): JWT | undefined => {
   if (!authHeader) {
     return undefined;
   }
-  const jwt = Buffer.from(authHeader.replace(/^Bearer /, ''), 'base64').toString();
+  const jwt = Buffer.from(authHeader.replace(/^Bearer /, ''), 'base64').toString('ascii');
   const data = JSON.parse(jwt) as JWT;
 
   return data;

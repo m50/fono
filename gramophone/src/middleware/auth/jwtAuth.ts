@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify';
 import { check } from 'utils/bcrypt';
 import { ApiKeys } from 'schema/ApiKey';
-import { User, Users } from 'schema/User';
+import { User } from 'schema/User';
 import { DateTime } from 'luxon';
 import { getJwt } from './utils';
 
@@ -10,7 +10,9 @@ export const jwtAuth = async (req: FastifyRequest): Promise<User | null> => {
   if (!data) {
     throw new Error('No JWT.');
   }
-  const keys = await ApiKeys().where('userId', data.u);
+  const keys = await ApiKeys()
+    .where('userId', data.u)
+    .withRelations('user');
 
   const validKeys = keys.filter((key) => check(data.k, key.token));
   if (validKeys.length > 1) {
@@ -22,7 +24,7 @@ export const jwtAuth = async (req: FastifyRequest): Promise<User | null> => {
   if (!validKey) {
     throw new Error(`No valid keys for user[${data.u}].`);
   }
-  if (validKey.expiresAt.toMillis() < DateTime.now().toMillis()) {
+  if (validKey.expiresAt && validKey.expiresAt.toMillis() < DateTime.now().toMillis()) {
     await ApiKeys()
       .where('userId', data.u)
       .where('id', validKey.id)
@@ -30,13 +32,13 @@ export const jwtAuth = async (req: FastifyRequest): Promise<User | null> => {
     throw new Error(`Key[${validKey.id}] expired for user[${data.u}]; removing`);
   }
 
-  const user = await Users().where('id', data.u).first();
+  const user = await validKey.user?.();
   if (!user) {
     throw new Error(`Key exists for user[${data.u}] but user not found.`);
   }
 
   await ApiKeys()
-    .where('userId', data.u)
+    .where('userId', user.id)
     .where('id', validKey.id)
     .delete();
 

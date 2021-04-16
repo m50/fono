@@ -1,5 +1,14 @@
 import { DateTime } from 'luxon';
 
+const cast = (timestamp: string) => {
+  let result = DateTime.fromSQL(timestamp);
+  if (!result.isValid) {
+    result = DateTime.fromISO(timestamp);
+  }
+
+  return result;
+};
+
 export default function castTimestamps(result?: Record<string, any>) {
   if (!result) {
     return result;
@@ -8,7 +17,7 @@ export default function castTimestamps(result?: Record<string, any>) {
   Object.keys(newResult).forEach((key) => {
     if (Array.isArray(newResult[key])) {
       newResult[key] = newResult[key].map((r: any) => {
-        if (typeof newResult[key] === 'object') {
+        if (typeof r === 'object') {
           return castTimestamps(r);
         }
         return r;
@@ -22,7 +31,7 @@ export default function castTimestamps(result?: Record<string, any>) {
     if (typeof newResult[key] !== 'string') {
       return;
     }
-    const time = DateTime.fromSQL(newResult[key]);
+    const time = cast(newResult[key]);
     if (time.isValid) {
       newResult[key] = time;
     }
