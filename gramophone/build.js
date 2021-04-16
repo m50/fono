@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import * as babel from '@babel/core';
-import * as glob from 'glob-promise';
-import { mkdir, readFile, rmdir, writeFile } from 'fs/promises';
-import { existsSync } from 'fs';
-import { dirname } from 'path';
-import * as babelConfig from './.babelrc.json';
+const babel = require('@babel/core');
+const glob = require('glob-promise');
+const { mkdir, readFile, rmdir, writeFile } = require('fs/promises');
+const { existsSync } = require('fs');
+const { dirname } = require('path');
+const babelConfig = require('./.babelrc.json');
 
 async function build() {
   const paths = await glob(`${__dirname}/src/**`);
