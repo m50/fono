@@ -1,1 +1,1 @@
-export { default as auth } from './auth';
+export { register as auth } from './auth';

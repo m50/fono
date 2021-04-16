@@ -1,1 +1,1 @@
-export { default as login } from './login';
+export { register as login } from './login';

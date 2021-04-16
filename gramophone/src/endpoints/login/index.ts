@@ -1,9 +1,9 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginCallback, RouteShorthandOptions } from 'fastify';
 import schema from './Body.schema.json';
 
-export default async function register(app: FastifyInstance, opts: {}, next: CallableFunction) {
-  console.log(schema);
-  app.post('/login', async (req, reply) => {
+export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
+  const opts: RouteShorthandOptions = { schema: { body: schema } };
+  app.post('/login', opts, async (req, reply) => {
     if (!req.user) {
       reply.status(401);
       return { message: 'Authentication failed' };
@@ -12,5 +12,6 @@ export default async function register(app: FastifyInstance, opts: {}, next: Cal
     reply.status(200);
     return { message: 'Successfully logged in!' };
   });
-  next();
-}
+
+  done();
+};

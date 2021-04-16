@@ -12,16 +12,14 @@ export default () => {
     .forEach((hook) => server.register(hook));
 
   // Health check endpoint.
-  server.register(async (app) => {
+  server.register(async (app, _, done) => {
     app.decorateRequest('auth', false);
     app.get('/ping', async (request, reply) => {
       reply.type('application/json').code(200);
       return { message: 'pong' };
     });
-  });
-  server.get('/ping', async (request, reply) => {
-    reply.type('application/json').code(200);
-    return { message: 'pong' };
+
+    done();
   });
 
   // Setup Web Sockets.
