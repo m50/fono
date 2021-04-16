@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyPluginCallback, RouteShorthandOptions } from 'fastify';
-import { AuthParams } from 'middleware/auth/types';
 import { refreshToken } from 'middleware/auth/utils';
-import { passwordAuth } from './passwordAuth';
+import { passwordAuth, AuthParams } from './passwordAuth';
 import schema from './Body.schema.json';
 
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
