@@ -31,6 +31,7 @@ async function build() {
         const result = await babel.transformAsync(fileText, {
           filename: path,
           minified: process.env.NODE_ENV === 'production',
+          retainLines: process.env.NODE_ENV !== 'production',
           ...babelConfig,
         });
         if (!result || !result.code) {
