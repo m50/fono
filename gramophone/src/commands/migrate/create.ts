@@ -29,8 +29,8 @@ export const ${plural(typename)} = () => db<${typename}>('${table}');
 export interface ${typename} {
   id: number;
 
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt: DateTime | Date;
+  updatedAt: DateTime | Date;
 }
 
 export const up = async () => {

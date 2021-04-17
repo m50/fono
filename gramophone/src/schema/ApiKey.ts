@@ -14,9 +14,9 @@ export interface ApiKey {
 
   user?: () => Promise<User>;
 
-  expiresAt?: DateTime;
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  expiresAt?: DateTime | Date;
+  createdAt: DateTime | Date;
+  updatedAt: DateTime | Date;
 }
 
 export const up = async () => {

@@ -13,8 +13,8 @@ export interface User {
 
   apiKeys?: () => Promise<ApiKey[]>;
 
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt: DateTime | Date;
+  updatedAt: DateTime | Date;
 }
 
 export const Users = () => db<User>('users');
