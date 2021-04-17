@@ -4,8 +4,8 @@ import useApi from 'hooks/useApi';
 import { useForm } from 'react-hook-form';
 import Card from 'components/card';
 import TextInput from 'components/input/text';
-import { stringify } from 'gray-matter';
 import { DateTime } from 'luxon';
+import Button from 'components/input/button';
 
 export interface User {
   id: number;
@@ -54,10 +54,10 @@ const Login = (props: RouteComponentProps) => {
             errors={errors.password}
             register={register('password', { required: true })}
           />
+          <small className="text-red-400 h-8 pl-2">{authMessage}</small>
         </Card.Body>
-        <Card.Footer>
-          <input type="submit" className="text-black" />
-          {authMessage}
+        <Card.Footer className="flex justify-around">
+          <Button primary type="submit">Login</Button>
         </Card.Footer>
       </Card>
     </form>

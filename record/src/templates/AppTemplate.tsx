@@ -5,7 +5,7 @@ import tw from 'tailwind-styled-components';
 type Props = RouteComponentProps & React.PropsWithChildren<any>
 
 const BgGradient = tw.div`
-  absolute left-0 right-0 bottom-0 top-0 bg-gradient-to-bl opacity-90
+  absolute left-0 right-0 bottom-0 top-0 bg-gradient-to-bl dark:opacity-40
   from-yellow-300 via-yellow-600 to-purple-900
   dark:from-purple-900 dark:to-yellow-900 dark:via-indigo-800
 `;
@@ -13,7 +13,7 @@ const BgGradient = tw.div`
 export const AppTemplate = ({ children }: Props) => {
   const onLogin = useMatch('/login');
   return (
-    <div className="w-screen min-h-screen flex relative dark:bg-gray-800 justify-center items-center">
+    <div className="w-screen min-h-screen flex relative dark:bg-black justify-center items-center">
       <BgGradient />
       <main className="flex w-full flex-grow h-full relative">
         {children}
