@@ -6,7 +6,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
 
   app.get('/logout', async (req, reply) => {
     reply.removeHeader('X-Refresh-Token');
-    reply.status(200);
+    reply.status(401);
     return { message: 'Successfully logged out!' };
   });
 
