@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginCallback, RouteShorthandOptions } from 'f
 import { refreshToken } from 'middleware/auth/utils';
 import { passwordAuth, AuthParams } from './passwordAuth';
 import schema from './Body.schema.json';
+import { JWT } from 'middleware/auth/types';
 
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   const opts: RouteShorthandOptions = { schema: { body: schema } };
@@ -19,9 +20,9 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
       return { message: 'Authentication failed' };
     }
 
-    const token = refreshToken(user);
-
-    reply.header('X-Refresh-Token', token);
+    const token = await refreshToken(user);
+    const jwt: JWT = { u: user.id, k: token, t: Date.now() };
+    reply.header('X-Refresh-Token', Buffer.from(JSON.stringify(jwt)).toString('base64'));
     reply.status(200);
     // @ts-expect-error
     delete user.password;
