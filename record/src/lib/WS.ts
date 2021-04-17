@@ -16,9 +16,9 @@ class WS {
 
   private errorHandlers: ErrorHandler[] = [];
 
-  constructor(path: string = 'g/ws') {
+  constructor(path: string = 'ws') {
     const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const url = `${proto}://${window.location.hostname}/${path}`;
+    const url = `${proto}://${window.location.hostname}/g/${path}`;
     this.socket = new WebSocket(url);
     this.socket.onmessage = (ev) => {
       const packet: Packet<any> = JSON.parse(ev.data) as Packet<any>;
