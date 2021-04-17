@@ -1,4 +1,5 @@
 module.exports = {
+  verbose: true,
   clearMocks: true,
   setupFiles: [
     '<rootDir>/prepare.ts',
