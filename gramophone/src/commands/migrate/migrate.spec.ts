@@ -9,6 +9,7 @@ import db from '../../setup/db';
 
 describe('migrate', () => {
   afterEach(() => reset(true));
+  afterAll(() => rm(join(__dirname, '..', '..', 'schema', 'MigrationTest.ts')));
 
   describe('up', () => {
     it('can run migrations', async () => {
@@ -59,8 +60,8 @@ describe('migrate', () => {
       const file = fileData.toString();
       expect(file).toMatch(/export interface MigrationTest/);
       expect(file).toMatch(/export const MigrationTests = \(\) => db<MigrationTest>\('migration_tests'\);/);
-      expect(file).toMatch(/createdAt: DateTime;/);
-      expect(file).toMatch(/updatedAt: DateTime;/);
+      expect(file).toMatch(/createdAt: DateTime \| Date;/);
+      expect(file).toMatch(/updatedAt: DateTime \| Date;/);
       expect(file).toMatch(/await db\.schema\.createTable\('migration_tests'/);
       expect(file).toMatch(/export const up = async/);
       expect(file).toMatch(/export const down = async/);
@@ -78,8 +79,8 @@ describe('migrate', () => {
       const file = fileData.toString();
       expect(file).toMatch(/export interface MigrationTest/);
       expect(file).toMatch(/export const MigrationTests = \(\) => db<MigrationTest>\('migration_tests'\);/);
-      expect(file).toMatch(/createdAt: DateTime;/);
-      expect(file).toMatch(/updatedAt: DateTime;/);
+      expect(file).toMatch(/createdAt: DateTime \| Date;/);
+      expect(file).toMatch(/updatedAt: DateTime \| Date;/);
       expect(file).toMatch(/await db\.schema\.createTable\('migration_tests'/);
       expect(file).toMatch(/export const up = async/);
       expect(file).toMatch(/export const down = async/);

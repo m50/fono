@@ -11,8 +11,8 @@ export const MigrationTests = () => db<MigrationTest>('migration_tests');
 export interface MigrationTest {
   id: number;
 
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt: DateTime | Date;
+  updatedAt: DateTime | Date;
 }
 
 export const up = async () => {
@@ -41,8 +41,8 @@ export const MigrationTests = () => db<MigrationTest>('migration_tests');
 export interface MigrationTest {
   id: number;
 
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt: DateTime | Date;
+  updatedAt: DateTime | Date;
 }
 
 export const up = async () => {
