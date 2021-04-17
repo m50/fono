@@ -2,7 +2,7 @@ module.exports = {
   verbose: true,
   clearMocks: true,
   setupFiles: [
-    '<rootDir>/prepare.ts',
+    '<rootDir>/jest.setup.ts',
   ],
   testMatch: [
     '<rootDir>/src/**/?*.(spec|test).[tj]s',
