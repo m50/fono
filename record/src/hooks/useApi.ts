@@ -13,13 +13,19 @@ type API = <TResponse extends Record<string, any> = { message: string }, TOpts e
   bodyOrQueryString?: TOpts,
 ) => Promise<TResponse>;
 
+interface JWT {
+  u: number;
+  t: number;
+  k: string;
+}
+
 const useApi = () => {
-  const [token, setToken] = useLocalStorageState('jwt', '');
+  const [token, setToken] = useLocalStorageState<JWT | undefined>('jwt', undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setToken('');
+      setToken(undefined);
       navigate('/login');
     }, 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000 /* ms */);
 
@@ -36,12 +42,16 @@ const useApi = () => {
     bodyOrQueryString?: TOpts,
   ): Promise<TResponse> => {
     let reqUrl = `/g${url}`;
+    if (token) {
+      token.t = Date.now();
+    }
+    const jwt = btoa(JSON.stringify(token));
     const opts = {
       method,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        ...token && { Authorization: `Bearer ${token}` },
+        ...token && { Authorization: `Bearer ${jwt}` },
       },
       ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString) }),
     };
@@ -60,7 +70,8 @@ const useApi = () => {
       }
       const newToken = response.headers.get('X-Refresh-Token');
       if (newToken) {
-        setToken(newToken);
+        const newJwt = JSON.parse(atob(newToken)) as JWT;
+        setToken(newJwt);
       } else {
         navigate('/login');
       }
@@ -69,7 +80,7 @@ const useApi = () => {
       .then((response) => castTimestamps(response) as TResponse);
   }, [token, setToken]);
 
-  return { api };
+  return { api, userId: token?.u };
 };
 
 export default useApi;
