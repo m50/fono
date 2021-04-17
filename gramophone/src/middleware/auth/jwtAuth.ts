@@ -24,7 +24,7 @@ export const jwtAuth = async (req: FastifyRequest): Promise<User | null> => {
   if (!validKey) {
     throw new Error(`No valid keys for user[${data.u}].`);
   }
-  if (validKey.expiresAt && validKey.expiresAt.toMillis() < DateTime.now().toMillis()) {
+  if (validKey.expiresAt && (validKey.expiresAt as DateTime).toMillis() < DateTime.now().toMillis()) {
     await ApiKeys()
       .where('userId', data.u)
       .where('id', validKey.id)
