@@ -2,21 +2,9 @@
   "title": "Body Schema",
   "type": "object",
   "properties": {
-    "email": { "type": "string" },
     "username": { "type": "string" },
     "password": { "type": "string" }
   },
-  "anyOf": [
-    {
-      "not": {
-        "properties": {
-          "email": { "type": "string" }
-        }
-      },
-      "required": ["username"]
-    },
-    { "required": ["email"] }
-  ],
   "additionalProperties": false,
-  "required": ["password"]
+  "required": ["password", "username"]
 }

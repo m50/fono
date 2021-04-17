@@ -6,7 +6,14 @@ import schema from './Body.schema.json';
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   const opts: RouteShorthandOptions = { schema: { body: schema } };
   app.post<AuthParams>('/login', opts, async (req, reply) => {
-    const user = await passwordAuth(req);
+    let user;
+    try {
+      user = await passwordAuth(req);
+    } catch (error) {
+      reply.status(401);
+      app.log.error(error);
+      return { message: 'Authentication failed', error };
+    }
     if (!user) {
       reply.status(401);
       return { message: 'Authentication failed' };
@@ -16,7 +23,13 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
 
     reply.header('X-Refresh-Token', token);
     reply.status(200);
-    return { message: 'Successfully logged in!' };
+    // @ts-expect-error
+    delete user.password;
+    delete user.apiKeys;
+    return {
+      message: 'Successfully logged in!',
+      user,
+    };
   });
 
   done();

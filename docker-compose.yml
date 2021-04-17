@@ -3,7 +3,7 @@ version: "3.9"
 services:
   router:
     image: caddy:2-alpine
-    restart: unless-stopped
+    restart: always
     environment:
       UI: record
       API: gramophone
@@ -24,7 +24,7 @@ services:
       - gramophone
   gramophone:
     image: ghcr.io/m50/fono/gramophone:latest
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001"]
       interval: 1m30s
@@ -44,7 +44,7 @@ services:
       - frontend
   record:
     image: ghcr.io/m50/fono/record:latest
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 1m30s
@@ -58,14 +58,16 @@ services:
       - frontend
   cache:
     image: redis:alpine
-    restart: unless-stopped
+    restart: always
     networks:
       - backend
   db:
     image: mariadb:10.5
-    restart: unless-stopped
+    restart: always
     networks:
       - backend
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       MYSQL_USER: "${DB_USER}"
