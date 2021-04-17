@@ -40,8 +40,8 @@ const Card: CardObj = ({ children, className }: Props) => {
     });
   return (
     <section className={cl`
-        bg-gray-400 bg-opacity-40 p-5 rounded-xl
-        shadow-lg text-white relative
+        bg-gray-400 text-white bg-opacity-40 p-5 rounded-xl
+        shadow-lg relative
         ${className ?? ''}
       `}
     >
@@ -68,7 +68,7 @@ export const Title = ({ children, className }: TitleProps) => (
       pb-2 mb-5 flex justify-center ${className ?? ''}
     `}
   >
-    <h3 className="text-white text-3xl mx-auto">
+    <h3 className="text-3xl mx-auto">
       {children}
     </h3>
   </header>
@@ -82,7 +82,7 @@ export const Body = ({ children, className }: ComponentProps) => (
 
 export const Footer = ({ children, className }: React.PropsWithChildren<any>) => (
   <footer className={cl`
-      border-t border-gray-400 border-opacity-40
+      border-t border-gray-400 border-opacity-40 w-full
       pt-2 mt-5 ${className ?? ''}
     `}
   >
