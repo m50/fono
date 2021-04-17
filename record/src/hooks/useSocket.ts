@@ -4,7 +4,7 @@ import { isProduction } from 'lib/helpers';
 
 export const SocketContext = React.createContext<Record<string, WS>>({});
 
-const useSocket = (path: string = 'g/ws') => {
+const useSocket = (path: string = 'ws') => {
   const sockets = useContext(SocketContext);
   const ws = useMemo(() => {
     let socket = sockets[path];
