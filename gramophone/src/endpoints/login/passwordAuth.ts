@@ -19,7 +19,7 @@ export const passwordAuth = async (req: FastifyRequest<AuthParams>): Promise<Use
     .where('username', username)
     .first();
   if (!user) {
-    throw new Error(`User not found: ${search}`);
+    throw new Error(`User not found: ${username}`);
   }
 
   const valid = await check(password, user.password);
