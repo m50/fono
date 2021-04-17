@@ -8,8 +8,13 @@ import { Packet, WS } from './types';
 const connections: WS[] = [];
 
 const removeConnection = (id: string) => {
-  const idx = connections.findIndex((c) => c.id === id);
+  const idx = connections.findIndex((c) => c?.id === id);
   delete connections[idx];
+  connections.forEach((c, i) => {
+    if (!c) {
+      delete connections[i];
+    }
+  });
 };
 
 function broadcast<T>(id: string, message: string, data: T) {
