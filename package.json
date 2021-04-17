@@ -9,7 +9,7 @@
     "email": "marisa@clardy.eu"
   },
   "workspaces": {
-    "packages": ["gramophone", "horn", "record"],
+    "packages": ["packages/gramophone", "packages/horn", "packages/record"],
     "nohoist": ["@tailwindcss/**"]
   },
   "scripts": {

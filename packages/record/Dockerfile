@@ -1,9 +1,7 @@
 FROM node:15-alpine AS build
 WORKDIR /app
 COPY package.json yarn.lock tsconfig.json ./
-COPY ./gramophone ./gramophone
-COPY ./horn ./horn
-COPY ./record ./record
+COPY ./packages ./packages
 
 RUN yarn r install --frozen-lockfile 2>/dev/null
 RUN yarn r build
