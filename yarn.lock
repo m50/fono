@@ -1476,6 +1476,16 @@
     "@types/set-cookie-parser" "^2.4.0"
     set-cookie-parser "^2.4.6"
 
+"@mswjs/interceptors@^0.8.0":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.8.1.tgz#8ef43a8b7b25c7b9a2bac67b3702167e25e5fc07"
+  integrity sha512-OI9FYmtURESZG3QDNz4Yt3osy3HY4T3FjlRw+AG4QS1UDdTSZ0tuPFAkp23nGR9ojmbSSj4gSMjf5+R8Oi/qtQ==
+  dependencies:
+    "@open-draft/until" "^1.0.3"
+    debug "^4.3.0"
+    headers-utils "^3.0.2"
+    strict-event-emitter "^0.2.0"
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents":
   version "2.1.8-no-fsevents"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.tgz#da7c3996b8e6e19ebd14d82eaced2313e7769f9b"
@@ -1727,7 +1737,7 @@
     filter-console "^0.1.1"
     react-error-boundary "^3.1.0"
 
-"@testing-library/react@^11.2.5":
+"@testing-library/react@^11.2.6":
   version "11.2.6"
   resolved "https://registry.yarnpkg.com/@testing-library/react/-/react-11.2.6.tgz#586a23adc63615985d85be0c903f374dab19200b"
   integrity sha512-TXMCg0jT8xmuU8BkKMtp8l7Z50Ykew5WNX8UoIKTaLFwKkP2+1YDhOLA2Ga3wY4x29jyntk7EWfum0kjlYiSjQ==
@@ -4124,6 +4134,11 @@ event-emitter@^0.3.5:
   dependencies:
     d "1"
     es5-ext "~0.10.14"
+
+events@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
+  integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
 exec-sh@^0.3.2:
   version "0.3.6"

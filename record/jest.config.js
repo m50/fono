@@ -7,10 +7,6 @@ module.exports = {
   setupFilesAfterEnv: [
     '<rootDir>/prepare.ts',
   ],
-  testMatch: [
-    '<rootDir>/src/**/?(*.)+(spec|test).[tj]sx',
-    '<rootDir>/src/**/?*.(spec|test).[tj]s',
-  ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
@@ -20,6 +16,8 @@ module.exports = {
     'js',
     'json',
     'ts',
+    'tsx',
+    'jsx',
   ],
   testURL: 'http://localhost',
   snapshotResolver: '<rootDir>/snapshotResolver.js',
