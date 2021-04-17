@@ -1,10 +1,12 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import ReactMarkdownHtml from 'react-markdown/with-html';
+import ReactMarkdown, { PluggableList } from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import gfm from 'remark-gfm';
 import toc from 'remark-toc';
 import remarkSlug from 'remark-slug';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import { Components } from 'react-markdown/src/ast-to-react';
 
 interface Props {
   children: string;
@@ -12,6 +14,15 @@ interface Props {
   allowDangerousHtml?: boolean;
   className?: string;
 }
+
+type Code = (style: Record<string, any>) =>
+  (props: React.PropsWithChildren<{ className?: string }>) => JSX.Element;
+
+const code: Code = (style) => ({ className = '', children }) => (
+  <SyntaxHighlighter language={className.replace('language-', '')} style={style} wrapLines showLineNumbers>
+    {children}
+  </SyntaxHighlighter>
+);
 
 /**
  * This is a Markdown renderer to use in your page.
@@ -48,35 +59,22 @@ interface Props {
  * @param children The markdown text that you want to render in the markdown.
  */
 export const Markdown: React.FC<Props> = ({ className, children, allowDangerousHtml, style }) => {
-  const renderers: ReactMarkdown.ReactMarkdownPropsBase['renderers'] = {
-    code: ({ language, value }) => (
-      <SyntaxHighlighter language={language} style={style} wrapLines showLineNumbers>
-        {value}
-      </SyntaxHighlighter>
-    ),
-  };
+  const renderers: Components = { code: code(style) };
 
   const plugins = [
     gfm,
     remarkSlug,
     toc,
   ];
-
+  let rehypePlugins: PluggableList = [];
   if (allowDangerousHtml) {
-    return (
-      <ReactMarkdownHtml
-        className={`prose ${className ?? ''}`}
-        plugins={plugins}
-        renderers={renderers}
-        allowDangerousHtml
-      >
-        {children}
-      </ReactMarkdownHtml>
-    );
+    rehypePlugins = [rehypeRaw, rehypeSanitize];
   }
 
   return (
-    <ReactMarkdown className={`prose ${className ?? ''}`} plugins={plugins} renderers={renderers}>
+    <ReactMarkdown rehypePlugins={rehypePlugins} className={`prose ${className ?? ''}`}
+      plugins={plugins} components={renderers}
+    >
       {children}
     </ReactMarkdown>
   );
