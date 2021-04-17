@@ -26,7 +26,6 @@ const useApi = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setToken(undefined);
-      navigate('/login');
     }, 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000 /* ms */);
 
     if (!token) {
@@ -65,15 +64,16 @@ const useApi = () => {
       }
     }
     return fetch(reqUrl, opts).then((response) => {
-      if (response.status >= 400) {
+      if (!response.ok) {
+        if (response.status === 401) {
+          setToken(undefined);
+        }
         return response;
       }
       const newToken = response.headers.get('X-Refresh-Token');
       if (newToken) {
         const newJwt = JSON.parse(atob(newToken)) as JWT;
         setToken(newJwt);
-      } else {
-        navigate('/login');
       }
       return response;
     }).then((response) => response.json())
