@@ -10,10 +10,10 @@ describe('castTimestamps()', () => {
       relations: [{ createdAt: '2021-04-16 17:26:28.031 -05:00' }],
     };
     const casted = castTimestamps(obj);
-    expect(typeof casted.createdAt).not.toBe('string');
-    expect(typeof casted.updatedAt).not.toBe('string');
-    expect(typeof casted.expiresAt).not.toBe('string');
-    expect(typeof casted.relation.createdAt).not.toBe('string');
-    expect(typeof casted.relations[0].createdAt).not.toBe('string');
+    expect(typeof casted?.createdAt).not.toBe('string');
+    expect(typeof casted?.updatedAt).not.toBe('string');
+    expect(typeof casted?.expiresAt).not.toBe('string');
+    expect(typeof casted?.relation.createdAt).not.toBe('string');
+    expect(typeof casted?.relations[0].createdAt).not.toBe('string');
   });
 });

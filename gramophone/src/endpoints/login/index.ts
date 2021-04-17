@@ -1,8 +1,8 @@
 import { FastifyInstance, FastifyPluginCallback, RouteShorthandOptions } from 'fastify';
 import { refreshToken } from 'middleware/auth/utils';
+import { JWT } from 'middleware/auth/types';
 import { passwordAuth, AuthParams } from './passwordAuth';
 import schema from './Body.schema.json';
-import { JWT } from 'middleware/auth/types';
 
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   const opts: RouteShorthandOptions = { schema: { body: schema } };

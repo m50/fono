@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ApiKey, ApiKeys } from 'schema/ApiKey';
+import { ApiKeys } from 'schema/ApiKey';
 import { User } from 'schema/User';
 import { bcrypt } from 'utils/bcrypt';
 import { sha256 } from 'utils/hash';
