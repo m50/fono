@@ -1,10 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "src",
-    "skipLibCheck": true,
-    "isolatedModules": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["./src/*"]
+    },
     "jsx": "react",
+    "noEmit": true
   },
   "include": [
     "src"

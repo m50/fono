@@ -1,5 +1,6 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
+  workspaceRoot: '../',
   env: process.env,
   mount: {
     public: { url: '/', static: true },
@@ -8,9 +9,9 @@ module.exports = {
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
-    '@snowpack/plugin-babel',
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-postcss',
+    '@jadex/snowpack-plugin-tailwindcss-jit',
   ],
   optimize: {
     bundle: process.env.NODE_ENV === 'production',
@@ -21,10 +22,15 @@ module.exports = {
     sourcemap: true,
     manifest: true,
   },
+  routes: [
+    { match: 'routes', src: '.*', dest: '/index.html' },
+  ],
   packageOptions: {
     types: true,
   },
   devOptions: {
+    hmr: true,
+    hmrPort: 80,
     port: 3000,
   },
   buildOptions: {

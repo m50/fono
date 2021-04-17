@@ -12,6 +12,7 @@ module.exports = {
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
+    JSX: 'readonly',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -37,6 +38,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'react/no-array-index-key': 'off',
+    'react/require-default-props': 'off',
     'object-curly-newline': 'off',
     'jsx-a11y/anchor-is-valid': 'off', // invalid - <Link> autopasses href
     'max-len': ['error', { code: 120 }],
