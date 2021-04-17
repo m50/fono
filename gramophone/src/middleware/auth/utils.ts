@@ -19,7 +19,7 @@ export const getJwt = (headers: FastifyRequest['headers']): JWT | undefined => {
 
 export const unauthenticated = (reply: FastifyReply) => reply.status(401).send({ message: 'Unauthenticated.' });
 
-export const refreshToken = async (user: User): Promise<ApiKey> => {
+export const refreshToken = async (user: User): Promise<string> => {
   const token = await bcrypt(sha256(Date.now()));
   const expiresAt = DateTime.now().plus({ hour: 1 });
   await ApiKeys().insert({
@@ -28,11 +28,6 @@ export const refreshToken = async (user: User): Promise<ApiKey> => {
     type: 'refresh',
     expiresAt: expiresAt.toJSDate(),
   });
-  const key = await ApiKeys()
-    .where('userId', user.id)
-    .where('type', 'refresh')
-    .where('token', token)
-    .first() as ApiKey;
 
-  return key;
+  return token;
 };
