@@ -13,6 +13,7 @@
     "nohoist": ["@tailwindcss/**"]
   },
   "scripts": {
+    "test": "yarn r test && yarn g test",
     "install-esbuild": "node ./node_modules/esbuild/install.js",
     "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "start": "docker-compose up",
