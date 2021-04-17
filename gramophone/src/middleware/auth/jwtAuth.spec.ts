@@ -5,7 +5,7 @@ import { User } from 'schema/User';
 import { bcrypt } from 'utils/bcrypt';
 import { jwtAuth } from './jwtAuth';
 
-describe('passwordAuth', () => {
+describe('jwtAuth', () => {
   afterAll(async () => reset(true));
   beforeAll(async () => up(true));
 
