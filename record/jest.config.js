@@ -5,7 +5,7 @@ module.exports = {
   ...snowpackJest(),
   clearMocks: true,
   setupFilesAfterEnv: [
-    '<rootDir>/prepare.ts',
+    '<rootDir>/jest.setup.ts',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
