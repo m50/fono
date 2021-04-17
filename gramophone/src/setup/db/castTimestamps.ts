@@ -25,6 +25,10 @@ export default function castTimestamps(result?: Record<string, any>) {
       return;
     }
     if (typeof newResult[key] === 'object') {
+      if (typeof newResult[key].toSQL !== 'undefined') {
+        newResult[key] = newResult[key].toSQL();
+        return;
+      }
       newResult[key] = castTimestamps(newResult[key]);
       return;
     }
