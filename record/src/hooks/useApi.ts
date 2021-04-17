@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from '@reach/router';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
+import useLocalStorageState from 'use-local-storage-state';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
@@ -13,8 +14,21 @@ type API = <TResponse extends Record<string, any> = { message: string }, TOpts e
 ) => Promise<TResponse>;
 
 const useApi = () => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useLocalStorageState('jwt', '');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToken('');
+      navigate('/login');
+    }, 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000 /* ms */);
+
+    if (!token) {
+      navigate('/login');
+    }
+
+    return () => clearTimeout(timer);
+  }, [token]);
 
   const api: API = useCallback(<TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
     method: Method,
