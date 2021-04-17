@@ -8,7 +8,10 @@
     "url": "https://clardy.eu",
     "email": "marisa@clardy.eu"
   },
-  "workspaces": ["gramophone", "horn", "record"],
+  "workspaces": {
+    "packages": ["gramophone", "horn", "record"],
+    "nohoist": ["@tailwindcss/**"]
+  },
   "scripts": {
     "install-esbuild": "node ./node_modules/esbuild/install.js",
     "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
