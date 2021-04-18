@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { dark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Markdown } from './Markdown';
 
 const markdown = `
@@ -21,7 +20,7 @@ const k = 1;
 describe('Markdown', () => {
   it('matches snapshot', () => {
     const tree = renderer
-      .create(<Markdown style={dark}>{markdown}</Markdown>)
+      .create(<Markdown>{markdown}</Markdown>)
       .toJSON();
 
     expect(tree).toMatchSnapshot();

@@ -1,28 +1,16 @@
 import React from 'react';
 import ReactMarkdown, { PluggableList } from 'react-markdown';
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import gfm from 'remark-gfm';
 import toc from 'remark-toc';
 import remarkSlug from 'remark-slug';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
-import type { Components } from 'react-markdown/src/ast-to-react';
 
 interface Props {
   children: string;
-  style: Record<string, string>;
   allowDangerousHtml?: boolean;
   className?: string;
 }
-
-// type Code = (style: Record<string, any>) =>
-//   (props: React.PropsWithChildren<{ className?: string }>) => JSX.Element;
-
-// const code: Code = (style) => ({ className = '', children }) => (
-//   <SyntaxHighlighter language={className.replace('language-', '')} style={style} wrapLines showLineNumbers>
-//     {children}
-//   </SyntaxHighlighter>
-// );
 
 /**
  * This is a Markdown renderer to use in your page.
@@ -39,7 +27,6 @@ interface Props {
  * example:
  * ```js
  * import React from 'react';
- * import { dark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
  * import { Markdown } from 'components/Markdown';
  *
  * export const Component = () => {
@@ -53,14 +40,11 @@ interface Props {
  * };
  * ```
  *
- * @param props.style The style from react-syntax-highlighter to apply to the code in the markdown.
  * @param props.allowDangerousHtml Whether to allow dangerous HTML in your markdown.
  * @param props.className Any additional classes you want to add to the markdown component.
  * @param children The markdown text that you want to render in the markdown.
  */
-export const Markdown: React.FC<Props> = ({ className, children, allowDangerousHtml, style }) => {
-  // const renderers: Components = { code: code(style) };
-
+export const Markdown: React.FC<Props> = ({ className, children, allowDangerousHtml }) => {
   const plugins = [
     gfm,
     remarkSlug,
@@ -72,9 +56,8 @@ export const Markdown: React.FC<Props> = ({ className, children, allowDangerousH
   }
 
   return (
-    <ReactMarkdown rehypePlugins={rehypePlugins} className={`prose ${className ?? ''}`}
-      plugins={plugins}
-      // components={renderers}
+    <ReactMarkdown rehypePlugins={rehypePlugins}
+      plugins={plugins} className={`prose ${className ?? ''}`}
     >
       {children}
     </ReactMarkdown>

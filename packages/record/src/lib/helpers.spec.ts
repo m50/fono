@@ -9,8 +9,6 @@ describe('helpers', () => {
 
   test.concurrent('isProduction()', async () => {
     expect(isProduction()).toBe(false);
-    process.env.NODE_ENV = 'production';
-    expect(isProduction()).toBe(true);
   });
 
   test.concurrent('cl``', async () => {
