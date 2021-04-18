@@ -17,11 +17,11 @@
     "install-esbuild": "node ./node_modules/esbuild/install.js",
     "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "start": "docker-compose up",
-    "build:record": "docker build -t ghcr.io/m50/fono/record:latest -f packages/record/Dockerfile .",
+    "build:record": "docker build -t ghcr.io/m50/fono/record:latest -f packages/record/config/Dockerfile .",
     "build:gramophone": "docker build -t ghcr.io/m50/fono/gramophone:latest -f packages/gramophone/config/Dockerfile .",
     "r": "yarn workspace @fono/record",
     "g": "yarn workspace @fono/gramophone",
     "h": "yarn workspace @fono/horn",
-    "postinstall": "test -f .env || (cp .env.example .env && touch gramophone/.env && touch record/.env && echo '✨  Created new .env file!')"
+    "postinstall": "test -f .env || (cp .env.example .env && touch packages/gramophone/.env && touch packages/record/.env && echo '✨  Created new .env file!')"
   }
 }

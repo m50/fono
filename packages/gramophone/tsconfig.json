@@ -14,8 +14,8 @@
   },
   "include": [
     "src",
-    "migrate.ts",
-    "jest.setup.ts"
+    "bin/migrate.ts",
+    "config/jest.setup.ts"
   ],
   "exclude": [
     "node_modules",

@@ -3,8 +3,8 @@ version: "3.9"
 services:
   gramophone:
     image: node:15-alpine
-    command: "yarn start:dev"
-    working_dir: /app/gramophone
+    command: "yarn g start:dev"
+    working_dir: /app
     expose:
       - 3000
     environment:
