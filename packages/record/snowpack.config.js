@@ -1,6 +1,7 @@
+const babelConf = require('./config/.babelrc.json');
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
-  workspaceRoot: '../',
+  workspaceRoot: '../../',
   env: process.env,
   mount: {
     public: { url: '/', static: true },
@@ -11,6 +12,7 @@ module.exports = {
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-postcss',
+    ['@snowpack/plugin-babel', { transformOptions: babelConf }],
     '@jadex/snowpack-plugin-tailwindcss-jit',
   ],
   optimize: {
