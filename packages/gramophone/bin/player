@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+displayHelp() {
+    echo "player <command>:<action> [args]"
+    echo "Commands:"
+    echo "  help"
+    ls "${DIR}/" | grep -v player | awk -F'.' '{print "  "$1}'
+    jq '.scripts | keys[]' package.json | tr -d '"' | awk '{print "  "$1}'
+    cat << HELP
+
+Options:
+  -e|--env "ENVVAR=value"       Add environment variables.
+  -h COMMAND                    Print this help message. If COMMAND
+                                is passed, it will pull up the
+                                help for the command
+
+All other parameters will be passed into the command.
+
+HELP
+    if [[ -n "${1}" ]]; then
+        echo "Command Help:"
+        bin="${1}"
+        if ls "${DIR}/${bin}.ts" > /dev/null 2>&1; then
+            exec "${DIR}/${bin}.ts" --help
+        elif ls "${DIR}/${bin}.js" > /dev/null 2>&1; then
+            exec "${DIR}/${bin}.js" --help
+        elif ls "${DIR}/${bin}" > /dev/null 2>&1; then
+            exec  "${DIR}/${bin}" --help
+        else
+            exec "yarn" "${command}" --help
+        fi
+    fi
+    exit 0
+}
+
+if [[ "$1" = '-h' ]] || [[ "$1" = 'help' ]]; then
+    shift
+    displayHelp "$1"
+fi
+
+command=$1
+bin=${command%:*}
+action=${command#*:}
+if [[ "${action}" = "${bin}" ]]; then
+    action=""
+fi
+shift
+
+envvars=""
+args=""
+while [[ -n "$*" ]]; do
+    case "${1}" in
+    -e|--env)
+        shift
+        envvars="${envvars} export ${1}"
+        ;;
+    -e*)
+        envvars="${envvars} export ${1#-e*}"
+        ;;
+    --env=*)
+        envvars="${envvars} export ${1#--env=*}"
+        ;;
+    *)
+        args="${args} ${1}"
+        ;;
+    esac
+    shift
+done
+
+source "${DIR}/../.env"
+source "${DIR}/../../../.env"
+
+eval "${envvars}"
+if ls "${DIR}/${bin}.ts" > /dev/null 2>&1; then
+    exec "${DIR}/${bin}.ts" "${action}" "${args}"
+elif ls "${DIR}/${bin}.js" > /dev/null 2>&1; then
+    exec "${DIR}/${bin}.js" "${action}" "${args}"
+elif ls "${DIR}/${bin}" > /dev/null 2>&1; then
+    exec "${DIR}/${bin}" "${action}" "${args}"
+else
+    exec "yarn" "${command}" "${args}"
+fi
