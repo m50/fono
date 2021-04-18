@@ -12,7 +12,6 @@ services:
     volumes:
       - ./:/app
       - node_modules:/app/node_modules/bcrypt/lib
-      - node_modules:/app/node_modules/esbuild/bin
   record:
     image: node:15-alpine
     command: "yarn r start:dev"
@@ -25,8 +24,6 @@ services:
       TAILWIND_MODE: watch
     volumes:
       - ./:/app
-      - node_modules:/app/node_modules/esbuild/bin
-      - node_modules:/app/node_modules/snowpack/node_modules/esbuild/bin
       - node_modules:/app/packages/record/node_modules
   db:
     ports:

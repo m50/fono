@@ -11,7 +11,7 @@ const start = async () => {
   const app = setupServer();
   try {
     await up();
-    console.log(`\n\t🎉 Server started at ${chalk.cyan(`${URL}/`)} 🎉\n`);
+    console.log(`\n\t🔊 Server started at ${chalk.cyan(`${URL}/`)} 🔊\n`);
     await app.listen(PORT, '0.0.0.0');
   } catch (err) {
     app.log.error(err);

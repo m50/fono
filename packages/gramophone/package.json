@@ -9,10 +9,11 @@
     "email": "marisa@clardy.eu"
   },
   "scripts": {
+    "install-esbuild": "node ../../node_modules/esbuild/install.js",
     "install-bcrypt": "cd ../../node_modules/bcrypt && npm run install",
     "start:dev": "NODE_ENV=development yarn install-bcrypt && nodemon --config ./config/nodemon.json",
     "start": "node dist/index.js",
-    "build": "./bin/player build",
+    "build": "yarn install-esbuild && node ./bin/build.js",
     "test": "jest -c config/jest.config.js --silent",
     "test:noisy": "jest -c config/jest.config.js",
     "lint": "eslint src -c config/.eslintrc.js --ext .js,.ts",
