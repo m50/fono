@@ -1,12 +1,12 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ts-node -r tsconfig-paths/register
 /* eslint-disable */
-import './src/setup/env';
+import '../src/setup/env';
 import yargs from 'yargs';
-import { reset, rollback, up, create } from './src/commands/migrate';
+import { reset, rollback, up, create } from '../src/commands/migrate';
 import chalk from 'chalk';
 
 const { argv } = yargs
-  .usage('$0 <cmd> [args]')
+  .usage('player migrate:<cmd> [args]')
   .command('up', 'Runs any migrations that haven\'t been run yet.')
   .command(['down', 'rollback'], 'Rolls back the newest set of migrations.')
   .command('reset', 'Completely resets the database, undoing all migrations')
