@@ -1,0 +1,37 @@
+{
+  "name": "@fono/player",
+  "version": "1.0.0",
+  "description": "The cli tool for managing fono.",
+  "main": "player",
+  "repository": "https://github.com/m50/fono",
+  "author": {
+    "name": "Marisa Clardy",
+    "url": "https://clardy.eu",
+    "email": "marisa@clardy.eu"
+  },
+  "license": "MIT",
+  "bin": "player",
+  "scripts": {
+    "install-esbuild": "node ../../node_modules/esbuild/install.js",
+    "lint:types": "tsc --noEmit --pretty"
+  },
+  "dependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
+    "@babel/register": "^7.13.14",
+    "@babel/runtime": "^7.13.9",
+    "@fono/gramophone": "1.0.0",
+    "babel-plugin-tsconfig-paths": "^1.0.1",
+    "chalk": "^4.1.0",
+    "esbuild": "^0.11.12",
+    "glob-promise": "^4.1.0",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/yargs": "^16.0.1",
+    "typescript": "^4.2.4"
+  }
+}

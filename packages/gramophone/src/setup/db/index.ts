@@ -40,6 +40,7 @@ const db = knex({
 
 knex.QueryBuilder.extend('withRelations', function withRelations(...relations: string[]) {
   // eslint-disable-next-line
+  // @ts-expect-error
   const { table } = this._single;
   return this.queryContext({ relations, db, table });
 });

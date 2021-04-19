@@ -9,7 +9,7 @@
     "email": "marisa@clardy.eu"
   },
   "workspaces": {
-    "packages": ["packages/gramophone", "packages/horn", "packages/record"],
+    "packages": ["packages/*"],
     "nohoist": ["@tailwindcss/**"]
   },
   "scripts": {
@@ -22,6 +22,7 @@
     "r": "yarn workspace @fono/record",
     "g": "yarn workspace @fono/gramophone",
     "h": "yarn workspace @fono/horn",
+    "p": "yarn workspace @fono/player",
     "postinstall": "test -f .env || (cp .env.example .env && touch packages/gramophone/.env && touch packages/record/.env && echo '✨  Created new .env file!')"
   }
 }

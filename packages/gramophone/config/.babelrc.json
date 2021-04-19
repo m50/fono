@@ -1,9 +1,0 @@
-{
-	"presets": [
-		["@babel/preset-env", {"targets": {"node": "current"}}],
-		"@babel/preset-typescript"
-	],
-	"plugins": [
-		["babel-plugin-tsconfig-paths", { "relative": true, "tsconfig": "./tsconfig.json", "rootDir": "." }]
-	]
-}

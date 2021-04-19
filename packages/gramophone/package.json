@@ -9,11 +9,10 @@
     "email": "marisa@clardy.eu"
   },
   "scripts": {
-    "install-esbuild": "node ../../node_modules/esbuild/install.js",
     "install-bcrypt": "cd ../../node_modules/bcrypt && npm run install",
     "start:dev": "NODE_ENV=development yarn install-bcrypt && nodemon --config ./config/nodemon.json",
     "start": "node dist/index.js",
-    "build": "yarn install-esbuild && node ./bin/build.js",
+    "build": "node ./bin/build.js",
     "test": "jest -c config/jest.config.js --silent",
     "test:noisy": "jest -c config/jest.config.js",
     "lint": "eslint src -c config/.eslintrc.js --ext .js,.ts",
@@ -63,7 +62,6 @@
     "@typescript-eslint/parser": "^4.22.0",
     "babel-jest": "^26.6.3",
     "babel-plugin-tsconfig-paths": "^1.0.1",
-    "esbuild": "^0.11.12",
     "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.2.0",

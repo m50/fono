@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "lib": [
@@ -13,25 +14,19 @@
       "es2020"
     ],
     "typeRoots": [
-      "gramophone/src/@types",
-      "record/src/@types",
-      "horn/src/@types",
+      "packages/gramophone/src/@types",
+      "packages/record/src/@types",
+      "packages/horn/src/@types",
+      "packages/player/src/@types",
       "node_modules/@types"
     ],
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "esnext",
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "resolveJsonModule": true
-  },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.snap.*"
-  ]
+  }
 }

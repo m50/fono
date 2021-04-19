@@ -6,15 +6,14 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["./src/*", "../gramophone/src/*"]
     },
     "module": "commonjs",
     "resolveJsonModule": true
   },
   "include": [
     "src",
-    "bin/migrate.ts",
-    "config/jest.setup.ts"
+    "src/**/*.json"
   ],
   "exclude": [
     "node_modules",

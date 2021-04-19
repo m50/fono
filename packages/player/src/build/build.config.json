@@ -1,0 +1,21 @@
+{
+  "transformers": {
+    ".ts": [
+      "esbuild",
+      "paths"
+    ],
+    ".js": [
+      "esbuild",
+      "paths"
+    ],
+    ".json": "json",
+    "fallback": "babel"
+  },
+  "extensionMap": {
+    ".js": ".js",
+    ".ts": ".js",
+    ".json": ".json",
+    ".gql": ".js",
+    ".graphql": ".js"
+  }
+}
