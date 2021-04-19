@@ -1,13 +1,26 @@
 import { relative } from 'path';
+import { dirname } from 'path';
 
 export const transform = async (source: string, path: string, rootDir: string, paths: string[]): Promise<string> => {
   let code = source;
 
   paths
+    .map((p) => dirname(p))
     .map((p) => [p, relative(path, p).replace('../', './').replace('./../', '../')])
     .map(([p, relative]) => [
       p.replace(`${rootDir}/src/`, '').replace(/\.[tj]s?$/g, ''),
       relative.endsWith('.ts') ? relative : `${relative ? `${relative}/` : './'}index`
+    ])
+    .filter(([absPath]) => code.includes(absPath))
+    .forEach(([absPath, localPath]) => {
+      code = code.replace(`require("${absPath}")`, `require("${localPath.replace(/\.[tj]s?$/g, '')}.js")`);
+    });
+
+  paths
+    .map((p) => [p, relative(path, p).replace('../', './').replace('./../', '../')])
+    .map(([p, relative]) => [
+      p.replace(`${rootDir}/src/`, '').replace(/\.[tj]s?$/g, ''),
+      relative
     ])
     .filter(([absPath]) => code.includes(absPath))
     .forEach(([absPath, localPath]) => {

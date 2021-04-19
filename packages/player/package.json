@@ -2,7 +2,7 @@
   "name": "@fono/player",
   "version": "1.0.0",
   "description": "The cli tool for managing fono.",
-  "main": "player",
+  "main": "src/",
   "repository": "https://github.com/m50/fono",
   "author": {
     "name": "Marisa Clardy",
@@ -10,7 +10,9 @@
     "email": "marisa@clardy.eu"
   },
   "license": "MIT",
-  "bin": "player",
+  "bin": {
+    "player": "./dist/index.js"
+  },
   "scripts": {
     "install-esbuild": "node ../../node_modules/esbuild/install.js",
     "lint:types": "tsc --noEmit --pretty"

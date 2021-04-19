@@ -35,7 +35,7 @@ export async function transform(source: string, sourcefile: string, tsconfigRaw:
     .replace(/export\s+default\s+/g, `module.exports${s}=${s}`)
     .replace(/export\s+const\s+(\w+)/g, `const $1${s}=${s}module.exports.$1`)
     .replace(
-      /export ((?:async)? function) (\w+)/g,
+      /export ((?:async )?function) (\w+)/g,
       `module.exports.$2${s}=${s}$2;$1 $2`
     )
   ;

@@ -1,6 +1,6 @@
 import { Arguments, Argv } from 'yargs';
 import { join } from 'path';
-import { build as execute } from 'build/build';
+import { build as execute } from '../build/build';
 
 interface Args {
   rootDir: string;
@@ -13,7 +13,7 @@ export const describe = 'Builds a directory using a set of configured transforme
 export const builder = (yargs: Argv): Argv<Args> => {
   return yargs.positional('rootDir', {
     type: 'string',
-    default: '',
+    default: './',
     description: 'The root directory of the project to build. Default is the current working directory.',
     demandOption: false,
   }).option('debug', {
