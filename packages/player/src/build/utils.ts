@@ -30,18 +30,21 @@ interface DoTransformArgs {
 export async function doTransform(args: DoTransformArgs, debug?: boolean): Promise<string> {
   const { rootDir, paths, path } = args;
   let { code, attempt = 0, transformerType } = args;
+
   try {
     if (typeof transformerType === 'string') {
       const start = Date.now();
       code = await transform(transformerType, rootDir, paths)(code, path);
-      const timeTaken = ((Date.now() - start) / 1000) + 's';
-      debug && console.log(`[${chalk.yellow(timeTaken)}] Ran ${transformerType} on ${path.replace(rootDir, '.')}`);
+      const timeTaken = ((Date.now() - start) / 1000).toString().padEnd(5, '0') + 's';
+      debug && console.log(
+        `[${chalk.yellow(timeTaken)}] Ran ${chalk.magenta(transformerType)} on ${chalk.dim(path.replace(rootDir, '.'))}`
+      );
     } else {
       for (const type of transformerType) {
         const start = Date.now();
         code = await transform(type, rootDir, paths)(code, path);
-        const timeTaken = ((Date.now() - start) / 1000) + 's';
-        debug && console.log(`[${chalk.yellow(timeTaken)}] Ran ${type} on ${path.replace(rootDir, '.')}`);
+        const timeTaken = ((Date.now() - start) / 1000).toString().padEnd(5, '0') + 's';
+        debug && console.log(`[${chalk.yellow(timeTaken)}] Ran ${chalk.magenta(type)} on ${chalk.dim(path.replace(rootDir, '.'))}`);
       }
     }
     return code;

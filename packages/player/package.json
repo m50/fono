@@ -11,11 +11,12 @@
   },
   "license": "MIT",
   "bin": {
-    "player": "./dist/index.js"
+    "player": "./player"
   },
   "scripts": {
     "install-esbuild": "node ../../node_modules/esbuild/install.js",
-    "lint:types": "tsc --noEmit --pretty"
+    "lint:types": "tsc --noEmit --pretty",
+    "build": "./player build"
   },
   "dependencies": {
     "@babel/core": "^7.13.15",

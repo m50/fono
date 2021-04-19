@@ -2,12 +2,15 @@
   "transformers": {
     ".ts": [
       "esbuild",
+      "es5-regex",
       "paths"
     ],
     ".js": [
       "esbuild",
       "paths"
     ],
+    ".gql": "stringify",
+    ".graphql": "stringify",
     ".json": "json",
     "fallback": "babel"
   },

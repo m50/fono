@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+DIR="$( cd "$( dirname "${0}" )" &> /dev/null && pwd )"
 
 if ls "${DIR}/dist/meta.json" > /dev/null 2>&1; then
     tool=$(which node)
