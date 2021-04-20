@@ -1,4 +1,4 @@
-import db from "setup/db";
+import db from 'setup/db';
 
 export const closeConnection = () => db.destroy();
 

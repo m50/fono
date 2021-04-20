@@ -1,6 +1,5 @@
 import { IResolverObject } from 'apollo-server-fastify';
-import { User, Users } from 'schema/User';
-import { ApiKeys } from 'schema/ApiKey';
+import { Users } from 'schema/User';
 import { DateTime } from 'luxon';
 
 interface UserQueryArgs {
@@ -21,10 +20,10 @@ const QueryResolvers: IResolverObject = {
       query = query.where('createdAt', '>', createdAfter.toSQL());
     }
 
-    return await query;
+    return query;
   },
   async user(_, { email, username, id }: UserQueryArgs) {
-    return await Users()
+    return Users()
       .maybeWhere('id', id)
       .maybeWhere('email', email)
       .maybeWhere('username', username)

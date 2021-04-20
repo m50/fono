@@ -13,7 +13,7 @@ export default new GraphQLScalarType({
   parseLiteral(ast) {
     if (ast.kind === Kind.INT) {
       return DateTime.fromMillis(parseInt(ast.value, 10));
-    } else if (ast.kind === Kind.STRING) {
+    } if (ast.kind === Kind.STRING) {
       return DateTime.fromISO(ast.value);
     }
     return null; // Invalid hard-coded value (not an integer)

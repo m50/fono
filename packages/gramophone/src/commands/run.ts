@@ -7,7 +7,7 @@ const URL = process.env.BASE_URL ?? `http://127.0.0.1:${PORT}`;
 
 export const command = 'start:gramophone';
 export const describe = 'Runs the backend `gramophone` server.';
-export const builder = {}
+export const builder = {};
 
 export const handler = async () => {
   const app = setupServer();

@@ -1,9 +1,9 @@
-declare module "*.gql" {
+declare module '*.gql' {
   const value: import('graphql').DocumentNode;
   export const raw: string;
   export default value;
 }
-declare module "*.graphql" {
+declare module '*.graphql' {
   const value: import('graphql').DocumentNode;
   export const raw: string;
   export default value;

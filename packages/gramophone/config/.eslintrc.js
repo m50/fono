@@ -25,6 +25,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'import/no-dynamic-require': 'off',
+    'global-require': 'off',
     'import/no-cycle': 'off',
     'no-console': 'off',
     'import/no-unresolved': 'off',

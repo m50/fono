@@ -9,6 +9,7 @@
       "*": ["./src/*"]
     },
     "module": "commonjs",
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
   "include": [
@@ -17,7 +18,7 @@
     "config/jest.setup.ts"
   ],
   "exclude": [
-    "node_modules",
+    "../../node_modules",
     "dist",
     "**/*.snap.*"
   ]

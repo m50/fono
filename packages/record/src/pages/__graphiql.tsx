@@ -3,10 +3,10 @@ import type { RouteComponentProps } from '@reach/router';
 import GraphiQL from 'graphiql/dist';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import { isProduction } from 'lib/helpers';
-import "graphiql/graphiql.min.css";
+import 'graphiql/graphiql.min.css';
 
 const fetcher = createGraphiQLFetcher({
-  url: window.location.origin + '/g/ql',
+  url: `${window.location.origin}/g/ql`,
 });
 
 const defaultQuery = `query Users {
@@ -19,9 +19,11 @@ const defaultQuery = `query Users {
   }
 }
 `;
-
-export default (_: RouteComponentProps) => !isProduction() ? (
+type GraphiqlPage = (props: RouteComponentProps) => JSX.Element | null;
+const page: GraphiqlPage = () => (!isProduction() ? (
   <div className="w-full min-h-screen p-8">
     <GraphiQL fetcher={fetcher} defaultQuery={defaultQuery} />
   </div>
-) : null;
+) : null);
+
+export default page;
