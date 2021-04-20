@@ -1,0 +1,20 @@
+type User {
+    id: ID!
+    email: String!
+    username: String!
+    createdAt: String!
+    updatedAt: String!
+    apiKeys: [ApiKey!]
+    apiKey(id: ID!): ApiKey
+}
+
+type ApiKey {
+    id: ID!
+    userId: Int!
+    token: String!
+    type: String!
+    expiresAt: String
+    createdAt: String!
+    updatedAt: String!
+    user: User
+}

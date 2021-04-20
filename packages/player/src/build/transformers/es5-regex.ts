@@ -4,6 +4,7 @@ export async function transform(source: string, sourcefile: string) {
   const s = process.env.NODE_ENV === 'production' ? '' : ' '
   let code = source
     .replace(/^#!.+\n/, '')
+    .replace(/import (\w+), \{(.+)\}\s*from\s*(['"].*?['"]);?/g, `const${s}{default:$1,$s}${s}=${s}require($3);`)
     .replace(/import\s*(.*?)\s*from\s*(['"].*?['"]);?/g, `const $1${s}=${s}require($2);`)
     .replace(/import\s*(['"].*?['"]);?/g, 'require($1);')
     .replace(/const \* as /g, 'const ')
@@ -19,7 +20,7 @@ export async function transform(source: string, sourcefile: string) {
         return `${imp}${s}${matches.join(s)}`;
       }
     )
-    .replace(/export\s+default\s+/g, `module.exports${s}=${s}`)
+    .replace(/export\s+default\s+/g, `module.exports.default${s}=${s}module.exports${s}=${s}`)
     .replace(/export\s+const\s+(\w+)/g, `const $1${s}=${s}module.exports.$1`)
     .replace(
       /export ((?:async )?function) (\w+)/g,

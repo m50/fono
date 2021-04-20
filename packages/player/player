@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 DIR="$( cd "$( dirname "${0}" )" &> /dev/null && pwd )"
 
+if [[ "$(uname -s)" != "Darwin" ]]; then
+    yarn --cwd="${DIR}" install-esbuild
+fi
+
 if ls "${DIR}/dist/meta.json" > /dev/null 2>&1; then
     tool=$(which node)
     exec "${tool}" "${DIR}"/dist/index.js "$@"

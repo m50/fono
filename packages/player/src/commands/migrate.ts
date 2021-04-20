@@ -1,4 +1,5 @@
 import { reset, rollback, up, create } from '@fono/gramophone/src/commands/migrate';
+import { closeConnection } from 'commands/migrate/utils';
 import type { Argv } from 'yargs';
 
 export default function setup(yargs: Argv) {
@@ -8,21 +9,21 @@ export default function setup(yargs: Argv) {
       describe: 'Silently perform the migration.',
       alias: 'q',
     });
-  }, async ({ quiet }) => await up(quiet))
+  }, async ({ quiet }) => await up(quiet).then(() => closeConnection()))
     .command(['migrate:down', 'migrate:rollback'], 'Rolls back the newest set of migrations.', (yargs) => {
       return yargs.option('quiet', {
         type: 'boolean',
         describe: 'Silently perform the migration.',
         alias: 'q',
       });
-    }, async ({ quiet }) => await rollback(quiet))
+    }, async ({ quiet }) => await rollback(quiet).then(() => closeConnection()))
     .command('migrate:reset', 'Completely resets the database, undoing all migrations.', (yargs) => {
       return yargs.option('quiet', {
         type: 'boolean',
         describe: 'Silently perform the migration.',
         alias: 'q',
       })
-    }, async ({ quiet }) => await reset(quiet))
+    }, async ({ quiet }) => await reset(quiet).then(() => closeConnection()))
     .command('migrate:create <tableName>', 'Creates a new migration.', (yargs) => {
       return yargs.option('quiet', {
         type: 'boolean',

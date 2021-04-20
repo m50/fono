@@ -6,6 +6,7 @@ import { transform as json } from './json';
 import { transform as paths } from './paths';
 import { transform as es5 } from './es5-regex';
 import { transform as stringify } from './stringify';
+import { transform as graphql } from './graphql';
 
 type Transformer = (source: string, path: string) => Promise<string>;
 
@@ -15,6 +16,7 @@ export const transform = (type: string, rootDir: string, srcPaths: string[]): Tr
   if (type === 'json') return json;
   if (type === 'paths') return (source, path) => paths(source, path, rootDir, srcPaths);
   if (type === 'stringify') return stringify;
+  if (type === 'graphql') return graphql;
   if (type === 'esbuild') {
     let tsconfig = '';
     if (exists(join(rootDir, 'tsconfig.json'))) {

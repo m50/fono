@@ -2,9 +2,10 @@ import fastify from 'fastify';
 import cors from 'fastify-cors';
 import { setup as sockets } from 'sockets';
 import * as endpoints from 'endpoints';
+import withGraphQL from './graphql';
 
 export default () => {
-  const server = fastify({ logger: true });
+  const server = withGraphQL(fastify({ logger: true }));
   server.register(cors);
 
   // Health check endpoint.

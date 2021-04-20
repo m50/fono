@@ -48,5 +48,4 @@ export default async (silent: boolean = false) => {
     });
   await Promise.all(promises);
   log(silent, '');
-  return db.destroy();
 };

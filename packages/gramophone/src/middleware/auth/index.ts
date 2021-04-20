@@ -22,3 +22,4 @@ export const auth = (app: FastifyInstance) => {
     reply.header('X-Refresh-Token', newToken);
   });
 };
+export const withAuth = auth;

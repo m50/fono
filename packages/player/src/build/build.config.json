@@ -9,8 +9,8 @@
       "esbuild",
       "paths"
     ],
-    ".gql": "stringify",
-    ".graphql": "stringify",
+    ".gql": "graphql",
+    ".graphql": "graphql",
     ".json": "json",
     "fallback": "babel"
   },

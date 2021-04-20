@@ -44,4 +44,12 @@ knex.QueryBuilder.extend('withRelations', function withRelations(...relations: s
   return this.queryContext({ relations, db, table });
 });
 
+knex.QueryBuilder.extend('maybeWhere', function maybeWhere(column, value) {
+  if (typeof value === 'undefined') {
+    return this;
+  }
+
+  return this.where(column, value);
+});
+
 export default db;

@@ -23,5 +23,4 @@ export default async (silent: boolean = false) => {
   await Promise.all(promises);
   await db.schema.dropTableIfExists('migrations');
   log(silent, chalk.yellow('\n\t⚠️  Rolled back all migrations. ⚠️\n'));
-  return db.destroy();
 };
