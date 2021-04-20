@@ -5,17 +5,13 @@ import { ApiKeys } from 'schema/ApiKey';
 
 const UserResolvers: IResolverObject<User> = {
   async apiKeys(parent) {
-    const keys = await ApiKeys()
+    return await ApiKeys()
       .where('userId', parent.id);
-
-    return keys;
   },
   async apiKey(parent, { id }: { id: number }) {
-    const keys = await ApiKeys()
+    return await ApiKeys()
       .where('userId', parent.id)
       .where('id', id);
-
-    return keys;
   },
 };
 

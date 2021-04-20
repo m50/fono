@@ -1,4 +1,4 @@
 type Query {
-    users: [User!]
+    users(createdAfter: Date): [User!]
     user(id: ID, username: String, email: String): User
 }
