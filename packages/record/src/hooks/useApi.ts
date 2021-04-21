@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useNavigate } from '@reach/router';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
 import useLocalStorageState from 'use-local-storage-state';
-import { ApolloQueryResult, gql as gqlConvert } from '@apollo/client';
+import { ApolloQueryResult, gql as gqlConvert } from '@apollo/client/core';
 import { useApolloClient } from '@apollo/client/react';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

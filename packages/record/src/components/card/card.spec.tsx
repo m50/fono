@@ -33,8 +33,10 @@ describe('Card', () => {
   it('matches snapshot', () => {
     const { asFragment } = render((
       <Card>
+        <Card.Title>Title</Card.Title>
         <Card.Body>Body</Card.Body>
         <Card.Body>Body</Card.Body>
+        <Card.Footer>Footer</Card.Footer>
       </Card>
     ));
     expect(asFragment()).toMatchSnapshot();

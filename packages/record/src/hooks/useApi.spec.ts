@@ -7,6 +7,9 @@ const mockNavigate = jest.fn();
 jest.mock('@reach/router', () => ({
   useNavigate: () => mockNavigate,
 }));
+jest.mock('@apollo/client/react', () => ({
+  useApolloClient: () => jest.fn(),
+}));
 
 interface Response {
   message: string;
