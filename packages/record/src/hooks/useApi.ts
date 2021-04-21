@@ -3,11 +3,14 @@ import { useCallback, useEffect } from 'react';
 import { useNavigate } from '@reach/router';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
 import useLocalStorageState from 'use-local-storage-state';
+import { ApolloQueryResult, gql as gqlConvert } from '@apollo/client';
+import { useApolloClient } from '@apollo/client/react';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
 
-type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
+export type GQLAPI = <Res>(strings: TemplateStringsArray, ...expr: string[]) => Promise<ApolloQueryResult<Res>>;
+export type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
   bodyOrQueryString?: TOpts,
@@ -22,6 +25,7 @@ interface JWT {
 const useApi = () => {
   const [token, setToken] = useLocalStorageState<JWT | undefined>('jwt', undefined);
   const navigate = useNavigate();
+  const client = useApolloClient();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,6 +38,11 @@ const useApi = () => {
 
     return () => clearTimeout(timer);
   }, [token]);
+
+  const gql: GQLAPI = useCallback((strings, ...expr) => {
+    const query = gqlConvert(strings, expr);
+    return client.query({ query });
+  }, [client]);
 
   const api: API = useCallback(<TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
     method: Method,
@@ -80,7 +89,7 @@ const useApi = () => {
       .then((response) => castTimestamps(response) as TResponse);
   }, [token, setToken]);
 
-  return { api, userId: token?.u };
+  return { api, gql, userId: token?.u };
 };
 
 export default useApi;
