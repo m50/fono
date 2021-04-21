@@ -31,15 +31,48 @@ class WS {
     this.socket.onerror = (ev) => this.errorHandlers.forEach((handler) => handler(ev));
   }
 
+  /**
+   * @param handler A function that does something when an error is reported.
+   * @returns A function to easily disconnect the error handler.
+   */
   onError(handler: (ev: Event) => void) {
     this.errorHandlers.push(handler);
+
+    return () => this.disconnectErrorHandler(handler);
   }
 
+  disconnectErrorHandler(handler: (ev: Event) => void, strict: boolean = true) {
+    if (strict) {
+      this.errorHandlers = this.errorHandlers.filter((h) => h !== handler);
+      return;
+    }
+
+    this.errorHandlers = this.errorHandlers
+      .filter((h) => h.toString() != handler.toString());
+  }
+
+  /**
+   * @param message The event message to be listening for.
+   * @param handler A function that takes the data returned by the message.
+   * @returns A function to easily disconnect the event handler.
+   */
   on<T>(message: string, handler: Handler<T>) {
     if (!this.handlers[message]) {
       this.handlers[message] = [];
     }
     this.handlers[message].push(handler);
+
+    return () => this.disconnect(message, handler);
+  }
+
+  disconnect<T>(message: string, handler: Handler<T>, strict: boolean = true) {
+    if (strict) {
+      this.handlers[message] = this.handlers[message].filter((h) => h !== handler);
+      return;
+    }
+
+    this.handlers[message] = this.handlers[message]
+      .filter((h) => h.toString() != handler.toString());
   }
 
   async broadcast<T>(message: string, data: T) {

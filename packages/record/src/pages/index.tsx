@@ -5,10 +5,14 @@ import useSocket from 'hooks/useSocket';
 export default function Home(props: RouteComponentProps) {
   const ws = useSocket();
   const [welcomeData, setWelcomeData] = useState<Record<string, any>>({});
+
   useEffect(() => {
-    ws.on('welcome', (data: Record<string, any>) => setWelcomeData(data));
+    const disconnect = ws.on('welcome', (data: Record<string, any>) => setWelcomeData(data));
     ws.send('test', { value: 'hi!' });
+
+    return () => disconnect();
   }, [ws]);
+
   return (
     <div className="bg-gray-300">
       hello {props.path}<br />
