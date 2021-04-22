@@ -40,7 +40,8 @@ const useApi = () => {
   }, [token]);
 
   const gql: GQLAPI = useCallback((strings, ...expr) => {
-    const query = gqlConvert(strings, expr);
+    const q = strings.reduce((p, c, idx) => p + c + (expr[idx] ?? ''), '');
+    const query = gqlConvert`${q}`;
     return client.query({ query });
   }, [client]);
 
