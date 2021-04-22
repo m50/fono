@@ -8,6 +8,10 @@
     "url": "https://clardy.eu",
     "email": "marisa@clardy.eu"
   },
+  "babel": {
+    "extends": "@snowpack/app-scripts-react/babel.config.json",
+    "plugins": ["inline-react-svg"]
+  },
   "scripts": {
     "install-esbuild": "node ../../node_modules/snowpack/node_modules/esbuild/install.js",
     "build": "yarn install-esbuild && snowpack build",

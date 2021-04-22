@@ -4,9 +4,6 @@ const { dirname } = require('path');
 
 module.exports = {
   rootDir: dirname(__dirname),
-  transform: {
-    '\\.[tj]s$': ['babel-jest', { configFile: './config/.babelrc.json' }],
-  },
   ...snowpackJest(),
   clearMocks: true,
   setupFilesAfterEnv: [
