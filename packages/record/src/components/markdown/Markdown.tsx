@@ -25,6 +25,7 @@ interface Props {
  *  the content as the child of the Markdown component.
  *
  * example:
+ *
  * ```js
  * import React from 'react';
  * import { Markdown } from 'components/Markdown';

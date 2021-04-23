@@ -1,4 +1,6 @@
-const babelConf = require('./config/.babelrc.json');
+const babelConf = require('./package.json').babel;
+const { join } = require('path');
+
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   workspaceRoot: '../../',
@@ -50,10 +52,10 @@ module.exports = {
     '**/*.test.ts',
   ],
   alias: {
-    hooks: './src/hooks',
-    components: './src/components',
-    lib: './src/lib',
-    pages: './src/pages',
-    '@types': './src/@types',
+    hooks: join(__dirname, 'src', 'hooks'),
+    components: join(__dirname, 'src', 'components'),
+    lib: join(__dirname, 'src', 'lib'),
+    pages: join(__dirname, 'src', 'pages'),
+    '@types': join(__dirname, 'src', '@types'),
   },
 };

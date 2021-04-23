@@ -20,8 +20,10 @@ const classes = (primary: boolean, className: string) => cl`
   focus:outline-none focus:ring focus:ring-purple-400
   transition-colors duration-150 ease-in-out
   ${primary
-    ? 'bg-purple-600 hover:bg-purple-700'
-    : 'dark:bg-gray-500 dark:hover:bg-gray-600 bg-gray-600 hover:bg-gray-700'}
+    ? 'bg-purple-600 hover:bg-purple-700 active:bg-purple-900'
+    : `dark:bg-gray-500 dark:hover:bg-gray-600 dark:active:bg-gray-800
+      bg-gray-600 hover:bg-gray-700 active:bg-gray-900
+    `}
   ${primary
     ? 'border-purple-600 hover:border-gray-700'
     : 'border-gray-600 hover:border-gray-700'}
