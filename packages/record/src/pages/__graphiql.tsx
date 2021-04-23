@@ -2,7 +2,7 @@ import React from 'react';
 import type { RouteComponentProps } from '@reach/router';
 import GraphiQL from 'graphiql/dist';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { isProduction } from 'lib/helpers';
+import { isDev } from 'lib/helpers';
 import 'graphiql/graphiql.min.css';
 
 const fetcher = createGraphiQLFetcher({
@@ -20,7 +20,7 @@ const defaultQuery = `query Users {
 }
 `;
 type GraphiqlPage = (props: RouteComponentProps) => JSX.Element | null;
-const page: GraphiqlPage = () => (!isProduction() ? (
+const page: GraphiqlPage = () => (isDev() ? (
   <div className="w-full min-h-screen p-8">
     <GraphiQL fetcher={fetcher} defaultQuery={defaultQuery} />
   </div>
