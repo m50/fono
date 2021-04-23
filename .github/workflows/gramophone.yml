@@ -2,7 +2,7 @@ name: Gramophone (backend) checks
 on:
   pull_request:
     paths:
-      - 'gramophone/**'
+      - 'packages/gramophone/**'
       - yarn.lock
 
 jobs:
