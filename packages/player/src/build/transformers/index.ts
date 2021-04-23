@@ -25,6 +25,6 @@ export const transform = (type: string, rootDir: string, srcPaths: string[]): Tr
 
     return (source, path) => esbuild(source, path, tsconfig);
   }
-
+  // eslint-disable-next-line
   return (source, path) => Promise.resolve(source);
-}
+};

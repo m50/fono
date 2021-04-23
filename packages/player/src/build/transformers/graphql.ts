@@ -7,4 +7,4 @@ module.exports.default = gql\`${input}\`;
 module.exports.raw = \`${input}\`;
 `;
   return code;
-}
+};

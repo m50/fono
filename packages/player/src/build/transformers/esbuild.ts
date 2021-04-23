@@ -10,7 +10,7 @@ export async function transform(source: string, sourcefile: string, tsconfigRaw:
   if (output.warnings.length > 0) {
     throw output.warnings;
   }
-  let { code } = output;
+  const { code } = output;
   if (['\n', ''].includes(code)) {
     return '';
   }

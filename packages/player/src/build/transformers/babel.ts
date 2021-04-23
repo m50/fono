@@ -1,5 +1,4 @@
 import { transformAsync } from '@babel/core';
-import { join } from 'path';
 
 export async function transform(source: string, path: string, rootDir: string) {
   const result = await transformAsync(source, {
@@ -7,11 +6,11 @@ export async function transform(source: string, path: string, rootDir: string) {
     minified: process.env.NODE_ENV === 'production',
     retainLines: process.env.NODE_ENV !== 'production',
     presets: [
-      ["@babel/preset-env", { targets: { node: "current" } }],
-      "@babel/preset-typescript",
+      ['@babel/preset-env', { targets: { node: 'current' } }],
+      '@babel/preset-typescript',
     ],
     plugins: [
-      ["babel-plugin-tsconfig-paths", { relative: true, tsconfig: "./tsconfig.json", rootDir }],
+      ['babel-plugin-tsconfig-paths', { relative: true, tsconfig: './tsconfig.json', rootDir }],
     ],
   });
   if (!result || !result.code) {
