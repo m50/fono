@@ -14,9 +14,6 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
   ],
-  transform: {
-    '\\.[tj]s$': ['babel-jest', { configFile: './config/.babelrc' }],
-  },
   moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules', '<rootDir>/../../node_modules'],
   moduleFileExtensions: [
     'js',
