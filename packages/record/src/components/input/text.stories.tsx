@@ -20,7 +20,7 @@ interface Args {
 const register = {
   onChange: () => Promise.resolve(),
   onBlur: () => Promise.resolve(),
-  ref: (k: any) => { },
+  ref: () => { },
   name: 'example',
 };
 const Template: Story<Args> = (args) => (

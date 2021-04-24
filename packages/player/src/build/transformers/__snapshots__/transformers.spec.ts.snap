@@ -71,7 +71,7 @@ exports[`transformers esbuild matches snapshot PRODUCTION 1`] = `
 
 exports[`transformers graphql matches snapshot 1`] = `
 "'use strict';
-// Original Definition at /Users/marisaclardy/src/github.com/m50/fono/packages/player/src/build/transformers/transformers.spec.ts
+// Original Definition at transformers/transformers.spec.ts
 const { gql } = require('apollo-server-fastify');
 module.exports = gql\`
 type Query {

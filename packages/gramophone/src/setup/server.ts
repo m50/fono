@@ -1,9 +1,9 @@
 import fastify from 'fastify';
 import cors from 'fastify-cors';
+import helmet from 'fastify-helmet';
 import { setup as sockets } from 'sockets';
 import * as endpoints from 'endpoints';
 import withGraphQL from './graphql';
-import helmet from 'fastify-helmet';
 
 export default () => {
   const server = withGraphQL(fastify({ logger: true }));
