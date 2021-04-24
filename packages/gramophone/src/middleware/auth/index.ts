@@ -4,7 +4,7 @@ import { jwtAuth } from './jwtAuth';
 import { AuthParams } from './types';
 
 export const auth = (app: FastifyInstance) => {
-  app.decorateRequest('user', { getter: () => ({}) });
+  app.decorateRequest('user', null);
   app.addHook<AuthParams>('preHandler', async (req, reply) => {
     let user = null;
     try {
