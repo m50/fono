@@ -62,7 +62,7 @@ const Button: Component = ({
       className={classes(primary, className)}
       disabled={disabled} ref={button}
     >
-      {icon} {children}
+      {children} {icon}
     </button>
   );
 };
