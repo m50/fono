@@ -24,8 +24,6 @@ class WS {
       const packet: Packet<any> = JSON.parse(ev.data) as Packet<any>;
       if (this.handlers[packet.message] && this.handlers[packet.message].length > 0) {
         this.handlers[packet.message].forEach((handler) => handler(packet.data));
-      } else if (!isProduction()) {
-        throw new Error(`No handler defined for message '${packet.message}'.`);
       }
     };
     this.socket.onerror = (ev) => this.errorHandlers.forEach((handler) => handler(ev));
