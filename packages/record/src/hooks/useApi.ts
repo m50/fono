@@ -2,7 +2,7 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from '@reach/router';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
-import useLocalStorageState from 'use-local-storage-state';
+import useLocalStorageState, { createLocalStorageStateHook } from 'use-local-storage-state';
 import { ApolloQueryResult, gql as gqlConvert } from '@apollo/client/core';
 import { useApolloClient } from '@apollo/client/react';
 
@@ -22,15 +22,23 @@ interface JWT {
   k: string;
 }
 
+const useToken = createLocalStorageStateHook<JWT | undefined>('jwt', undefined);
+
 const useApi = () => {
-  const [token, setToken] = useLocalStorageState<JWT | undefined>('jwt', undefined);
+  const [token, setToken] = useToken();
   const navigate = useNavigate();
   const client = useApolloClient();
 
   useEffect(() => {
+    const oneHr = 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000; /* ms */
+    const oneHrFromNow = Date.now() + oneHr;
     const timer = setTimeout(() => {
       setToken(undefined);
-    }, 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000 /* ms */);
+    }, oneHrFromNow - (token?.t ?? Date.now()));
+
+    if (token && token.t > oneHrFromNow) {
+      setToken(undefined);
+    }
 
     if (!token) {
       navigate('/login');
@@ -62,7 +70,7 @@ const useApi = () => {
         'Content-Type': 'application/json',
         ...token && { Authorization: `Bearer ${jwt}` },
       },
-      ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString) }),
+      ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString ?? {}) }),
     };
     if (method === 'GET' && bodyOrQueryString) {
       const queryString = Object
