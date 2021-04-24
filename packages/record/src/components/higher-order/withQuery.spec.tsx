@@ -1,9 +1,9 @@
 import React from 'react';
 import { setupServer } from 'msw/node';
-import { render, waitFor, act } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { graphql } from 'msw';
 import { withQuery } from './withQuery';
-import { withProviders } from './withProviders'
+import { withProviders } from './withProviders';
 
 interface UserExample {
   name: string;
@@ -20,7 +20,7 @@ jest.mock('@reach/router', () => ({
 const server = setupServer(
   graphql.query<ExampleProps>(
     'GetUser',
-    (req, res, ctx) => res(ctx.data({ user: { name: 'John' } }))
+    (req, res, ctx) => res(ctx.data({ user: { name: 'John' } })),
   ),
 );
 
@@ -39,7 +39,7 @@ describe('withQuery()', () => {
           }
         }
       `,
-      Example
+      Example,
     );
     const Wrapped = withProviders(Element);
     const { queryByText, getByText } = render(<div><Wrapped /></div>);

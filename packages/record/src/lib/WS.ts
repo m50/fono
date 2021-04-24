@@ -48,7 +48,7 @@ class WS {
     }
 
     this.errorHandlers = this.errorHandlers
-      .filter((h) => h.toString() != handler.toString());
+      .filter((h) => h.toString() !== handler.toString());
   }
 
   /**
@@ -72,7 +72,7 @@ class WS {
     }
 
     this.handlers[message] = this.handlers[message]
-      .filter((h) => h.toString() != handler.toString());
+      .filter((h) => h.toString() !== handler.toString());
   }
 
   async broadcast<T>(message: string, data: T) {

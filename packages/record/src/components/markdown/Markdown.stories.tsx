@@ -19,8 +19,8 @@ const k = 1;
 `;
 
 export default {
-    title: 'components/markdown',
-    component: Markdown,
+  title: 'components/markdown',
+  component: Markdown,
 } as Meta;
 
 interface Args {
@@ -29,11 +29,11 @@ interface Args {
   className?: string;
 }
 
-const Template: Story<Args> = ({ markdown, ...args}) => (
-    <Markdown {...args}>{markdown}</Markdown>
+const Template: Story<Args> = ({ markdown: mkdown, ...args }) => (
+  <Markdown {...args}>{mkdown}</Markdown>
 );
 
 export const Example = Template.bind({});
 Example.args = {
-    markdown
+  markdown,
 };

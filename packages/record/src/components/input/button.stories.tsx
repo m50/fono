@@ -4,8 +4,8 @@ import { Story } from '@storybook/react';
 import Button from './button';
 
 export default {
-    title: 'components/input/button',
-    component: Button,
+  title: 'components/input/button',
+  component: Button,
 } as Meta;
 
 interface Args {
@@ -18,28 +18,28 @@ interface Args {
     onClick?: () => void;
 }
 
-const Template: Story<Args> = ({ text, ...args}) => (
-    <Button {...args}>{text}</Button>
+const Template: Story<Args> = ({ text, ...args }) => (
+  <Button {...args}>{text}</Button>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-    primary: false,
-    text: 'Close',
-    type: 'button',
+  primary: false,
+  text: 'Close',
+  type: 'button',
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
-    primary: true,
-    text: 'Submit',
-    type: 'submit',
+  primary: true,
+  text: 'Submit',
+  type: 'submit',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    disabled: true,
-    text: 'Submit',
-    primary: true,
-    type: 'button',
+  disabled: true,
+  text: 'Submit',
+  primary: true,
+  type: 'button',
 };
