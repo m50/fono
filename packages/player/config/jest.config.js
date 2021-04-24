@@ -1,9 +1,12 @@
 const { dirname } = require('path');
 
+/** @type { import("@jest/types").Config } */
 module.exports = {
   verbose: true,
   clearMocks: true,
   rootDir: dirname(__dirname),
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   setupFiles: [
   ],
   testMatch: [
@@ -11,9 +14,14 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
+    '<rootDir>/../../node_modules/',
     '<rootDir>/dist/',
   ],
-  moduleDirectories: ['<rootDir>/src', '<rootDir>/node_modules', '<rootDir>/../../node_modules'],
+  moduleDirectories: [
+    '<rootDir>/src',
+    '<rootDir>/node_modules',
+    '<rootDir>/../../node_modules',
+  ],
   moduleFileExtensions: [
     'js',
     'json',
