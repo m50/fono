@@ -12,8 +12,10 @@ module.exports = {
   theme: {
   },
   variants: {
-    extends: {
+    extend: {
       shadowFill: ['autofill'],
+      textColor: ['active'],
+      backgroundColor: ['active'],
     },
   },
   plugins: [
