@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformers babel matches snapshot 1`] = `
+"\\"use strict\\";Object.defineProperty(exports, \\"__esModule\\", { value: true });exports.blah = blah;exports.blah2 = blah2;Object.defineProperty(exports, \\"test\\", { enumerable: true, get: function () {return _test.k;} });exports.default = exports.k = void 0;
+
+
+
+
+var _test = require(\\"./test\\");
+
+const k = \`hi\`;exports.k = k;var _default =
+k => {
+
+};exports.default = _default;
+async function blah(l) {}
+function blah2() {}"
+`;
+
+exports[`transformers babel matches snapshot PRODUCTION 1`] = `"\\"use strict\\";Object.defineProperty(exports,\\"__esModule\\",{value:true});exports.blah=blah;exports.blah2=blah2;Object.defineProperty(exports,\\"test\\",{enumerable:true,get:function(){return _test.k}});exports.default=exports.k=void 0;var _test=require(\\"./test\\");const k=\`hi\`;exports.k=k;var _default=k=>{};exports.default=_default;async function blah(l){}function blah2(){}"`;
+
+exports[`transformers es5-regex matches snapshot 1`] = `
+"'use strict';
+const { transform: regex } = require('./es5-regex');
+const { command } = require('commands/build');
+const Test = require('@fono/gramophone/src/setup/graphql');
+const React = require('react');
+const { k: test } = require('./test'); module.exports.test = test;
+
+const k = module.exports.k: string = \`hi\`;
+module.exports.default = module.exports = (k: number): void => {
+
+};
+module.exports.blah = blah;async function blah<P>(l: P) {}
+module.exports.blah2 = blah2;function blah2() {}
+"
+`;
+
+exports[`transformers es5-regex matches snapshot PRODUCTION 1`] = `
+"'use strict';
+const { transform:regex }=require('./es5-regex');
+const { command }=require('commands/build');
+const Test=require('@fono/gramophone/src/setup/graphql');
+const React=require('react');
+const{ k:test }=require('./test');module.exports.test=test;
+
+const k=module.exports.k: string = \`hi\`;
+module.exports.default=module.exports=(k: number): void => {
+
+};
+module.exports.blah=blah;async function blah<P>(l: P) {}
+module.exports.blah2=blah2;function blah2() {}
+"
+`;
+
+exports[`transformers esbuild matches snapshot 1`] = `
+"export {k as test} from \\"./test\\";
+export const k = \`hi\`;
+export default (k3) => {
+};
+export async function blah(l) {
+}
+export function blah2() {
+}
+"
+`;
+
+exports[`transformers esbuild matches snapshot PRODUCTION 1`] = `
+"export{k as test}from\\"./test\\";export const k=\\"hi\\";export default o=>{};export async function blah(o){}export function blah2(){}
+"
+`;
+
+exports[`transformers graphql matches snapshot 1`] = `
+"'use strict';
+// Original Definition at transformers/transformers.spec.ts
+const { gql } = require('apollo-server-fastify');
+module.exports = gql\`
+type Query {
+  user: User
+}
+\`;
+module.exports.default = gql\`
+type Query {
+  user: User
+}
+\`;
+module.exports.raw = \`
+type Query {
+  user: User
+}
+\`;
+"
+`;
+
+exports[`transformers paths matches snapshot 1`] = `
+"'use strict';
+const { transform: regex } = require('./es5-regex');
+const { command } = require('../../commands/build.js');
+const Test = require('@fono/gramophone/dist/setup/graphql');
+const React = require('react');
+const { k: test } = require('./test'); module.exports.test = test;
+
+const k = module.exports.k: string = \`hi\`;
+module.exports.default = module.exports = (k: number): void => {
+
+};
+module.exports.blah = blah;async function blah<P>(l: P) {}
+module.exports.blah2 = blah2;function blah2() {}
+"
+`;
+
+exports[`transformers stringify matches snapshot 1`] = `
+"module.exports = \`
+import { transform as regex } from './es5-regex';
+import { command } from 'commands/build';
+import * as Test from '@fono/gramophone/src/setup/graphql';
+import React from 'react';
+export { k as test } from './test';
+
+export const k: string = \`hi\`;
+export default (k: number): void => {
+
+};
+export async function blah<P>(l: P) {}
+export function blah2() {}
+\`;
+module.exports.default = \`
+import { transform as regex } from './es5-regex';
+import { command } from 'commands/build';
+import * as Test from '@fono/gramophone/src/setup/graphql';
+import React from 'react';
+export { k as test } from './test';
+
+export const k: string = \`hi\`;
+export default (k: number): void => {
+
+};
+export async function blah<P>(l: P) {}
+export function blah2() {}
+\`;
+"
+`;

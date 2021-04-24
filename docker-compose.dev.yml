@@ -3,8 +3,8 @@ version: "3.9"
 services:
   gramophone:
     image: node:15-alpine
-    command: "yarn start:dev"
-    working_dir: /app/gramophone
+    command: "yarn g start:dev"
+    working_dir: /app
     expose:
       - 3000
     environment:
@@ -24,6 +24,7 @@ services:
       TAILWIND_MODE: watch
     volumes:
       - ./:/app
+      - node_modules:/app/packages/record/node_modules
   db:
     ports:
       - "3306:3306"

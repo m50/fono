@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["./src/*"]
+    },
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src",
+    "bin/migrate.ts",
+    "config/jest.setup.ts"
+  ],
+  "exclude": [
+    "../../node_modules",
+    "dist",
+    "**/*.snap.*"
+  ]
+}

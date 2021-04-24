@@ -1,0 +1,24 @@
+{
+  "transformers": {
+    ".ts": [
+      "esbuild",
+      "es5-regex",
+      "paths"
+    ],
+    ".js": [
+      "esbuild",
+      "paths"
+    ],
+    ".gql": "graphql",
+    ".graphql": "graphql",
+    ".json": "json",
+    "fallback": "babel"
+  },
+  "extensionMap": {
+    ".js": ".js",
+    ".ts": ".js",
+    ".json": ".json",
+    ".gql": ".js",
+    ".graphql": ".js"
+  }
+}

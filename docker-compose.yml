@@ -33,7 +33,7 @@ services:
       start_period: 40s
     env_file:
       - .env
-      - gramophone/.env
+      - packages/gramophone/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -53,7 +53,7 @@ services:
       start_period: 40s
     env_file:
       - .env
-      - record/.env
+      - packages/record/.env
     networks:
       - frontend
   cache:

@@ -1,6 +1,0 @@
-{
-  "watch": ["src"],
-  "ext": ".ts,.json",
-  "ignore": ["src/**/*.spec.ts", "src/**/*.test.ts", "src/**/*.snap.ts"],
-  "exec": "(yarn build && yarn start) || exit 1"
-}

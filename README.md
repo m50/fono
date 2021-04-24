@@ -1,6 +1,10 @@
 # Fono
 
 [![Mergify Status][mergify-status]][mergify]
+[![CodeQL](https://github.com/m50/fono/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/m50/fono/actions/workflows/codeql-analysis.yml)
+[![Gramophone (backend) checks](https://github.com/m50/fono/actions/workflows/gramophone.yml/badge.svg)](https://github.com/m50/fono/actions/workflows/gramophone.yml)
+[![Record (control panel) checks](https://github.com/m50/fono/actions/workflows/record.yml/badge.svg)](https://github.com/m50/fono/actions/workflows/record.yml)
+[![Horn (speaker) checks](https://github.com/m50/fono/actions/workflows/horn.yml/badge.svg)](https://github.com/m50/fono/actions/workflows/horn.yml)
 
 A free-and-open-source wifi speaker system.
 

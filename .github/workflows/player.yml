@@ -1,0 +1,83 @@
+name: Player (CLI Tool) checks
+on:
+  pull_request:
+    paths:
+      - 'packages/player/**'
+      - yarn.lock
+
+jobs:
+  unit:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-modules-
+      - name: Install Modules
+        run: yarn p install
+      - name: Run Tests
+        run: yarn p test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-modules-
+      - name: Install Modules
+        run: yarn p install
+      - name: Run Lint
+        run: yarn p lint:ci
+
+  types:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-modules-
+      - name: Install Modules
+        run: yarn p install
+      - name: Run Type Check
+        run: yarn p lint:types
+
+  build:
+    name: Test Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules/"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-modules-
+      - name: Install Modules
+        run: yarn p install
+      - name: Run build
+        run: yarn p build

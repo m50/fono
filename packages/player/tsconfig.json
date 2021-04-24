@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["./src/*", "../gramophone/src/*"]
+    },
+    "module": "commonjs",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src",
+    "src/**/*.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.snap.*"
+  ]
+}
