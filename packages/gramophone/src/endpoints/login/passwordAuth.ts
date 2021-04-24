@@ -4,8 +4,9 @@ import { check } from 'utils/bcrypt';
 
 export interface AuthParams {
   Body: {
-    username?: string;
-    password?: string;
+    username: string;
+    password: string;
+    keepLoggedIn?: boolean
   };
 }
 

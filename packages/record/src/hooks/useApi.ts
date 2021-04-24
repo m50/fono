@@ -20,6 +20,7 @@ interface JWT {
   u: number;
   t: number;
   k: string;
+  e: number;
 }
 
 const useToken = createLocalStorageStateHook<JWT | undefined>('jwt', undefined);
@@ -30,18 +31,17 @@ const useApi = () => {
   const client = useApolloClient();
 
   useEffect(() => {
-    const oneHr = 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000; /* ms */
-    const oneHrFromNow = Date.now() + oneHr;
-    const timer = setTimeout(() => {
-      setToken(undefined);
-    }, oneHrFromNow - (token?.t ?? Date.now()));
-
-    if (token && token.t > oneHrFromNow) {
-      setToken(undefined);
-    }
-
     if (!token) {
       navigate('/login');
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setToken(undefined);
+    }, token.e - Date.now());
+
+    if (token.e < Date.now()) {
+      setToken(undefined);
     }
 
     return () => clearTimeout(timer);

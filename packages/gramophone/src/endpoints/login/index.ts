@@ -1,6 +1,5 @@
 import { FastifyInstance, FastifyPluginCallback, RouteShorthandOptions } from 'fastify';
 import { refreshToken } from 'middleware/auth/utils';
-import { JWT } from 'middleware/auth/types';
 import { passwordAuth, AuthParams } from './passwordAuth';
 import schema from './Body.schema.json';
 
@@ -20,9 +19,8 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
       return { message: 'Authentication failed' };
     }
 
-    const token = await refreshToken(user);
-    const jwt: JWT = { u: user.id, k: token, t: Date.now() };
-    reply.header('X-Refresh-Token', Buffer.from(JSON.stringify(jwt)).toString('base64'));
+    const jwt = await refreshToken(user, req.body.keepLoggedIn ? 24 * 30 : 1);
+    reply.header('X-Refresh-Token', jwt);
     reply.status(200);
     // @ts-expect-error
     delete user.password;
