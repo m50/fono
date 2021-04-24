@@ -10,17 +10,37 @@
   },
   "babel": {
     "presets": [
-      ["@babel/preset-env", {"targets": {"node": "current"}}],
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
       "@babel/preset-typescript"
     ],
     "plugins": [
-      ["babel-plugin-tsconfig-paths", { "relative": true, "tsconfig": "./tsconfig.json", "rootDir": "." }]
+      [
+        "babel-plugin-tsconfig-paths",
+        {
+          "relative": true,
+          "tsconfig": "./tsconfig.json",
+          "rootDir": "."
+        }
+      ]
     ]
   },
   "nodemonConfig": {
-    "watch": ["src"],
+    "watch": [
+      "src"
+    ],
     "ext": ".ts,.json,.gql,.graphql",
-    "ignore": ["src/**/*.spec.ts", "src/**/*.test.ts", "src/**/*.snap.ts"],
+    "ignore": [
+      "src/**/*.spec.ts",
+      "src/**/*.test.ts",
+      "src/**/*.snap.ts"
+    ],
     "exec": "(yarn build && yarn start) || exit 1"
   },
   "scripts": {
@@ -46,6 +66,7 @@
     "dotenv-expand": "^5.1.0",
     "fastify": "^3.14.2",
     "fastify-cors": "^5.2.0",
+    "fastify-helmet": "^5.3.1",
     "fastify-websocket": "^3.1.0",
     "glob": "^7.1.6",
     "glob-promise": "^4.1.0",
@@ -91,9 +112,9 @@
     "prettier": "^2.2.1",
     "sqlite3": "^5.0.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4",
     "tsc-alias": "^1.2.10",
     "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.2.4",
     "yargs": "^16.2.0"
   }
 }
