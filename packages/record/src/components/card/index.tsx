@@ -108,13 +108,14 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
               ${collapsable ? '' : 'hidden'}
             `}
             onClick={() => setCollapsed((c) => !c)}
+            data-testid="collapse"
           >
             <span className="sr-only">Collapse {title || 'section'}</span>
             <Icon className="h-8 fill-current block" />
           </button>
         </div>
       )}
-      <div className={cl`w-full ${className} ${collapsed ? 'hidden' : ''}`}>
+      <div data-testid="body-content" className={cl`w-full ${className} ${collapsed ? 'hidden' : ''}`}>
         {children}
       </div>
     </div>

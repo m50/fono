@@ -21,14 +21,52 @@ exports[`Card matches snapshot 1`] = `
       class="flex flex-col justify-between items-center space-y-5 z-10"
     >
       <div
-        class="w-full"
+        class="flex flex-grow w-full flex-col"
       >
-        Body
+        <div
+          class="flex justify-between border-b mb-4 pb-1 border-gray-400 border-opacity-40"
+        >
+          <h3
+            class="text-xl capitalize"
+          >
+            Titled Section
+          </h3>
+          <button
+            class="bg-none border-none text-white hover:text-gray-300 active:text-gray-100 focus:outline-none focus:ring ring-gray-200 ring-opacity-10"
+            data-testid="collapse"
+          >
+            <span
+              class="sr-only"
+            >
+              Collapse Titled Section
+            </span>
+            <svg
+              class="h-8 fill-current block"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.707 7.05 10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="w-full"
+          data-testid="body-content"
+        >
+          Body
+        </div>
       </div>
       <div
-        class="w-full"
+        class="flex flex-grow w-full flex-col"
       >
-        Body
+        <div
+          class="w-full"
+          data-testid="body-content"
+        >
+          Body
+        </div>
       </div>
     </main>
     <footer
