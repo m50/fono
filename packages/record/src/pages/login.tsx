@@ -6,6 +6,7 @@ import Card from 'components/card';
 import TextInput from 'components/input/text';
 import { DateTime } from 'luxon';
 import Button from 'components/input/button';
+import { ReactComponent as LoginIcon } from '../components/zondicons/arrow-thin-right.svg';
 
 export interface User {
   id: number;
@@ -41,6 +42,8 @@ const Login = (props: RouteComponentProps) => {
       });
   };
 
+  const icon = <LoginIcon className="fill-current h-4 pl-2 inline" />;
+
   return (
     <form className="flex-grow flex justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
       <Card className="lg:w-1/4 w-full mx-2 md:mx-0 sm:w-2/3 md:w-1/2">
@@ -57,7 +60,7 @@ const Login = (props: RouteComponentProps) => {
           <small className="text-red-400 h-8 pl-2">{authMessage}</small>
         </Card.Body>
         <Card.Footer className="flex justify-around">
-          <Button primary type="submit">Login</Button>
+          <Button icon={icon} primary type="submit">Login</Button>
         </Card.Footer>
       </Card>
     </form>
