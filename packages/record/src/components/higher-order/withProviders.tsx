@@ -1,5 +1,5 @@
 import React from 'react';
-import { SocketContext } from 'hooks/useSocket';
+import { SocketProvider } from 'hooks/useSocket';
 import { ApolloProvider } from '@apollo/client/react';
 import { ApolloClient, InMemoryCache } from '@apollo/client/core';
 
@@ -13,8 +13,8 @@ const client = new ApolloClient({
 
 export const withProviders: HOC = (Comp) => (props) => (
   <ApolloProvider client={client}>
-    <SocketContext.Provider value={{}}>
+    <SocketProvider value={{}}>
       <Comp {...props} />
-    </SocketContext.Provider>
+    </SocketProvider>
   </ApolloProvider>
 );
