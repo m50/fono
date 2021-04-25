@@ -1,6 +1,12 @@
 version: "3.9"
 
 services:
+  router:
+    image: caddy:2-alpine
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./packages/router/Caddyfile:/etc/caddy/Caddyfile
   gramophone:
     image: node:15-alpine
     command: "yarn g start:dev"
@@ -24,7 +30,7 @@ services:
       TAILWIND_MODE: watch
     volumes:
       - ./:/app
-      - node_modules:/app/packages/record/node_modules
+      - node_modules:/app/packages/record/node_modules/.bin
   db:
     ports:
       - "3306:3306"

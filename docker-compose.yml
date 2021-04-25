@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   router:
-    image: caddy:2-alpine
+    image: ghcr.io/m50/fono/router:latest
     restart: always
     environment:
       UI: record
@@ -12,7 +12,6 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-      - ./Caddyfile:/etc/caddy/Caddyfile
     ports:
       - "80:80"
       - "443:433"
