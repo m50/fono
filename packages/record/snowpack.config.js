@@ -44,6 +44,8 @@ module.exports = {
   },
   exclude: [
     '**/node_modules/**/*',
+    '**/*.stories.tsx',
+    '**/*.stories.mdx',
     '**/*.snap.tsx',
     '**/*.spec.tsx',
     '**/*.test.tsx',

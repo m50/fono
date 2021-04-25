@@ -1,77 +1,38 @@
-import { Transition } from '@headlessui/react';
-import { cl } from 'lib/helpers';
 import React, { useState } from 'react';
 import tw from 'tailwind-styled-components';
+import { Glass } from 'components/styled/glass';
+import { cl } from 'lib/helpers';
+import { Props, CardObj, TitleProps, BodyProps } from './types';
+import { extractChildren } from './util';
 import { ReactComponent as OpenArrow } from '../zondicons/cheveron-down.svg';
 import { ReactComponent as CloseArrow } from '../zondicons/cheveron-up.svg';
 
-type Children = JSX.Element[] | JSX.Element;
+const CardWrapper = tw.section`
+  bg-gray-400 text-white bg-opacity-40 p-5 rounded-xl
+  shadow-lg relative
+`;
 
-interface Props {
-  children?: Children;
-  className?: string;
-}
-
-interface CardObj {
-  (props: Props): JSX.Element;
-  Title(props: React.PropsWithChildren<any>): JSX.Element;
-  Body(props: React.PropsWithChildren<any>): JSX.Element;
-  Footer(props: React.PropsWithChildren<any>): JSX.Element;
-}
-
-const Glass = tw.div`
-  absolute left-0 right-0 top-0 bottom-0 rounded-xl z-0 pointer-events-none
-  bg-gradient-to-tr from-transparent to-transparent via-white opacity-30
-  dark:via-gray-400
+const CollapsButton = tw.button`
+  bg-none border-none text-white
+  hover:text-gray-300 active:text-gray-100
+  focus:outline-none focus:ring ring-gray-200 ring-opacity-10
 `;
 
 const Card: CardObj = ({ children, className = '' }: Props) => {
-  let title: JSX.Element | null = null;
-  const body: JSX.Element[] = [];
-  let footer: JSX.Element | null = null;
-  if (Array.isArray(children)) {
-    children
-      .filter((child) => ['Title', 'Body', 'Footer'].includes(child.type.name))
-      .forEach((child) => {
-        if (child.type.name === 'Title') {
-          title = child;
-        } else if (child.type.name === 'Body') {
-          body.push(child);
-        } else if (child.type.name === 'Footer') {
-          footer = child;
-        }
-      });
-  } else if (children?.type.name === 'Title') {
-    title = children
-  } else if (children?.type.name === 'Body') {
-    body.push(children);
-  } else if (children?.type.name === 'Footer') {
-    footer = children
-  }
+  const [title, body, footer] = extractChildren(children);
+
   return (
-    <section className={cl`
-        bg-gray-400 text-white bg-opacity-40 p-5 rounded-xl
-        shadow-lg relative
-        ${className}
-      `}
-    >
-      <Glass />
+    <CardWrapper className={className}>
+      <Glass className="rounded-xl" />
       {title}
       <main className="flex flex-col justify-between items-center space-y-5 z-10">
         {body}
       </main>
       {footer}
-    </section>
+    </CardWrapper>
   );
 };
 
-interface ComponentProps extends React.PropsWithChildren<any> {
-  className: string;
-}
-
-interface TitleProps extends ComponentProps {
-  children: string;
-}
 export const Title = ({ children, className = '' }: TitleProps) => (
   <header className={cl`
       border-b border-gray-400 border-opacity-40
@@ -84,10 +45,6 @@ export const Title = ({ children, className = '' }: TitleProps) => (
   </header>
 );
 
-interface BodyProps extends ComponentProps {
-  collapsable: boolean;
-  title: string;
-}
 export const Body = ({ children, className = '', collapsable = false, title = '' }: BodyProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const Icon = collapsed ? OpenArrow : CloseArrow;
@@ -101,18 +58,13 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
           `}
         >
           <h3 className="text-xl capitalize">{title}</h3>
-          <button className={cl`
-              bg-none border-none text-white
-              hover:text-gray-300 active:text-gray-100
-              focus:outline-none focus:ring ring-gray-200 ring-opacity-10
-              ${collapsable ? '' : 'hidden'}
-            `}
+          <CollapsButton className={collapsable ? '' : 'hidden'}
             onClick={() => setCollapsed((c) => !c)}
             data-testid="collapse"
           >
             <span className="sr-only">Collapse {title || 'section'}</span>
             <Icon className="h-8 fill-current block" />
-          </button>
+          </CollapsButton>
         </div>
       )}
       <div data-testid="body-content" className={cl`w-full ${className} ${collapsed ? 'hidden' : ''}`}>
@@ -122,14 +74,14 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
   )
 };
 
+const FooterStyles = tw.footer`
+  border-t border-gray-400 border-opacity-40 w-full
+  pt-2 mt-5
+`;
 export const Footer = ({ children, className = '' }: React.PropsWithChildren<any>) => (
-  <footer className={cl`
-      border-t border-gray-400 border-opacity-40 w-full
-      pt-2 mt-5 ${className}
-    `}
-  >
+  <FooterStyles className={cl`${className}`}>
     {children}
-  </footer>
+  </FooterStyles>
 );
 
 Card.Title = Title;

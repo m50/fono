@@ -17,15 +17,15 @@
   "scripts": {
     "install-esbuild": "node ../../node_modules/snowpack/node_modules/esbuild/install.js",
     "build": "yarn install-esbuild && snowpack build",
+    "build:storybook": "build-storybook",
     "start:dev": "yarn install-esbuild && snowpack dev",
+    "start:storybook": "start-storybook -p 6006",
     "test": "jest -c config/jest.config.js --silent",
     "test:noisy": "jest -c config/jest.config.js",
     "lint": "eslint src -c config/.eslintrc.js --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "lint:ci": "yarn lint --quiet",
-    "lint:types": "tsc --noEmit --pretty",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "lint:types": "tsc --noEmit --pretty"
   },
   "dependencies": {
     "@apollo/client": "^3.3.16",
