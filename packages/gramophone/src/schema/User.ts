@@ -11,13 +11,13 @@ export interface User {
   username: string;
   password: string;
 
-  apiKeys?: () => Promise<ApiKey[]>;
+  apiKeys: () => Promise<ApiKey[]>;
 
   createdAt: DateTime | Date;
   updatedAt: DateTime | Date;
 }
 
-export const Users = () => db<User>('users');
+export const Users = () => db<User>('users').withRelations('apiKeys');
 
 export const up = async () => {
   await db.schema.createTable('users', (table) => {

@@ -19,7 +19,6 @@ export const auth = (app: FastifyInstance) => {
     req.user = user;
     const data = getJwt(req.headers) as JWT;
     const survivalHours = (data.e - data.t) / 1000 / 60 / 60;
-    console.log(survivalHours);
     const newToken = await refreshToken(req.user, survivalHours);
     reply.header('X-Refresh-Token', newToken);
   },);

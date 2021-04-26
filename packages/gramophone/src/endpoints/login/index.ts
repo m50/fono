@@ -24,6 +24,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
     reply.status(200);
     // @ts-expect-error
     delete user.password;
+    // @ts-expect-error
     delete user.apiKeys;
     return {
       message: 'Successfully logged in!',

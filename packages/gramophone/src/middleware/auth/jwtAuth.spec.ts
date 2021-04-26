@@ -2,7 +2,6 @@ import { up, reset } from 'commands/migrate';
 import { DateTime } from 'luxon';
 import { ApiKeys } from 'schema/ApiKey';
 import { User } from 'schema/User';
-import { bcrypt } from 'utils/bcrypt';
 import { jwtAuth } from './jwtAuth';
 
 describe('jwtAuth', () => {
@@ -10,7 +9,7 @@ describe('jwtAuth', () => {
   beforeAll(async () => up(true));
 
   it('returns user with correct jwt token', async () => {
-    const token = await bcrypt('1234567890');
+    const token = '1234567890';
     const expiresAt = DateTime.now().plus({ hours: 1 });
     const tokenId = await ApiKeys().insert({
       token,
@@ -41,7 +40,7 @@ describe('jwtAuth', () => {
   });
 
   it('throws if no valid keys', async () => {
-    const token = await bcrypt('1234567890');
+    const token = '1234567890';
     const jwt = {
       u: 1,
       k: token,
@@ -63,7 +62,7 @@ describe('jwtAuth', () => {
   });
 
   it('throws if expired', async () => {
-    const token = await bcrypt('1234567890');
+    const token = '1234567890';
     const expiresAt = DateTime.now().minus({ hours: 1 });
     await ApiKeys().insert({
       token,

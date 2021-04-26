@@ -4,7 +4,7 @@ import { User } from './User';
 
 export const timestamp = 1618182158535;
 
-export const ApiKeys = () => db<ApiKey>('api_keys');
+export const ApiKeys = () => db<ApiKey>('api_keys').withRelations('user');
 
 export interface ApiKey {
   id: number;
@@ -12,7 +12,7 @@ export interface ApiKey {
   token: string;
   type: 'refresh' | 'personal_access_token' | 'one_use';
 
-  user?: () => Promise<User>;
+  user: () => Promise<User>;
 
   expiresAt?: DateTime | Date;
   createdAt: DateTime | Date;
