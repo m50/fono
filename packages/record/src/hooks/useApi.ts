@@ -9,21 +9,21 @@ import { useApolloClient } from '@apollo/client/react';
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
 
-export type GQLAPI = <Res>(strings: TemplateStringsArray, ...expr: string[]) => Promise<ApolloQueryResult<Res>>;
+export type GQLAPI = <Res = Record<string, any>>(strings: TemplateStringsArray, ...expr: string[]) => Promise<ApolloQueryResult<Res>>;
 export type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
   bodyOrQueryString?: TOpts,
 ) => Promise<TResponse>;
 
-interface JWT {
+export interface JWT {
   u: number;
   t: number;
   k: string;
   e: number;
 }
 
-const useToken = createLocalStorageStateHook<JWT | undefined>('jwt', undefined);
+export const useToken = createLocalStorageStateHook<JWT | undefined>('jwt', undefined);
 
 const useApi = () => {
   const [token, setToken] = useToken();
@@ -32,6 +32,7 @@ const useApi = () => {
 
   useEffect(() => {
     if (!token) {
+      client.resetStore();
       navigate('/login');
       return;
     }
@@ -49,8 +50,9 @@ const useApi = () => {
 
   const gql: GQLAPI = useCallback((strings, ...expr) => {
     const q = strings.reduce((p, c, idx) => p + c + (expr[idx] ?? ''), '');
-    const query = gqlConvert`${q}`;
-    return client.query({ query });
+    const fetchPolicy = /\s*#\s*nocache\n/.test(q) ? 'no-cache' : 'cache-first';
+    const query = gqlConvert`${q.replace(/\s*#.*\n/g, '')}`;
+    return client.query({ query, fetchPolicy });
   }, [client]);
 
   const api: API = useCallback(<TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
@@ -59,9 +61,6 @@ const useApi = () => {
     bodyOrQueryString?: TOpts,
   ): Promise<TResponse> => {
     let reqUrl = `/g${url}`;
-    if (token) {
-      token.t = Date.now();
-    }
     const jwt = btoa(JSON.stringify(token));
     const opts = {
       method,
@@ -98,7 +97,7 @@ const useApi = () => {
       .then((response) => castTimestamps(response) as TResponse);
   }, [token, setToken]);
 
-  return { api, gql, userId: token?.u };
+  return { api, gql, userId: token?.u, token };
 };
 
 export default useApi;

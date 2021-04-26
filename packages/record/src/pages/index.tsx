@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { RouteComponentProps } from '@reach/router';
-import useSocket from 'hooks/useSocket';
 import Card from 'components/card';
 import Button from 'components/input/button';
 import useApi from 'hooks/useApi';
@@ -8,16 +7,26 @@ import { Markdown } from 'components/markdown/Markdown';
 import { cl } from 'lib/helpers';
 
 export default function Home(props: RouteComponentProps) {
-  const ws = useSocket();
-  const { api } = useApi();
+  const { api, gql } = useApi();
   const [welcomeData, setWelcomeData] = useState<Record<string, any>>({});
 
-  useEffect(() => {
-    const disconnect = ws.on('welcome', (data: Record<string, any>) => setWelcomeData(data));
-    ws.send('test', { value: 'hi!' });
+  const requestUser = useCallback(() => {
+    gql`
+      # nocache
+      query GetUser {
+        user(id: 1) {
+          username
+          email
+        }
+      }
+    `.then((res) => {
+      setWelcomeData(res.data);
+    });
+  }, []);
 
-    return () => disconnect();
-  }, [ws]);
+  useEffect(() => {
+    requestUser();
+  }, []);
 
   return (
     <div className={cl`
@@ -29,13 +38,14 @@ export default function Home(props: RouteComponentProps) {
       <Card className="w-full">
         <Card.Title>Home Page</Card.Title>
         <Card.Body collapsable title="Some debug data">
-          <Markdown>{`_hello \`${props.path}\` ${welcomeData?.message}_`}</Markdown>
-        </Card.Body>
-      </Card>
-      <Card className="w-full">
-        <Card.Title>Home Page</Card.Title>
-        <Card.Body>
-          <Markdown>{`~~hello \`${props.path}\` ${welcomeData?.message}~~`}</Markdown>
+          <Markdown>{`
+~~~json
+${JSON.stringify(welcomeData, null, 2)}
+~~~
+          `}</Markdown>
+          <Button onClick={requestUser} className="mt-5">
+            Refresh
+          </Button>
         </Card.Body>
         <Card.Footer>
           <Button onClick={() => api('GET', '/logout')}>

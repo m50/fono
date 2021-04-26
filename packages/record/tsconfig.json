@@ -6,6 +6,7 @@
       "*": ["./src/*"]
     },
     "jsx": "react",
+    "isolatedModules": true,
     "noEmit": true
   },
   "include": [

@@ -4,6 +4,7 @@ import useApi from 'hooks/useApi';
 import { useForm } from 'react-hook-form';
 import Card from 'components/card';
 import TextInput from 'components/input/text';
+import Checkbox from 'components/input/checkbox';
 import { DateTime } from 'luxon';
 import Button from 'components/input/button';
 import { ReactComponent as LoginIcon } from '../components/zondicons/arrow-thin-right.svg';
@@ -19,6 +20,7 @@ export interface User {
 interface FormData {
   username: string;
   password: string;
+  keepLoggedIn?: boolean;
 }
 
 interface ApiResponse {
@@ -56,6 +58,10 @@ const Login = (props: RouteComponentProps) => {
           <TextInput title="Password" type="password"
             errors={errors.password}
             register={register('password', { required: true })}
+          />
+          <Checkbox title="Keep me logged in"
+            register={register('keepLoggedIn', { required: false })}
+            errors={errors.keepLoggedIn}
           />
           <small className="text-red-400 h-8 pl-2">{authMessage}</small>
         </Card.Body>

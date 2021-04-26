@@ -10,7 +10,7 @@
   },
   "workspaces": {
     "packages": ["packages/*"],
-    "nohoist": ["@tailwindcss/**"]
+    "nohoist": ["@tailwindcss/**", "@apollo/**", "apollo*/**", "**/apollo*/**", "**/@apollo/**"]
   },
   "scripts": {
     "test": "yarn r test && yarn g test",

@@ -15921,7 +15921,7 @@ ts-invariant@^0.4.0:
   dependencies:
     tslib "^1.9.3"
 
-ts-invariant@^0.7.0, ts-invariant@^0.7.3:
+ts-invariant@^0.7.0:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.7.3.tgz#13aae22a4a165393aaf5cecdee45ef4128d358b8"
   integrity sha512-UWDDeovyUTIMWj+45g5nhnl+8oo+GhxL5leTaHn5c8FkQWfh8v66gccLd2/YzVmV5hoQUjCEjhrXnQqVDJdvKA==

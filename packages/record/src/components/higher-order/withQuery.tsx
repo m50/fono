@@ -37,14 +37,23 @@ export const withQuery = <
   ) => (props: FProps) => {
     const { gql } = useApi();
     const [ready, setReady] = useState(false);
+    const [status, setStatus] = useState<ApolloQueryResult<RProps>>();
     const [fulfilledProps, setFulfilledProps] = useState<Partial<Props> | Props>(props);
 
     useEffect(() => {
-      request(gql)
-        .then((result) => result.data)
-        .then((result) => setFulfilledProps((p) => ({ ...p, ...result })))
-        .then(() => setReady(true));
+      request(gql).then((result) => setStatus(result));
     }, []);
+
+    useEffect(() => {
+      if (status && !status.loading) {
+        setReady(true);
+        setFulfilledProps(status.data);
+      }
+    }, [status]);
+
+    if (status?.errors) {
+      return <div className="text-red-400 text-4xl">Failed to load data...</div>;
+    }
 
     if (isReady(fulfilledProps, ready)) {
       return <Comp {...fulfilledProps} />;

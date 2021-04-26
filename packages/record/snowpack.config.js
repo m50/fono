@@ -56,6 +56,7 @@ module.exports = {
   alias: {
     hooks: join(__dirname, 'src', 'hooks'),
     components: join(__dirname, 'src', 'components'),
+    templates: join(__dirname, 'src', 'templates'),
     lib: join(__dirname, 'src', 'lib'),
     pages: join(__dirname, 'src', 'pages'),
     '@types': join(__dirname, 'src', '@types'),

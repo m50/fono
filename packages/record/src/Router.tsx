@@ -1,16 +1,22 @@
 import React from 'react';
+import { Router } from '@reach/router';
+import { withProviders } from 'components/higher-order/withProviders';
+import Login from 'pages/login';
 import Home from 'pages';
-import type { RouteComponentProps } from '@reach/router';
-import useApi from 'hooks/useApi';
+import Graphiql from 'pages/__graphiql';
+import { AuthGate } from 'templates/AuthGate';
+import { AppTemplate } from 'templates/AppTemplate';
+import './styles/tailwind.css';
 
-// eslint-disable-next-line
-const Router = (props: RouteComponentProps) => {
-  useApi();
-  return (
-    <>
+const AppRouter = () => (
+  <Router component={AppTemplate}>
+    <Login path="login" />
+    <AuthGate path="/">
       <Home path="/" />
-    </>
-  );
-};
+      <Graphiql path="__graphiql" />
+    </AuthGate>
+  </Router>
+);
 
-export default Router;
+export default withProviders(AppRouter);
+
