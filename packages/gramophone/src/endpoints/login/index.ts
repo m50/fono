@@ -18,8 +18,8 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
       reply.status(401);
       return { message: 'Authentication failed' };
     }
-
-    const jwt = await refreshToken(user, req.body.keepLoggedIn ? 24 * 30 : 1);
+    // If keepLoggedIn, then have the token survive for 20 days.
+    const jwt = await refreshToken(user, req.body.keepLoggedIn ? 24 * 20 : 1);
     reply.header('X-Refresh-Token', jwt);
     reply.status(200);
     // @ts-expect-error

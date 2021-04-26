@@ -16,7 +16,6 @@ export default function castTimestamps(result?: Record<string, any>) {
   const newResult = result;
   Object.keys(newResult).forEach((key) => {
     if (newResult[key] instanceof Date) {
-      console.log(newResult[key]);
       newResult[key] = DateTime.fromJSDate(newResult[key]);
       return;
     }

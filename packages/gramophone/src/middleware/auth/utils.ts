@@ -17,8 +17,6 @@ export const getJwt = (headers: FastifyRequest['headers']): JWT | undefined => {
   return data;
 };
 
-export const unauthenticated = (reply: FastifyReply) => reply.status(401).send({ message: 'Unauthenticated.' });
-
 export const refreshToken = async (user: User, expiresIn = 1): Promise<string> => {
   const token = await bcrypt(sha256(Date.now()));
   const expiresAt = DateTime.now().plus({ hour: expiresIn });

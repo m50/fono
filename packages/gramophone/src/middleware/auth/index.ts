@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
-import { refreshToken, unauthenticated } from './utils';
+import { getJwt, refreshToken } from './utils';
 import { jwtAuth } from './jwtAuth';
-import { AuthParams } from './types';
+import { AuthParams, JWT } from './types';
 
 export const auth = (app: FastifyInstance) => {
   app.decorateRequest('user', null);
@@ -10,16 +10,20 @@ export const auth = (app: FastifyInstance) => {
     try {
       user = await jwtAuth(req);
     } catch (e) {
-      app.log.error(`Authentication ${e}`);
-      unauthenticated(reply);
+      app.log.error(`Authentication ${e}`); reply.status(401).send({ message: 'Unauthenticated.' });
       return;
     }
     if (!user) {
       throw new Error('Authenticated succesfully but user not found.');
     }
     req.user = user;
-    const newToken = refreshToken(user);
+    const data = getJwt(req.headers) as JWT;
+    const survivalHours = (data.e - data.t) / 1000 / 60 / 60;
+    console.log(survivalHours);
+    const newToken = await refreshToken(req.user, survivalHours);
     reply.header('X-Refresh-Token', newToken);
-  });
+  },);
+
+  return app;
 };
 export const withAuth = auth;
