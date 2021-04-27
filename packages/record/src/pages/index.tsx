@@ -6,14 +6,14 @@ import useApi from 'hooks/useApi';
 import { Markdown } from 'components/markdown/Markdown';
 import { PageWrapper } from 'components/styled/page-wrapper';
 import { PageHeader } from 'components/styled/page-header';
-import { LogoutIcon } from '@heroicons/react/solid';
+import { LogoutIcon, RefreshIcon } from '@heroicons/react/solid';
 
 export default function Home(props: RouteComponentProps) {
   const { api, gql } = useApi();
   const [welcomeData, setWelcomeData] = useState<Record<string, any>>({});
 
   const requestUser = useCallback(() => {
-    gql`
+    gql`# nocache
       query GetUser {
         user(id: 1) {
           username
@@ -38,17 +38,22 @@ export default function Home(props: RouteComponentProps) {
         <Card className="w-full">
           <Card.Title>Home Page</Card.Title>
           <Card.Body collapsable title="Some debug data">
+            <Button iconLeft
+              className="absolute right-0 mr-6 mt-1"
+              icon={<RefreshIcon className="fill-current h-6 inline" />}
+              onClick={requestUser}
+            />
             <Markdown>{`
 ~~~json
 ${JSON.stringify(welcomeData, null, 2)}
 ~~~
             `}</Markdown>
-            <Button onClick={requestUser} className="mt-5">
-              Refresh
-            </Button>
           </Card.Body>
-          <Card.Footer>
-            <Button icon={<LogoutIcon className="fill-current h-4 pl-2 inline" />} onClick={() => api('GET', '/logout')}>
+          <Card.Footer className="flex justify-end">
+            <Button
+              icon={<LogoutIcon className="fill-current h-6 pl-1 inline" />}
+              onClick={() => api('GET', '/logout')}
+            >
               Logout
             </Button>
           </Card.Footer>

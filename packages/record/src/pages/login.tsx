@@ -45,7 +45,7 @@ const Login = (props: RouteComponentProps) => {
       });
   };
 
-  const icon = <LoginIcon className="fill-current h-4 pl-2 inline" />;
+  const icon = <LoginIcon className="fill-current h-6 pl-2 inline" />;
 
   return (
     <form className="flex-grow flex justify-center items-center" onSubmit={handleSubmit(onSubmit)}>

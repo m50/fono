@@ -34,7 +34,8 @@ const Card: CardObj = ({ children, className = '' }: Props) => {
 
 export const Title = ({ children, className = '' }: React.PropsWithChildren<TitleProps>) => (
   <header className={cl`
-      border-b border-gray-400 border-opacity-40
+      border-b border-gray-200 border-opacity-70
+      dark:border-gray-400 dark:border-opacity-40
       pb-2 mb-5 flex justify-center ${className}
     `}
   >
@@ -53,7 +54,8 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
         <div className={cl`
             flex justify-between
             ${collapsed ? '' : 'border-b mb-4 pb-1'}
-            border-gray-400 border-opacity-40
+            border-gray-200 border-opacity-70
+            dark:border-gray-400 dark:border-opacity-40
           `}
         >
           <h3 className="text-xl capitalize">{title}</h3>
@@ -74,7 +76,9 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
 };
 
 const FooterStyles = tw.footer`
-  border-t border-gray-400 border-opacity-40 w-full
+  border-t w-full
+  border-gray-200 border-opacity-70
+  dark:border-gray-400 dark:border-opacity-40
   pt-2 mt-5
 `;
 export const Footer = ({ children, className = '' }: React.PropsWithChildren<ComponentProps>) => (
