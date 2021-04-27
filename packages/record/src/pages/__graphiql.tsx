@@ -5,7 +5,6 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import { isDev } from 'lib/helpers';
 import 'graphiql/graphiql.min.css';
 import { useApollo } from 'hooks/useApollo';
-import useApi from 'hooks/useApi';
 
 const defaultQuery = `query Users {
   users {
@@ -18,8 +17,7 @@ const defaultQuery = `query Users {
 }
 `;
 type GraphiqlPage = (props: RouteComponentProps) => JSX.Element | null;
-const page: GraphiqlPage = () => {
-  // useApi();
+const page: GraphiqlPage = (props: RouteComponentProps) => {
   const { fetchClient } = useApollo();
   const fetcher = useMemo(() => createGraphiQLFetcher({
     url: `${window.location.origin}/g/ql`,
@@ -27,7 +25,7 @@ const page: GraphiqlPage = () => {
   }), []);
 
   return (isDev() && fetcher ? (
-    <div className="w-full min-h-screen pb-24">
+    <div className="w-full h-full">
       <GraphiQL fetcher={fetcher} defaultQuery={defaultQuery} />
     </div>
   ) : null)

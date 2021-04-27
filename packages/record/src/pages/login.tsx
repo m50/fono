@@ -7,7 +7,8 @@ import TextInput from 'components/input/text';
 import Checkbox from 'components/input/checkbox';
 import { DateTime } from 'luxon';
 import Button from 'components/input/button';
-import { ReactComponent as LoginIcon } from '../components/zondicons/arrow-thin-right.svg';
+import { LoginIcon } from '@heroicons/react/solid';
+
 
 export interface User {
   id: number;

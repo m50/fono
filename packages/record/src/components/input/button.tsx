@@ -6,6 +6,7 @@ interface Props {
   children?: string;
   className?: string;
   primary?: boolean;
+  iconLeft?: boolean;
   icon?: React.ReactNode;
   disabled?: boolean;
   onClick?: () => void;
@@ -38,6 +39,7 @@ const Button: Component = ({
   primary = false,
   icon = '',
   disabled = false,
+  iconLeft = false,
 }) => {
   const button = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -62,7 +64,7 @@ const Button: Component = ({
       className={classes(primary, className)}
       disabled={disabled} ref={button}
     >
-      {children} {icon}
+      {iconLeft ? icon : ''} {children} {iconLeft ? '' : icon}
     </button>
   );
 };

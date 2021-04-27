@@ -4,7 +4,9 @@ import Card from 'components/card';
 import Button from 'components/input/button';
 import useApi from 'hooks/useApi';
 import { Markdown } from 'components/markdown/Markdown';
-import { cl } from 'lib/helpers';
+import { PageWrapper } from 'components/styled/page-wrapper';
+import { PageHeader } from 'components/styled/page-header';
+import { LogoutIcon } from '@heroicons/react/solid';
 
 export default function Home(props: RouteComponentProps) {
   const { api, gql } = useApi();
@@ -12,11 +14,12 @@ export default function Home(props: RouteComponentProps) {
 
   const requestUser = useCallback(() => {
     gql`
-      # nocache
       query GetUser {
         user(id: 1) {
           username
           email
+          createdAt
+          updatedAt
         }
       }
     `.then((res) => {
@@ -29,30 +32,28 @@ export default function Home(props: RouteComponentProps) {
   }, []);
 
   return (
-    <div className={cl`
-        flex justify-around items-center flex-col h-full
-        mt-2 lg:my-auto space-y-2 lg:space-y-20 mx-2
-        lg:w-1/2 w-full md:mx-0 sm:w-2/3 md:w-1/2
-      `}
-    >
-      <Card className="w-full">
-        <Card.Title>Home Page</Card.Title>
-        <Card.Body collapsable title="Some debug data">
-          <Markdown>{`
+    <div className="flex flex-col items-center">
+      <PageHeader path={props.uri as string} title="Home" />
+      <PageWrapper>
+        <Card className="w-full">
+          <Card.Title>Home Page</Card.Title>
+          <Card.Body collapsable title="Some debug data">
+            <Markdown>{`
 ~~~json
 ${JSON.stringify(welcomeData, null, 2)}
 ~~~
-          `}</Markdown>
-          <Button onClick={requestUser} className="mt-5">
-            Refresh
-          </Button>
-        </Card.Body>
-        <Card.Footer>
-          <Button onClick={() => api('GET', '/logout')}>
-            Logout
-          </Button>
-        </Card.Footer>
-      </Card>
+            `}</Markdown>
+            <Button onClick={requestUser} className="mt-5">
+              Refresh
+            </Button>
+          </Card.Body>
+          <Card.Footer>
+            <Button icon={<LogoutIcon className="fill-current h-4 pl-2 inline" />} onClick={() => api('GET', '/logout')}>
+              Logout
+            </Button>
+          </Card.Footer>
+        </Card>
+      </PageWrapper>
     </div>
   );
 }

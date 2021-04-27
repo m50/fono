@@ -7,13 +7,13 @@ export interface Props {
 
 export interface CardObj {
   (props: Props): JSX.Element;
-  Title(props: React.PropsWithChildren<any>): JSX.Element;
-  Body(props: React.PropsWithChildren<any>): JSX.Element;
-  Footer(props: React.PropsWithChildren<any>): JSX.Element;
+  Title(props: React.PropsWithChildren<TitleProps>): JSX.Element;
+  Body(props: React.PropsWithChildren<BodyProps>): JSX.Element;
+  Footer(props: React.PropsWithChildren<ComponentProps>): JSX.Element;
 }
 
-export interface ComponentProps extends React.PropsWithChildren<any> {
-  className: string;
+export interface ComponentProps {
+  className?: string;
 }
 
 export interface TitleProps extends ComponentProps {
@@ -21,6 +21,6 @@ export interface TitleProps extends ComponentProps {
 }
 
 export interface BodyProps extends ComponentProps {
-  collapsable: boolean;
-  title: string;
+  collapsable?: boolean;
+  title?: string;
 }

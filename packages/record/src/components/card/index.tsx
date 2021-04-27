@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { Glass } from 'components/styled/glass';
 import { cl } from 'lib/helpers';
-import { Props, CardObj, TitleProps, BodyProps } from './types';
+import { Props, CardObj, TitleProps, BodyProps, ComponentProps } from './types';
 import { extractChildren } from './util';
-import { ReactComponent as OpenArrow } from '../zondicons/cheveron-down.svg';
-import { ReactComponent as CloseArrow } from '../zondicons/cheveron-up.svg';
+import { ChevronDownIcon as OpenArrow, ChevronUpIcon as CloseArrow } from '@heroicons/react/solid';
 
 const CardWrapper = tw.section`
   bg-gray-400 text-white bg-opacity-40 p-5 rounded-xl
@@ -33,7 +32,7 @@ const Card: CardObj = ({ children, className = '' }: Props) => {
   );
 };
 
-export const Title = ({ children, className = '' }: TitleProps) => (
+export const Title = ({ children, className = '' }: React.PropsWithChildren<TitleProps>) => (
   <header className={cl`
       border-b border-gray-400 border-opacity-40
       pb-2 mb-5 flex justify-center ${className}
@@ -45,7 +44,7 @@ export const Title = ({ children, className = '' }: TitleProps) => (
   </header>
 );
 
-export const Body = ({ children, className = '', collapsable = false, title = '' }: BodyProps) => {
+export const Body = ({ children, className = '', collapsable = false, title = '' }: React.PropsWithChildren<BodyProps>) => {
   const [collapsed, setCollapsed] = useState(false);
   const Icon = collapsed ? OpenArrow : CloseArrow;
   return (
@@ -78,7 +77,7 @@ const FooterStyles = tw.footer`
   border-t border-gray-400 border-opacity-40 w-full
   pt-2 mt-5
 `;
-export const Footer = ({ children, className = '' }: React.PropsWithChildren<any>) => (
+export const Footer = ({ children, className = '' }: React.PropsWithChildren<ComponentProps>) => (
   <FooterStyles className={cl`${className}`}>
     {children}
   </FooterStyles>
