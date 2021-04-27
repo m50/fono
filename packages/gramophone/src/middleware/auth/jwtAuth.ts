@@ -30,12 +30,12 @@ export const jwtAuth = async (req: FastifyRequest): Promise<User | null> => {
     throw new Error(`Key exists for user[${data.u}] but user not found.`);
   }
 
-  setTimeout(() => {
+  setTimeout((userId, validKeyId) => {
     ApiKeys()
-      .where('userId', user.id)
-      .where('id', validKey.id)
+      .where('userId', userId)
+      .where('id', validKeyId)
       .delete();
-  }, 30 * 1000); // After 30 seconds
+  }, 30 * 1000, user.id, validKey.id); // After 30 seconds
 
   return user;
 };
