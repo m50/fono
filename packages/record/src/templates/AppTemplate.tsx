@@ -21,7 +21,7 @@ flex w-full absolute justify-center top-0 bottom-0 absolute
 export const AppTemplate = forwardRef<HTMLElement, Props>(({ children }: Props, ref) => {
   const onLogin = useMatch('/login');
   const newPages: any = useMemo(() => {
-    const graphiql = { path: '/__graphiql', Icon: GraphiqlIcon, label: 'graphiql' };
+    const graphiql = { path: '/__graphiql', Icon: GraphiqlIcon, label: 'GraphiQL' };
     const newPages: any = [...pages];
     if (isDev()) {
       newPages.push(graphiql);
