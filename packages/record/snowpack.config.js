@@ -60,6 +60,6 @@ module.exports = {
     constants: join(__dirname, 'src', 'constants'),
     lib: join(__dirname, 'src', 'lib'),
     pages: join(__dirname, 'src', 'pages'),
-    '@types': join(__dirname, 'src', '@types'),
+    types: join(__dirname, 'src', '@types'),
   },
 };

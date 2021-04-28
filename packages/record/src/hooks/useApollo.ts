@@ -1,10 +1,13 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client/core';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client/core';
+import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
+import { isDev } from 'lib/helpers';
 import { useCallback, useMemo } from 'react';
 import { useToken, JWT } from './useApi';
 
 export const useApollo = () => {
   const [token, setToken] = useToken();
-  const fetchClient: typeof fetch = (uri, options) => {
+  const cache = useMemo(() => new InMemoryCache(), []);
+  const fetchClient: typeof fetch = async (uri, options) => {
     const jwt = btoa(JSON.stringify(token));
     const opts = {
       ...options,
@@ -16,20 +19,19 @@ export const useApollo = () => {
       },
     };
 
-    return fetch(uri, opts).then((response) => {
-      if (!response.ok) {
-        if (response.status === 401) {
-          setToken(undefined);
-        }
-        return response;
-      }
-      const newToken = response.headers.get('X-Refresh-Token');
-      if (newToken) {
-        const newJwt = JSON.parse(atob(newToken)) as JWT;
-        setToken(newJwt);
+    const response = await fetch(uri, opts);
+    if (!response.ok) {
+      if (response.status === 401) {
+        setToken(undefined);
       }
       return response;
-    });
+    }
+    const newToken = response.headers.get('X-Refresh-Token');
+    if (newToken) {
+      const newJwt = JSON.parse(atob(newToken)) as JWT;
+      setToken(newJwt);
+    }
+    return response;
   };
 
   const client = useMemo(() => {
@@ -39,19 +41,19 @@ export const useApollo = () => {
     });
     const responseMod = new ApolloLink((operation, forward) => {
       return forward(operation).map((response) => {
-        // @ts-ignore
-        Object.keys(response.data).forEach((k) => {
-          // @ts-ignore
-          delete response.data[k].__typename;
-        });
+        if (!response?.data) {
+          return response;
+        }
+        response.data = castTimestamps(response?.data ?? undefined);
         return response;
       });
     });
     return new ApolloClient({
       link: responseMod.concat(link),
-      cache: new InMemoryCache(),
+      cache,
+      connectToDevTools: isDev(),
     });
-  }, [token]);
+  }, [token, cache]);
 
   return { client, fetchClient };
 };

@@ -5,18 +5,9 @@ import { useForm } from 'react-hook-form';
 import Card from 'components/card';
 import TextInput from 'components/input/text';
 import Checkbox from 'components/input/checkbox';
-import { DateTime } from 'luxon';
 import Button from 'components/input/button';
 import { LoginIcon } from '@heroicons/react/solid';
-
-
-export interface User {
-  id: number;
-  email: string;
-  username: string;
-  createdAt: DateTime;
-  updatedAt: DateTime;
-}
+import { User } from 'types/user';
 
 interface FormData {
   username: string;
@@ -40,12 +31,14 @@ const Login = (props: RouteComponentProps) => {
       .then((response) => {
         setAuthMessage(response.message);
         if (response.user) {
+          if (data.password === 'admin' && response.user.username === 'admin') {
+            navigate('/settings/user', { state: { updatePassword: true, user: response.user } });
+            return;
+          }
           navigate('/');
         }
       });
   };
-
-  const icon = <LoginIcon className="fill-current h-6 pl-2 inline" />;
 
   return (
     <form className="flex-grow flex justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +60,7 @@ const Login = (props: RouteComponentProps) => {
           <small className="text-red-400 h-8 pl-2">{authMessage}</small>
         </Card.Body>
         <Card.Footer className="flex justify-around">
-          <Button icon={icon} primary type="submit">Login</Button>
+          <Button icon={LoginIcon} primary type="submit">Login</Button>
         </Card.Footer>
       </Card>
     </form>

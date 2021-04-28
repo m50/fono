@@ -13,7 +13,7 @@ interface Args {
     type?: 'button' | 'reset' | 'submit';
     className?: string;
     primary?: boolean;
-    icon?: React.ReactNode;
+    icon?: React.ComponentType<{ className?: string }>;
     disabled?: boolean;
     onClick?: () => void;
 }

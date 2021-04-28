@@ -5,7 +5,7 @@ import Login from 'pages/login';
 import Home from 'pages';
 import Graphiql from 'pages/__graphiql';
 import { SpeakerGroups } from 'pages/speaker-groups';
-import { Config, ConfigMain } from 'pages/config';
+import { Config, ConfigMain, ConfigUser } from 'pages/config';
 import { AuthGate } from 'templates/AuthGate';
 import { AppTemplate } from 'templates/AppTemplate';
 import './styles/tailwind.css';
@@ -17,8 +17,9 @@ const AppRouter = () => (
       <Home path="/" />
       <Graphiql path="__graphiql" />
       <SpeakerGroups path="speaker-groups" />
-      <Config path="options">
+      <Config path="settings">
         <ConfigMain path="/" />
+        <ConfigUser path="/user" />
       </Config>
     </AuthGate>
   </Router>

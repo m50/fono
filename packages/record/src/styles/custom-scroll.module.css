@@ -1,0 +1,25 @@
+/* width */
+.customScrollbar::-webkit-scrollbar {
+    @apply w-3;
+}
+
+/* Track */
+.customScrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+/* Handle */
+.customScrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 bg-opacity-40 rounded-full;
+}
+
+@media (prefers-color-scheme: dark) {
+    .customScrollbar::-webkit-scrollbar-thumb {
+        @apply bg-gray-400 bg-opacity-40 rounded-full;
+    }
+}
+
+/* Handle on hover */
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-white bg-opacity-100;
+}

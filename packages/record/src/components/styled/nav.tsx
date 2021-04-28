@@ -17,7 +17,8 @@ interface Props {
 
 const NavLink = tw(Link)`
   flex justify-center flex-col items-center space-y-2
-  hover:text-gray-300
+  transform transition-transform ease-in-out duration-150
+  hover:text-gray-300 hover:-translate-y-1
   active:text-gray-400
 `;
 

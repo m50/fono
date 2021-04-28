@@ -1,6 +1,7 @@
 export type Children = JSX.Element[] | JSX.Element;
 
 export interface Props {
+  form?: JSX.IntrinsicElements['form'];
   children?: Children;
   className?: string;
 }
@@ -21,6 +22,7 @@ export interface TitleProps extends ComponentProps {
 }
 
 export interface BodyProps extends ComponentProps {
+  collapsed?: boolean;
   collapsable?: boolean;
   title?: string;
 }

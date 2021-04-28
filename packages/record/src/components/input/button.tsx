@@ -1,5 +1,5 @@
 import { cl } from 'lib/helpers';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 interface Props {
   type?: 'button' | 'reset' | 'submit';
@@ -7,7 +7,7 @@ interface Props {
   className?: string;
   primary?: boolean;
   iconLeft?: boolean;
-  icon?: React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -17,6 +17,7 @@ interface Component {
 }
 
 const classes = (primary: boolean, className: string) => cl`
+  flex justify-between align-center
   px-5 py-2 text-gray-100 rounded-xl border capitalize
   focus:outline-none focus:ring focus:ring-purple-400
   transition-colors duration-150 ease-in-out
@@ -37,7 +38,7 @@ const Button: Component = ({
   className = '',
   onClick,
   primary = false,
-  icon = '',
+  icon: Icon = '',
   disabled = false,
   iconLeft = false,
 }) => {
@@ -58,13 +59,17 @@ const Button: Component = ({
       document.removeEventListener('keydown', listener);
     };
   }, [primary, button]);
+
+  const renderedIcon = useMemo(() => <Icon className="fill-current h-6 inline" />, [Icon]);
   return (
     // eslint-disable-next-line react/button-has-type
     <button type={type} onClick={onClick}
       className={classes(primary, className)}
       disabled={disabled} ref={button}
     >
-      {iconLeft ? icon : ''} {children} {iconLeft ? '' : icon}
+      {iconLeft ? renderedIcon : ''}
+      {children && <span className={iconLeft ? 'pl-2' : 'pr-2'}>{children}</span>}
+      {iconLeft ? '' : renderedIcon}
     </button>
   );
 };

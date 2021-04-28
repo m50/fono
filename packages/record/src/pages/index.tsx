@@ -7,24 +7,25 @@ import { Markdown } from 'components/markdown/Markdown';
 import { PageWrapper } from 'components/styled/page-wrapper';
 import { PageHeader } from 'components/styled/page-header';
 import { LogoutIcon, RefreshIcon } from '@heroicons/react/solid';
+import { User } from 'types/user';
 
 export default function Home(props: RouteComponentProps) {
-  const { api, gql } = useApi();
-  const [welcomeData, setWelcomeData] = useState<Record<string, any>>({});
+  const { api, gql, userId } = useApi();
+  const [welcomeData, setWelcomeData] = useState<User | {}>({});
 
   const requestUser = useCallback(() => {
-    gql`# nocache
-      query GetUser {
-        user(id: 1) {
-          username
+    if (!userId) return;
+    gql<{ user: User }>`
+      query LoggedInUser {
+        user(id: ${userId.toString()}) {
+          id
           email
+          username
           createdAt
           updatedAt
         }
       }
-    `.then((res) => {
-      setWelcomeData(res.data);
-    });
+    `.then((res) => setWelcomeData(res.data.user));
   }, []);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function Home(props: RouteComponentProps) {
           <Card.Body collapsable title="Some debug data">
             <Button iconLeft
               className="absolute right-0 mr-6 mt-1"
-              icon={<RefreshIcon className="fill-current h-6 inline" />}
+              icon={RefreshIcon}
               onClick={requestUser}
             />
             <Markdown>{`
@@ -50,10 +51,7 @@ ${JSON.stringify(welcomeData, null, 2)}
             `}</Markdown>
           </Card.Body>
           <Card.Footer className="flex justify-end">
-            <Button
-              icon={<LogoutIcon className="fill-current h-6 pl-1 inline" />}
-              onClick={() => api('GET', '/logout')}
-            >
+            <Button icon={LogoutIcon} onClick={() => api('GET', '/logout')}>
               Logout
             </Button>
           </Card.Footer>

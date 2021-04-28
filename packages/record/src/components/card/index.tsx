@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { Glass } from 'components/styled/glass';
 import { cl } from 'lib/helpers';
@@ -6,22 +6,32 @@ import { Props, CardObj, TitleProps, BodyProps, ComponentProps } from './types';
 import { extractChildren } from './util';
 import { ChevronDownIcon as OpenArrow, ChevronUpIcon as CloseArrow } from '@heroicons/react/solid';
 
-const CardWrapper = tw.section`
-  bg-gray-400 text-white bg-opacity-40 p-5 rounded-xl
+const CardWrapperSection = tw.section`
+  bg-gray-400 bg-opacity-60 text-white
+  dark:bg-gray-400 dark:bg-opacity-40
+  p-5 rounded-xl
+  shadow-lg relative
+`;
+const CardWrapperForm = tw.form`
+  bg-gray-400 bg-opacity-60 text-white
+  dark:bg-gray-400 dark:bg-opacity-40
+  p-5 rounded-xl
   shadow-lg relative
 `;
 
-const CollapsButton = tw.button`
+const CollapseButton = tw.button`
   bg-none border-none text-white
   hover:text-gray-300 active:text-gray-100
   focus:outline-none focus:ring ring-gray-200 ring-opacity-10
 `;
 
-const Card: CardObj = ({ children, className = '' }: Props) => {
+const Card: CardObj = ({ children, className = '', form }: Props) => {
   const [title, body, footer] = extractChildren(children);
 
+  const CardWrapper = useMemo(() => form ? CardWrapperForm : CardWrapperSection, []);
+
   return (
-    <CardWrapper className={className}>
+    <CardWrapper className={className} {...form}>
       <Glass className="rounded-xl" />
       {title}
       <main className="flex flex-col justify-between items-center space-y-5 z-10">
@@ -45,8 +55,14 @@ export const Title = ({ children, className = '' }: React.PropsWithChildren<Titl
   </header>
 );
 
-export const Body = ({ children, className = '', collapsable = false, title = '' }: React.PropsWithChildren<BodyProps>) => {
-  const [collapsed, setCollapsed] = useState(false);
+export const Body = ({
+  children,
+  className = '',
+  collapsed: defaultCollapsed = false,
+  collapsable = false,
+  title = ''
+}: React.PropsWithChildren<BodyProps>) => {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const Icon = collapsed ? OpenArrow : CloseArrow;
   return (
     <div className="flex flex-grow w-full flex-col">
@@ -59,13 +75,13 @@ export const Body = ({ children, className = '', collapsable = false, title = ''
           `}
         >
           <h3 className="text-xl capitalize">{title}</h3>
-          <CollapsButton className={collapsable ? '' : 'hidden'}
+          <CollapseButton className={collapsable ? '' : 'hidden'}
             onClick={() => setCollapsed((c) => !c)}
             data-testid="collapse"
           >
             <span className="sr-only">Collapse {title || 'section'}</span>
             <Icon className="h-8 fill-current block" />
-          </CollapsButton>
+          </CollapseButton>
         </div>
       )}
       <div data-testid="body-content" className={cl`w-full ${className} ${collapsed ? 'hidden' : ''}`}>

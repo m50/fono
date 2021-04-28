@@ -1,15 +1,20 @@
 /* eslint-disable no-param-reassign */
-import { useCallback, useEffect } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from '@reach/router';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
-import useLocalStorageState, { createLocalStorageStateHook } from 'use-local-storage-state';
+import { createLocalStorageStateHook } from 'use-local-storage-state';
 import { ApolloQueryResult, gql as gqlConvert } from '@apollo/client/core';
 import { useApolloClient } from '@apollo/client/react';
+import { DateTime } from 'luxon';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
 
-export type GQLAPI = <Res = Record<string, any>>(strings: TemplateStringsArray, ...expr: string[]) => Promise<ApolloQueryResult<Res>>;
+export type GQLAPI = <Res = Record<string, any>>(
+  strings: TemplateStringsArray,
+  ...expr: string[]
+) => Promise<ApolloQueryResult<Res>>;
+
 export type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
@@ -50,10 +55,10 @@ const useApi = () => {
 
   const gql: GQLAPI = useCallback((strings, ...expr) => {
     const q = strings.reduce((p, c, idx) => p + c + (expr[idx] ?? ''), '');
-    const fetchPolicy = /\s*#\s*nocache\n/.test(q) ? 'no-cache' : 'cache-first';
+    const fetchPolicy = /\s*#\s*no-?cache\n/.test(q) ? 'network-only' : 'cache-first';
     const query = gqlConvert`${q.replace(/\s*#.*\n/g, '')}`;
     return client.query({ query, fetchPolicy });
-  }, [client]);
+  }, [client, token]);
 
   const api: API = useCallback(<TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
     method: Method,

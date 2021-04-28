@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useApi, { GQLAPI } from 'hooks/useApi';
 import { ApolloQueryResult } from '@apollo/client';
 
-const isReady = <Props extends Record<string, any>>(props: Partial<Props>, ready: boolean): props is Props => ready;
+const isReady = <P extends Record<string, any>>(p: Partial<P>, ready: boolean): p is P => ready;
 
 /**
  * How to use:
@@ -52,7 +52,11 @@ export const withQuery = <
     }, [status]);
 
     if (status?.errors) {
-      return <div className="text-red-400 text-4xl">Failed to load data...</div>;
+      return (
+        <div className="w-screen h-screen flex justify-center items-centertext-red-400 text-4xl">
+          Failed to load data. Please refresh.
+        </div>
+      );
     }
 
     if (isReady(fulfilledProps, ready)) {

@@ -8,7 +8,7 @@ type Props = React.PropsWithChildren<RouteComponentProps>;
 
 export const Config = forwardRef<HTMLDivElement, Props>((props: Props, ref) => (
   <div className="flex w-full flex-col h-full relative justify-center items-center">
-    <PageHeader path={props.uri as string} title="Options" />
+    <PageHeader path={props.uri as string} title="Settings" />
     <PageWrapper>
       <StyledChild ref={ref} className="flex w-full h-full">
         {props.children}
@@ -18,3 +18,4 @@ export const Config = forwardRef<HTMLDivElement, Props>((props: Props, ref) => (
 ));
 
 export { ConfigMain } from './main';
+export { ConfigUser } from './user';
