@@ -15380,10 +15380,19 @@ table@^6.0.4:
     slice-ansi "^4.0.0"
     string-width "^4.2.0"
 
-tailwind-styled-components@^1.0.5, tailwind-styled-components@^1.0.7:
+tailwind-styled-components@^1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/tailwind-styled-components/-/tailwind-styled-components-1.0.7.tgz#4a6b9bf951bbeec582e9184875f7973875020d0d"
   integrity sha512-DB0LJcYfvE1J3ob85pkwZ5H1Qt+62dQ18jb0/n/6f5xOKkh48MrOrEdGo5mO4GWx7Qf9uwqjAYPqNotM3ugvuA==
+  dependencies:
+    react "^17.0.1"
+    tailwind-styled-components "^1.0.5"
+    tailwindcss-classnames "^1.9.0"
+
+tailwind-styled-components@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwind-styled-components/-/tailwind-styled-components-2.0.0.tgz#201a33f83f95497dea218f3523c41cd2be207452"
+  integrity sha512-DPSqEMT9zf8+2NPS6xDz3C2FvM3txLf+vZI5llUkkp2TY4V+zj3RTAGWJUOS0g350ebenPj2btRj0FXpJN0jWQ==
   dependencies:
     react "^17.0.1"
     tailwind-styled-components "^1.0.5"
