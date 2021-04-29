@@ -1,7 +1,7 @@
 import { setupServer } from 'msw/node';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { rest, graphql } from 'msw';
-import useApi from './useApi';
+import useApi from '.';
 import { DateTime } from 'luxon';
 
 const mockNavigate = jest.fn();

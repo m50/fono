@@ -33,7 +33,7 @@ const Errors = tw.small`
 `;
 
 const TextInput: Component = ({ title, type, value, register, errors, example, className = '' }) => {
-  const [moveTextUp, setMoveTextUp] = useState(false);
+  const [moveTextUp, setMoveTextUp] = useState(!!value);
   return (
     <label htmlFor={register.name} className={className}>
       <Label className={moveTextUp ? 'translate-y-0' : 'translate-y-7'}>{title}</Label>
