@@ -39,6 +39,7 @@ const TextInput: Component = ({ title, type, value, register, errors, example, c
       <Label className={moveTextUp ? 'translate-y-0' : 'translate-y-7'}>{title}</Label>
       <div>
         <Input type={type} {...register}
+          aria-invalid={errors ? "true" : "false"}
           defaultValue={value ?? ''}
           placeholder={moveTextUp ? example : ''}
           onFocus={() => setMoveTextUp(true)}
@@ -54,7 +55,7 @@ const TextInput: Component = ({ title, type, value, register, errors, example, c
           }}
         />
       </div>
-      <Errors>
+      <Errors role="alert" htmlFor={register.name}>
         {errors && (errors?.message || (
           errors?.type === 'required'
             ? 'This field is required.'
