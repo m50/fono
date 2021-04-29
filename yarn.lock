@@ -1557,12 +1557,12 @@
     meros "^1.1.2"
     subscriptions-transport-ws "^0.9.18"
 
-"@graphiql/toolkit@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@graphiql/toolkit/-/toolkit-0.2.0.tgz#186e9042f90650bd7a972be5bb73a38d1595773d"
-  integrity sha512-T8fdGSh1bYqpQUurIBnNbXHMOFqV/btTdlcAw3+snItA619GgZfc471lYIT95/cywxbH2Ync/gqGgeSTeZhlTg==
+"@graphiql/toolkit@^0.2.0", "@graphiql/toolkit@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@graphiql/toolkit/-/toolkit-0.2.1.tgz#2e23829ab7327d79006126dfe72cfed72c61250c"
+  integrity sha512-ogW2TCVmZOV9fwDhO33h4q64KoCoekCEg+hHY6TzN2Gw8qCKOjRmIL7QW6+uiplJEgQHQqr9wFgzs7I/AcOQhQ==
   dependencies:
-    "@n1ru4l/push-pull-async-iterable-iterator" "^2.0.1"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^2.1.4"
     graphql-ws "^4.3.2"
     meros "^1.1.4"
   optionalDependencies:
@@ -1893,7 +1893,7 @@
     headers-utils "^3.0.2"
     strict-event-emitter "^0.2.0"
 
-"@n1ru4l/push-pull-async-iterable-iterator@^2.0.1":
+"@n1ru4l/push-pull-async-iterable-iterator@^2.0.1", "@n1ru4l/push-pull-async-iterable-iterator@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@n1ru4l/push-pull-async-iterable-iterator/-/push-pull-async-iterable-iterator-2.1.4.tgz#a90225474352f9f159bff979905f707b9c6bcf04"
   integrity sha512-qLIvoOUJ+zritv+BlzcBMePKNjKQzH9Rb2i9W98YXxf/M62Lye8qH0peyiU8yJ1tL0kfulWi31BoK10E6BKJeA==
