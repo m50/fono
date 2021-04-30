@@ -1,10 +1,10 @@
 import { ApiKeys } from 'schema/ApiKey';
 
-export const cleanupApiKeys = () => {
+export const cleanupApiKeys = (frequency = 60 * 60 * 1000) => { // Once an hour
   setInterval(() => {
-    console.log({ message: 'Cleaning up API Keys.' });
     ApiKeys()
-      .where('expiresAt', '<', Date.now())
-      .delete();
-  }, 60 * 60 * 1000); // Once an hour
+      .where('expiresAt', '<', new Date())
+      .delete()
+      .then((count) => console.log({ message: 'Cleaning up API Keys.', count }));
+  }, frequency);
 };
