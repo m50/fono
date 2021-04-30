@@ -1,5 +1,5 @@
 import { reset, rollback, up, create } from '@fono/gramophone/src/commands/migrate';
-import { closeConnection } from 'commands/migrate/utils';
+import { closeConnection } from '@fono/gramophone/src/commands/migrate/utils';
 import type { Argv } from 'yargs';
 
 export default function setup(args: Argv) {

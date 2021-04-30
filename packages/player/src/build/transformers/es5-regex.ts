@@ -11,7 +11,8 @@ export async function transform(source: string, sourcefile: string) {
       /export \{(.*?)\}\s*from\s*(['"].*?['"]);?/gs,
       (a, exports: string, from: string) => {
         const importAs = exports.replace(/\s*as\s*/g, `:${s}`);
-        const imp = `const${s}{${importAs}}${s}=${s}require(${from});`;
+        const imp = `const${s}{${importAs}}${s}=${s}require(${from});`
+          .replace(/{default:\s*(\w+)}/, '$1');
         const matches = exports.split(',')
           .map((m) => m.trim())
           .map((m) => m.replace(/(?:\w+\s+as\s+)(.*)/, '$1'))
