@@ -7,14 +7,14 @@ import { extractChildren } from './util';
 import { ChevronDownIcon as OpenArrow, ChevronUpIcon as CloseArrow } from '@heroicons/react/solid';
 
 const CardWrapperSection = tw.section`
-  bg-gray-400 bg-opacity-60 text-white
-  dark:bg-gray-400 dark:bg-opacity-40
+  bg-gray-600 bg-opacity-40 text-white
+  backdrop-filter backdrop-blur-xl backdrop-saturate-150
   p-5 rounded-xl
   shadow-lg relative
 `;
 const CardWrapperForm = tw.form`
-  bg-gray-400 bg-opacity-60 text-white
-  dark:bg-gray-400 dark:bg-opacity-40
+  bg-gray-600 bg-opacity-40 text-white
+  backdrop-filter backdrop-blur-xl backdrop-saturate-150
   p-5 rounded-xl
   shadow-lg relative
 `;

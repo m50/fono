@@ -1,4 +1,5 @@
 import castTimestamps from "@fono/gramophone/src/setup/db/castTimestamps";
+import { response } from "msw";
 import { useMemo } from "react";
 import { UpdateState } from "use-local-storage-state/src/useLocalStorageStateBase";
 import { JWT, useToken } from ".";
@@ -6,11 +7,50 @@ import { JWT, useToken } from ".";
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
 
+export interface SchemaValidationResponse {
+  statusCode: 400;
+  message: string;
+  error: string;
+}
+
+export const isSchemaValidationResponse = (obj: any): obj is SchemaValidationResponse => obj?.statusCode
+  && obj.statusCode === 400;
+
+export interface CustomValidationResponse {
+  statusCode: 422;
+  errors: {
+    body: {
+      [k: string]: string;
+    }
+  }
+}
+export const isCustomValidationResponse = (obj: any): obj is CustomValidationResponse => obj?.statusCode
+  && obj.statusCode === 422;
+
+export type SuccessResponse<Res extends {}> = Res & {
+  statusCode: 200;
+}
+export const isSuccessResponse = <Res extends {}>(obj: any): obj is SuccessResponse<Res> => obj?.statusCode
+  && obj.statusCode === 200;
+
+export type CreatedResponse<Res extends {}> = Res & {
+  statusCode: 201;
+}
+export const isCreatedResponse = <Res extends {}>(obj: any): obj is CreatedResponse<Res> => obj?.statusCode
+  && obj.statusCode === 200;
+
+type ResponseTypes<Res> =
+  | SchemaValidationResponse
+  | CustomValidationResponse
+  | SuccessResponse<Res>
+  | CreatedResponse<Res>
+
+
 export type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
   bodyOrQueryString?: TOpts,
-) => Promise<TResponse>;
+) => Promise<ResponseTypes<TResponse>>;
 
 export const useRest = () => {
   const [token, setToken] = useToken();
@@ -22,7 +62,7 @@ const makeRest = (token: JWT | undefined, setToken: UpdateState<JWT | undefined>
     method: Method,
     url: URL,
     bodyOrQueryString?: TOpts,
-  ): Promise<TResponse> => {
+  ): Promise<ResponseTypes<TResponse>> => {
     let reqUrl = `/g${url}`;
     const opts = {
       method,
@@ -35,7 +75,7 @@ const makeRest = (token: JWT | undefined, setToken: UpdateState<JWT | undefined>
     return fetch(reqUrl, opts)
       .then((response) => handleResponse(response, setToken))
       .then((response) => response.json())
-      .then((response) => castTimestamps(response) as TResponse);
+      .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
   }
 }
 

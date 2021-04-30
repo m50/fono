@@ -1,0 +1,28 @@
+{
+  "title": "Body Schema",
+  "type": "object",
+  "oneOf": [
+    {
+      "properties": {
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string", "minLength": 8, "allOf": [
+          {"pattern": "/^((?!(.)\\2{1,}).)*$/"},
+          {"pattern": "/[A-Z]/,"},
+          {"pattern": "/[0-9]/"},
+          {"pattern": "/[!$#%@^\\\/)(\\.\\[\\]<>;:]/"},
+          {"pattern": "/[a-z]/"}
+        ] },
+        "passwordConfirmation": { "type": "string", "minLength": 8 }
+      },
+      "required": ["password", "currentPassword", "passwordConfirmation", "email", "username"]
+    },
+    {
+      "properties": {
+        "username": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["email", "username"]
+    }
+  ]
+}

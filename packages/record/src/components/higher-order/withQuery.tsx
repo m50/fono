@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import useApi, { GQLAPI } from 'hooks/useApi';
+import useApi from 'hooks/useApi';
+import { GQLAPI } from 'hooks/useApi/useGraphql';
 import { ApolloQueryResult } from '@apollo/client';
 
 const isReady = <P extends Record<string, any>>(p: Partial<P>, ready: boolean): p is P => ready;

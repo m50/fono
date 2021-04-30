@@ -1,5 +1,5 @@
 import { Link } from '@reach/router';
-import { cl, isDev } from 'lib/helpers';
+import { cl } from 'lib/helpers';
 import React from 'react';
 import { Glass } from './glass';
 import tw from 'tailwind-styled-components';
@@ -22,7 +22,10 @@ const NavLink = tw(Link)`
   active:text-gray-400
 `;
 
-const Nav = tw.nav`bg-gray-400 text-white bg-opacity-40 p-5 h-24 z-50`;
+const Nav = tw.nav`
+  bg-gray-600 text-white bg-opacity-40 p-5 h-24 z-50
+  backdrop-filter backdrop-blur-3xl backdrop-saturate-150
+`;
 
 export default ({ className = '', pages }: Props) => {
   return (

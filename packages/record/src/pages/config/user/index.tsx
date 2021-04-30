@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { RouteComponentProps, WindowLocation } from '@reach/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Card from 'components/card';
 import { User } from 'types/user';
 import useApi from 'hooks/useApi';
@@ -8,87 +7,53 @@ import { SaveIcon, LogoutIcon, UserIcon } from '@heroicons/react/solid';
 import TextInput from 'components/input/text';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-interface Props extends RouteComponentProps {
-  location?: WindowLocation<{
-    user: User;
-    updatePassword?: boolean
-  }>;
-}
-
-interface FormData {
-  email: string;
-  username: string;
-  currentPassword: string;
-  password: string;
-  passwordConfirmation: string;
-}
-
-const formSchema = yup.object({
-  username: yup.string().required(),
-  email: yup.string().required()
-    .when('username', (username: string, schema: yup.StringSchema) => username === 'admin' ? schema : schema.email()),
-  password: yup.string().optional()
-    .test('min', 'password must be at least 8 characters', (p) => !p || p.length >= 8)
-    .matches(/^((?!(.)\2{1,}).)*$/, {
-      excludeEmptyString: true,
-      message: 'password must not have repeating characters.',
-    }).matches(/[A-Z]/, {
-      excludeEmptyString: true,
-      message: 'password must contain an upper-case letter.'
-    }).matches(/[0-9]/, {
-      excludeEmptyString: true,
-      message: 'password must contain a number.'
-    }).matches(/[!$#%@^\\\/)(\.\[\]<>;:]/, {
-      excludeEmptyString: true,
-      message: 'password must contain a symbol ( ! $ # % @ ^ \\ / ( ) . [ ] < > ; : ).'
-    }).matches(/[a-z]/, {
-      excludeEmptyString: true,
-      message:  'password must contain a lower-case letter.'}
-    ),
-  passwordConfirmation: yup.string().optional()
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.required() : schema)
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0
-      ? schema.equals([password], 'Passwords must match!')
-      : schema),
-  currentPassword: yup.string()
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.required() : schema)
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.notOneOf(
-        [password],
-        'New password and current password cannot match. Did you mistype your current password?'
-      ) : schema
-    ),
-});
+import { schema } from './utils/schema';
+import { Props, FormData } from './utils/types';
+import { getUser } from './utils/queries';
+import { isCustomValidationResponse, isSchemaValidationResponse, isSuccessResponse } from 'hooks/useApi/useRest';
 
 export const ConfigUser: React.FC<Props> = ({ location }) => {
   const state = location?.state ?? undefined
   const { api, gql, userId } = useApi();
-  const [user, setUser] = useState<User | undefined>(state?.user ?? undefined);
-  const { handleSubmit, register, formState: { errors, } } = useForm<FormData>({
-    resolver: yupResolver(formSchema),
+  const [user, setUser] = useState<User | undefined>(state?.user);
+  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState('');
+  const { handleSubmit, register, setError, formState: { errors } } = useForm<FormData>({
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
-    if (!userId || user) {
-      return;
-    }
-    gql<{ user: User }>`
-      query LoggedInUser {
-        user(id: ${userId.toString()}) {
-          id
-          email
-          username
-          createdAt
-          updatedAt
-        }
-      }
-    `.then((res) => setUser(res.data?.user));
+    if (!userId || user) return;
+    getUser(gql, userId).then((res) => setUser(res.data?.user));
   }, [userId]);
 
-  const onSubmit = useCallback((data: FormData) => {
+  const onSubmit = useCallback(async (data: FormData) => {
     console.log(data);
-  }, [handleSubmit]);
+    type Res = { message: string, user: User };
+    const res = await api<Res>('PATCH', '/user', data);
+    if (isSuccessResponse<Res>(res)) {
+      setUser(res.user);
+      setSuccess(true);
+      setStatus(res.message);
+      setTimeout(() => {
+        setStatus('');
+      }, 5000);
+    }
+    if (isSchemaValidationResponse(res)) {
+      setSuccess(false);
+      setStatus(res.message.split(/, /).join('\n'));
+    }
+    console.log(res);
+    if (isCustomValidationResponse(res)) {
+      setSuccess(false);
+      Object.keys(res.errors.body).forEach((k) => {
+        setError(k as keyof FormData, {
+          type: 'api',
+          message: res.errors.body[k],
+        })
+      });
+    }
+  }, [handleSubmit, api]);
 
   return (
     <div className="w-full px-2 space-y-2">
@@ -129,6 +94,11 @@ export const ConfigUser: React.FC<Props> = ({ location }) => {
               type="password" errors={errors.currentPassword}
             />
           </div>
+        </Card.Body>
+        <Card.Body className="flex justify-center items-center w-full">
+          <pre>
+            <div className={`text-sm ${success ? 'text-green-400' : 'text-red-400'}`}>{status}</div>
+          </pre>
         </Card.Body>
         <Card.Footer className="flex justify-between">
           <Button icon={LogoutIcon} onClick={() => api('GET', '/logout')}>Logout</Button>
