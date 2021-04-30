@@ -66,7 +66,7 @@
     "@snowpack/app-scripts-react": "^2.0.1",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-postcss": "^1.2.2",
-    "@snowpack/plugin-react-refresh": "^2.4.2",
+    "@snowpack/plugin-react-refresh": "^2.5.0",
     "@snowpack/plugin-typescript": "^1.2.1",
     "@snowpack/plugin-webpack": "^2.3.1",
     "@storybook/addon-actions": "^6.2.9",
