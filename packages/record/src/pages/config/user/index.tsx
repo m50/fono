@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import Card from 'components/card';
-import { User } from 'types/user';
 import useApi from 'hooks/useApi';
 import Button from 'components/input/button';
 import { SaveIcon, LogoutIcon, UserIcon } from '@heroicons/react/solid';
@@ -9,51 +8,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './utils/schema';
 import { Props, FormData } from './utils/types';
-import { getUser } from './utils/queries';
-import { isCustomValidationResponse, isSchemaValidationResponse, isSuccessResponse } from 'hooks/useApi/useRest';
+import { useFormStatus } from './utils/useFormStatus';
 
 export const ConfigUser: React.FC<Props> = ({ location }) => {
+  const { api } = useApi();
   const state = location?.state ?? undefined
-  const { api, gql, userId } = useApi();
-  const [user, setUser] = useState<User | undefined>(state?.user);
-  const [success, setSuccess] = useState(false);
-  const [status, setStatus] = useState('');
   const { handleSubmit, register, setError, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-
-  useEffect(() => {
-    if (!userId || user) return;
-    getUser(gql, userId).then((res) => setUser(res.data?.user));
-  }, [userId]);
-
-  const onSubmit = useCallback(async (data: FormData) => {
-    console.log(data);
-    type Res = { message: string, user: User };
-    const res = await api<Res>('PATCH', '/user', data);
-    if (isSuccessResponse<Res>(res)) {
-      setUser(res.user);
-      setSuccess(true);
-      setStatus(res.message);
-      setTimeout(() => {
-        setStatus('');
-      }, 5000);
-    }
-    if (isSchemaValidationResponse(res)) {
-      setSuccess(false);
-      setStatus(res.message.split(/, /).join('\n'));
-    }
-    console.log(res);
-    if (isCustomValidationResponse(res)) {
-      setSuccess(false);
-      Object.keys(res.errors.body).forEach((k) => {
-        setError(k as keyof FormData, {
-          type: 'api',
-          message: res.errors.body[k],
-        })
-      });
-    }
-  }, [handleSubmit, api]);
+  const { user, success, status, onSubmit } = useFormStatus(setError, state?.user);
 
   return (
     <div className="w-full px-2 space-y-2">
