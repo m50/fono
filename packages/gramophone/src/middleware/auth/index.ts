@@ -10,7 +10,8 @@ export const auth = (app: FastifyInstance) => {
     try {
       user = await jwtAuth(req);
     } catch (e) {
-      app.log.error(`Authentication ${e}`); reply.status(401).send({ message: 'Unauthenticated.' });
+      app.log.error(`Authentication ${e}`);
+      reply.status(401).send({ statusCode: 401, message: 'Unauthenticated.' });
       return;
     }
     if (!user) {
