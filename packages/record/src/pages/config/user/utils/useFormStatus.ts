@@ -10,8 +10,7 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   const { api, gql, userId } = useApi();
   const addToast = useAddToast();
   const [user, setUser] = useState<User | undefined>(stateUser);
-  const [success, setSuccess] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({ title: '', success: false });
 
   useEffect(() => {
     if (!userId || user) return;
@@ -19,32 +18,29 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   }, [userId]);
 
   useEffect(() => {
-    if (!status || status.trim().length < 1) {
+    if (!status || status.title.trim().length < 1) {
       return;
     }
     addToast({
-      title: status,
-      type: success ? 'success' : 'error',
+      title: status.title,
+      type: status.success ? 'success' : 'error',
     });
-    setStatus('');
-  }, [status, success]);
+    setStatus({ title: '', success: false });
+  }, [status]);
 
   const onSubmit = async (data: FormData) => {
     type Res = { message: string, user: User };
     const res = await api<Res>('PATCH', '/user', data);
-    setStatus(res.message.split(/, /).join('\n'));
+    const status = res.message.split(/, /).join('\n')
     if (isSuccessResponse<Res>(res)) {
       setUser(res.user);
-      setSuccess(true);
-      setTimeout(() => {
-        setStatus('');
-      }, 5000);
+      setStatus({ title: status, success: true});
     }
     if (isSchemaValidationResponse(res)) {
-      setSuccess(false);
+      setStatus({ title: status, success: false});
     }
     if (isCustomValidationResponse(res)) {
-      setSuccess(false);
+      setStatus({ title: status, success: false});
       Object.keys(res.errors.body).forEach((k) => setError(k as Path<T>, {
         type: 'api',
         message: res.errors.body[k],
