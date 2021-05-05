@@ -2,8 +2,7 @@ import * as yup from 'yup';
 
 export const schema = yup.object({
   username: yup.string().required(),
-  email: yup.string().required()
-    .when('username', (username: string, schema: yup.StringSchema) => username === 'admin' ? schema : schema.email()),
+  email: yup.string().required().email(),
   password: yup.string().optional()
     .test('min', 'password must be at least 8 characters', (p) => !p || p.length >= 8)
     .matches(/^((?!(.)\2{1,}).)*$/, {
