@@ -28,7 +28,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.15",
+    "@apollo/client": "^3.3.16",
     "@fono/gramophone": "1.0.0",
     "@fono/horn": "1.0.0",
     "@graphiql/create-fetcher": "^0.1.0",
