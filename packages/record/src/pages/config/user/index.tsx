@@ -17,7 +17,7 @@ export const ConfigUser: React.FC<Props> = ({ location }) => {
   const { handleSubmit, register, setError, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const { user, success, status, onSubmit } = useFormStatus(setError, state?.user);
+  const { user, onSubmit } = useFormStatus(setError, state?.user);
 
   return (
     <div className="w-full px-2 space-y-2">
@@ -58,9 +58,6 @@ export const ConfigUser: React.FC<Props> = ({ location }) => {
               type="password" errors={errors.currentPassword}
             />
           </div>
-        </Card.Body>
-        <Card.Body className="flex justify-center items-center w-full">
-          <Status $success={success}>{status}</Status>
         </Card.Body>
         <Card.Footer className="flex justify-between">
           <Button icon={LogoutIcon} onClick={() => api('GET', '/logout')}>Logout</Button>

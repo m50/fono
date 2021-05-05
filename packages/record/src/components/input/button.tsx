@@ -60,7 +60,7 @@ const Button: Component = ({
     };
   }, [primary, button]);
 
-  const renderedIcon = useMemo(() => <Icon className="fill-current h-6 inline" />, [Icon]);
+  const renderedIcon = useMemo(() => Icon ? <Icon className="fill-current h-6 inline" /> : null, [Icon]);
   return (
     // eslint-disable-next-line react/button-has-type
     <button type={type} onClick={onClick}

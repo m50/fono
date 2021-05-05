@@ -55,7 +55,7 @@ const TextInput: Component = ({ title, type, value, register, errors, example, c
           }}
         />
       </div>
-      <Errors role="alert" htmlFor={register.name}>
+      <Errors role="alert">
         {errors && (errors?.message || (
           errors?.type === 'required'
             ? 'This field is required.'

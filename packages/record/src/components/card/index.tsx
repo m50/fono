@@ -27,8 +27,7 @@ const CollapseButton = tw.button`
 
 const Card: CardObj = ({ children, className = '', form }: Props) => {
   const [title, body, footer] = extractChildren(children);
-
-  const CardWrapper = useMemo(() => form ? CardWrapperForm : CardWrapperSection, []);
+  const CardWrapper: React.FC<any> = useMemo(() => form ? CardWrapperForm : CardWrapperSection, []);
 
   return (
     <CardWrapper className={className} {...form}>
@@ -42,17 +41,17 @@ const Card: CardObj = ({ children, className = '', form }: Props) => {
   );
 };
 
+const HeaderTitle = tw.header`
+  border-b border-gray-200 border-opacity-70
+  dark:border-gray-400 dark:border-opacity-40
+  pb-2 mb-5 flex justify-center
+`;
 export const Title = ({ children, className = '' }: React.PropsWithChildren<TitleProps>) => (
-  <header className={cl`
-      border-b border-gray-200 border-opacity-70
-      dark:border-gray-400 dark:border-opacity-40
-      pb-2 mb-5 flex justify-center ${className}
-    `}
-  >
+  <HeaderTitle className={className}>
     <h3 className="text-3xl mx-auto">
       {children}
     </h3>
-  </header>
+  </HeaderTitle>
 );
 
 export const Body = ({

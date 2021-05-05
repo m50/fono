@@ -3,10 +3,12 @@ import { isCustomValidationResponse, isSchemaValidationResponse, isSuccessRespon
 import { useCallback, useEffect, useState } from "react";
 import type { Path, UseFormSetError } from "react-hook-form";
 import { User } from "types/user";
+import { useAddToast } from 'components/toasts';
 import { getUser } from "./queries";
 
 export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSetError<T>, stateUser?: User) => {
   const { api, gql, userId } = useApi();
+  const addToast = useAddToast();
   const [user, setUser] = useState<User | undefined>(stateUser);
   const [success, setSuccess] = useState(false);
   const [status, setStatus] = useState('');
@@ -16,7 +18,18 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
     getUser(gql, userId).then((res) => setUser(res.data?.user));
   }, [userId]);
 
-  const onSubmit = useCallback(async (data: FormData) => {
+  useEffect(() => {
+    if (!status || status.trim().length < 1) {
+      return;
+    }
+    addToast({
+      title: status,
+      type: success ? 'success' : 'error',
+    });
+    setStatus('');
+  }, [status, success]);
+
+  const onSubmit = async (data: FormData) => {
     type Res = { message: string, user: User };
     const res = await api<Res>('PATCH', '/user', data);
     setStatus(res.message.split(/, /).join('\n'));
@@ -37,12 +50,10 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
         message: res.errors.body[k],
       }));
     }
-  }, [api]);
+  };
 
   return {
     user,
-    success,
-    status,
     onSubmit,
   }
 };
