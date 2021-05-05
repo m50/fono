@@ -24,10 +24,10 @@ type Props = SharedProps & (PropsChildren | PropsTitle);
 
 const CustomLink = tw(Link)`
   justify-between flex w-full py-2 text-lg
-  border-0 border-b
-  border-gray-200 border-opacity-70
+  border-0 border-b border-opacity-70
+  border-gray-200 text-gray-200
   dark:border-gray-400 dark:border-opacity-40
-  hover:text-gray-300 hover:shadow-xl
+  hover:text-white hover:shadow-xl
   transform transition-transform ease-in-out duration-150
   hover:-translate-y-1 active:translate-y-0 active:shadow-sm
 `;
@@ -35,7 +35,6 @@ const CustomLink = tw(Link)`
 export const MenuLink = ({to, title, state, className = '', children = null}: Props) => (
   <CustomLink to={to} className={cl`${className}`} state={state}>
     <span className="flex items-center justify-start">{children ?? title}</span>
-    <RightArrow className="fill-current h-7"
-    />
+    <RightArrow className="fill-current h-7 text-white" />
   </CustomLink>
 );
