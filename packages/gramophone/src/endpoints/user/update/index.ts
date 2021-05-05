@@ -25,16 +25,28 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
       console.log(await bcrypt(currentPassword as string), user.password);
       if (!await check(currentPassword ?? '', user.password)) {
         res.status(422);
-        res.send({ statusCode: 422, errors: { body: {
-          currentPassword: 'Invalid password provided! Did you use the right password?',
-        }}});
+        res.send({
+          statusCode: 422,
+          message: 'Update failed.',
+          errors: {
+            body: {
+              currentPassword: 'Invalid password provided! Did you use the right password?',
+            }
+          }
+        });
         return;
       }
       if (passwordConfirmation !== password) {
         res.status(422);
-        res.send({ statusCode: 422, errors: { body: {
-          passwordConfirmation: 'Password and password confirmation don\'t match!',
-        }}});
+        res.send({
+          statusCode: 422,
+          message: 'Update failed.',
+          errors: {
+            body: {
+              passwordConfirmation: 'Password and password confirmation don\'t match!',
+            }
+          }
+        });
         return;
       }
       update.password = await bcrypt(password);

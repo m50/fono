@@ -18,6 +18,7 @@ export const isSchemaValidationResponse = (obj: any): obj is SchemaValidationRes
 
 export interface CustomValidationResponse {
   statusCode: 422;
+  message: string;
   errors: {
     body: {
       [k: string]: string;
