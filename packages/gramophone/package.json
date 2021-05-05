@@ -93,7 +93,7 @@
     "@types/jest": "^26.0.23",
     "@types/lodash": "^4.14.168",
     "@types/luxon": "^1.26.5",
-    "@types/node": "^15.0.1",
+    "@types/node": "^15.0.2",
     "@types/pluralize": "^0.0.29",
     "@types/ws": "^7.4.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
