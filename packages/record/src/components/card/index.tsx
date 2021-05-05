@@ -75,7 +75,7 @@ export const Body = ({
         >
           <h3 className="text-xl capitalize">{title}</h3>
           <CollapseButton className={collapsable ? '' : 'hidden'}
-            onClick={() => setCollapsed((c) => !c)}
+            onClick={() => setCollapsed((c) => !c)} type="button"
             data-testid="collapse"
           >
             <span className="sr-only">Collapse {title || 'section'}</span>

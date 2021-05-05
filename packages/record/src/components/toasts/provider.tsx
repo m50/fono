@@ -29,7 +29,6 @@ export const ToastsProvider = ({ children }: Props) => {
     if (hiddenToasts === toasts.length) {
       clearToasts();
       setHiddenToasts(0);
-      console.log('clear');
     }
   }, [hiddenToasts, toasts]);
   return (
