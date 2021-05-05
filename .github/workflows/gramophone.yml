@@ -1,9 +1,6 @@
 name: Gramophone (backend) checks
 on:
   pull_request:
-    paths:
-      - 'packages/gramophone/**'
-      - yarn.lock
 
 jobs:
   unit:

@@ -1,9 +1,6 @@
 name: Player (CLI Tool) checks
 on:
   pull_request:
-    paths:
-      - 'packages/player/**'
-      - yarn.lock
 
 jobs:
   unit:
