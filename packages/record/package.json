@@ -86,7 +86,7 @@
     "@types/node": "^15.0.1",
     "@types/node-fetch": "^2.5.10",
     "@types/reach__router": "^1.3.7",
-    "@types/react": "^17.0.4",
+    "@types/react": "^17.0.5",
     "@types/snowpack-env": "^2.3.3",
     "@types/tailwindcss": "^2.0.2",
     "@types/tern": "^0.23.3",
