@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { RouteComponentProps, useNavigate } from '@reach/router';
 import useApi from 'hooks/useApi';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import Button from 'components/input/button';
 import { LoginIcon } from '@heroicons/react/solid';
 import { User } from 'types/user';
 import { isSuccessResponse } from 'hooks/useApi/useRest';
+import { useAddToast } from 'components/toasts';
 
 interface FormData {
   username: string;
@@ -21,29 +22,24 @@ interface ApiResponse {
   user: User;
 }
 
-// eslint-disable-next-line
-const Login = (props: RouteComponentProps) => {
+const Login: React.FC<RouteComponentProps> = () => {
   const navigate = useNavigate();
   const { api } = useApi();
-  const [authMessage, setAuthMessage] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-  const onSubmit = (data: FormData) => {
-    api<ApiResponse, FormData>('POST', '/login', data)
-      .then((response) => {
-        if (isSuccessResponse(response)) {
-          setAuthMessage(response.message);
-          if (response.user) {
-            if (data.password === 'admin' && response.user.username === 'admin') {
-              navigate('/settings/user', { state: { updatePassword: true, user: response.user } });
-              return;
-            }
-            navigate('/');
-          }
-        } else {
-          setAuthMessage(response.message);
-        }
-      });
-  };
+  const addToast = useAddToast();
+  const onSubmit = useCallback(async (data: FormData) => {
+    const response = await api<ApiResponse, FormData>('POST', '/login', data);
+
+    if (isSuccessResponse(response)) {
+      addToast({ title: 'Success!', body: response.message, type: 'success' });
+      if (data.password === 'admin' && response.user.username === 'admin') {
+        return navigate('/settings/user', { state: { updatePassword: true, user: response.user } });
+      }
+      return navigate('/');
+    }
+
+    addToast({ title: 'Login failed!', body: response.message, type: 'error' });
+  }, []);
 
   return (
     <form className="flex-grow flex justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
@@ -62,7 +58,6 @@ const Login = (props: RouteComponentProps) => {
             register={register('keepLoggedIn', { required: false })}
             errors={errors.keepLoggedIn}
           />
-          <small className="text-red-400 h-8 pl-2">{authMessage}</small>
         </Card.Body>
         <Card.Footer className="flex justify-around">
           <Button icon={LoginIcon} primary type="submit">Login</Button>

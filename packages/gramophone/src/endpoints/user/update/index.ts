@@ -22,7 +22,6 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
     console.log(body);
     if (password) {
       const { currentPassword, passwordConfirmation } = body;
-      console.log(await bcrypt(currentPassword as string), user.password);
       if (!await check(currentPassword ?? '', user.password)) {
         res.status(422);
         res.send({

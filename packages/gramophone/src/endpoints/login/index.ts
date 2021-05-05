@@ -12,7 +12,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
     } catch (error) {
       reply.status(401);
       app.log.error(error);
-      return { statusCode: 401, message: 'Authentication failed', error };
+      return { statusCode: 401, message: error.toString(), error };
     }
     if (!user) {
       reply.status(401);
