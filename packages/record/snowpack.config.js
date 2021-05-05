@@ -12,6 +12,7 @@ module.exports = {
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
+    ['@snowpack/plugin-dotenv', { dir: join(process.cwd() + '/../')}],
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-postcss',
     ['@snowpack/plugin-babel', { transformOptions: babelConf }],

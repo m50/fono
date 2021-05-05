@@ -17,10 +17,6 @@ const autofill = plugin(({ addUtilities, variants, theme, addVariant, e }) => {
   const colors = flatten(theme('colors'));
   const utils = Object.entries(colors).reduce(
     (res, [key, value]) => Object.assign(res, {
-      [`.${e(`text-${key}`)}`]: {
-        '-webkit-text-fill-color': `${value} !important`,
-        color: value,
-      },
       [`.${e(`shadow-fill-${key}`)}`]: {
         '--tw-shadow': `0 0 0 9999px ${value} inset`,
         'background-color': `${value} !important`,

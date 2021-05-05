@@ -19,3 +19,4 @@ export const Config = forwardRef<HTMLDivElement, Props>((props: Props, ref) => (
 
 export { ConfigMain } from './main';
 export { ConfigUser } from './user';
+export { ConfigMusic } from './music';

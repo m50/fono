@@ -8,6 +8,7 @@ import Checkbox from 'components/input/checkbox';
 import Button from 'components/input/button';
 import { LoginIcon } from '@heroicons/react/solid';
 import { User } from 'types/user';
+import { isSuccessResponse } from 'hooks/useApi/useRest';
 
 interface FormData {
   username: string;
@@ -29,13 +30,17 @@ const Login = (props: RouteComponentProps) => {
   const onSubmit = (data: FormData) => {
     api<ApiResponse, FormData>('POST', '/login', data)
       .then((response) => {
-        setAuthMessage(response.message);
-        if (response.user) {
-          if (data.password === 'admin' && response.user.username === 'admin') {
-            navigate('/settings/user', { state: { updatePassword: true, user: response.user } });
-            return;
+        if (isSuccessResponse(response)) {
+          setAuthMessage(response.message);
+          if (response.user) {
+            if (data.password === 'admin' && response.user.username === 'admin') {
+              navigate('/settings/user', { state: { updatePassword: true, user: response.user } });
+              return;
+            }
+            navigate('/');
           }
-          navigate('/');
+        } else {
+          setAuthMessage(response.message);
         }
       });
   };

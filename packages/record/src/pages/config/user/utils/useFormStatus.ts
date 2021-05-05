@@ -19,17 +19,16 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   const onSubmit = useCallback(async (data: FormData) => {
     type Res = { message: string, user: User };
     const res = await api<Res>('PATCH', '/user', data);
+    setStatus(res.message.split(/, /).join('\n'));
     if (isSuccessResponse<Res>(res)) {
       setUser(res.user);
       setSuccess(true);
-      setStatus(res.message);
       setTimeout(() => {
         setStatus('');
       }, 5000);
     }
     if (isSchemaValidationResponse(res)) {
       setSuccess(false);
-      setStatus(res.message.split(/, /).join('\n'));
     }
     if (isCustomValidationResponse(res)) {
       setSuccess(false);

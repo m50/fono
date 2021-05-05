@@ -35,7 +35,7 @@ export default function Home(props: RouteComponentProps) {
   return (
     <div className="flex flex-col items-center">
       <PageHeader path={props.uri as string} title="Home" />
-      <PageWrapper>
+      <PageWrapper className="w-full px-2 space-y-2">
         <Card className="w-full">
           <Card.Title>Home Page</Card.Title>
           <Card.Body collapsable title="Some debug data">

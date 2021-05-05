@@ -14,9 +14,9 @@ const PageWrapperInner = tw.div`
   overflow-y-auto overflow-x-visible
 `;
 
-export const PageWrapper = ({ children }: React.PropsWithChildren<{}>) => (
+export const PageWrapper = ({ children, className = '' }: React.PropsWithChildren<{ className?: string }>) => (
   <PageWrapperOuter>
-    <PageWrapperInner className={styles.customScrollbar}>
+    <PageWrapperInner className={`${className} ${styles.customScrollbar}`}>
       {children}
     </PageWrapperInner>
   </PageWrapperOuter>

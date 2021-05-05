@@ -17,11 +17,12 @@ text-white
 
 export const PageHeader = ({ title, path, className = '' }: Props) => {
   const match = useMatch(path);
+  const location = useLocation();
   return (
     <Header className={cl`${className}`}>
       <div className="border-b border-white pt-4 pb-2 flex justify-between">
         {!match ? (
-          <Link to={`${window.location.pathname}/../`} className="hover:text-gray-300 w-8">
+          <Link to={`${location.pathname.replace(/\/$/, '')}/..`} className="hover:text-gray-300 w-8">
             <BackIcon className="fill-current h-8" />
             <span className="sr-only">Go back</span>
           </Link>

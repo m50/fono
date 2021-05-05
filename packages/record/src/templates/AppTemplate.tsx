@@ -15,7 +15,7 @@ const BgGradient = tw.div`
 `;
 
 const Main = tw.main`
-  flex w-full absolute justify-center top-0 bottom-0 absolute
+  flex w-full absolute justify-center top-0 bottom-0
 `;
 
 export const AppTemplate = forwardRef<HTMLElement, Props>(({ children }: Props, ref) => {
