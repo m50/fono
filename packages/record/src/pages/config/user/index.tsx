@@ -6,6 +6,7 @@ import { SaveIcon, LogoutIcon, UserIcon } from '@heroicons/react/solid';
 import TextInput from 'components/input/text';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Status } from 'components/styled/status';
 import { schema } from './utils/schema';
 import { Props, FormData } from './utils/types';
 import { useFormStatus } from './utils/useFormStatus';
@@ -59,9 +60,7 @@ export const ConfigUser: React.FC<Props> = ({ location }) => {
           </div>
         </Card.Body>
         <Card.Body className="flex justify-center items-center w-full">
-          <pre>
-            <div className={`text-sm ${success ? 'text-green-400' : 'text-red-400'}`}>{status}</div>
-          </pre>
+          <Status $success={success}>{status}</Status>
         </Card.Body>
         <Card.Footer className="flex justify-between">
           <Button icon={LogoutIcon} onClick={() => api('GET', '/logout')}>Logout</Button>
