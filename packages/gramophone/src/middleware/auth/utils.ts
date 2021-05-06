@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyRequest } from 'fastify';
 import { ApiKeys } from 'schema/ApiKey';
 import { User } from 'schema/User';
 import { sha256 } from 'utils/hash';

@@ -17,7 +17,9 @@ files.forEach((file) => {
       // @ts-ignore
       process.env = { ...process.env, ...env };
     }
-  } catch (e) { }
+  } catch (e) {
+    // Intentionally empty
+  }
   try {
     const file2 = require.resolve(join(__dirname, '..', '..', '..', '..', file));
     if (exists(file2)) {
@@ -26,5 +28,7 @@ files.forEach((file) => {
       // @ts-ignore
       process.env = { ...process.env, ...env };
     }
-  } catch (e) { }
+  } catch (e) {
+    // Intentionally empty
+  }
 });

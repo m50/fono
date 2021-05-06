@@ -22,7 +22,7 @@ export const auth = (app: FastifyInstance) => {
     const survivalHours = (data.e - data.t) / 1000 / 60 / 60;
     const newToken = await refreshToken(req.user, survivalHours);
     reply.header('X-Refresh-Token', newToken);
-  },);
+  });
 
   return app;
 };

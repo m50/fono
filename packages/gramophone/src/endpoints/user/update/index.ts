@@ -30,8 +30,8 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
           errors: {
             body: {
               currentPassword: 'Invalid password provided! Did you use the right password?',
-            }
-          }
+            },
+          },
         });
         return;
       }
@@ -43,8 +43,8 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
           errors: {
             body: {
               passwordConfirmation: 'Password and password confirmation don\'t match!',
-            }
-          }
+            },
+          },
         });
         return;
       }
@@ -60,4 +60,4 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
   });
 
   done();
-}
+};

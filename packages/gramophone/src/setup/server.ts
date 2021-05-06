@@ -3,7 +3,7 @@ import cors from 'fastify-cors';
 import helmet from 'fastify-helmet';
 import { setup as sockets } from 'sockets';
 import * as endpoints from 'endpoints';
-import { register as graphql} from './graphql';
+import { register as graphql } from './graphql';
 
 export default () => {
   const server = fastify({ logger: true });

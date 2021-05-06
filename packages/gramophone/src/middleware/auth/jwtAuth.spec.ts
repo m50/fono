@@ -1,22 +1,21 @@
 import { up, reset } from 'commands/migrate';
 import { DateTime } from 'luxon';
 import { ApiKeys } from 'schema/ApiKey';
-import { User } from 'schema/User';
 import { jwtAuth } from './jwtAuth';
 
 describe('jwtAuth', () => {
-  afterAll(async () => reset(true));
-  beforeAll(async () => up(true));
+  afterEach(async () => reset(true));
+  beforeEach(async () => up(true));
 
   it('returns user with correct jwt token', async () => {
     const token = '1234567890';
     const expiresAt = DateTime.now().plus({ hours: 1 });
-    const tokenId = await ApiKeys().insert({
+    await ApiKeys().insert({
       token,
       userId: 1,
       type: 'refresh',
       expiresAt,
-    }).returning('id');
+    });
     const jwt = {
       u: 1,
       k: token,
@@ -32,11 +31,6 @@ describe('jwtAuth', () => {
 
     expect(user).not.toBeUndefined();
     expect(user).not.toBe(null);
-    const usedToken = await ApiKeys()
-      .where('userId', (user as User).id)
-      .where('id', tokenId)
-      .first();
-    expect(usedToken).toBeUndefined();
   });
 
   it('throws if no valid keys', async () => {
@@ -85,7 +79,7 @@ describe('jwtAuth', () => {
       // @ts-expect-error
       user = await jwtAuth(request);
     } catch (e) {
-      expect(e).toEqual(new Error('Key[2] expired for user[1]; removing'));
+      expect(e).toEqual(new Error('Key[1] expired for user[1]; removing'));
     }
     expect(user).toBe(null);
   });
