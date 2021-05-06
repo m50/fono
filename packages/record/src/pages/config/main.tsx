@@ -14,12 +14,12 @@ export const ConfigMain: React.FC<RouteComponentProps> = () => {
   const { gql, userId } = useApi();
   const [user, setUser] = useState<UserInfo['user'] | undefined>();
   const userInfo = useMemo(() => {
-    let userInfo = user?.username;
+    let info = user?.username;
     if (user?.username !== user?.email) {
-      userInfo += ` (${user?.email})`;
+      info += ` (${user?.email})`;
     }
-    return userInfo;
-  }, [user])
+    return info;
+  }, [user]);
 
   useEffect(() => {
     if (userId === undefined) {

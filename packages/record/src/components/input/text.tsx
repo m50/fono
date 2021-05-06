@@ -39,7 +39,7 @@ const TextInput: Component = ({ title, type, value, register, errors, example, c
       <Label className={moveTextUp ? 'translate-y-0' : 'translate-y-7'}>{title}</Label>
       <div>
         <Input type={type} {...register}
-          aria-invalid={errors ? "true" : "false"}
+          aria-invalid={errors ? 'true' : 'false'}
           defaultValue={value ?? ''}
           placeholder={moveTextUp ? example : ''}
           onFocus={() => setMoveTextUp(true)}

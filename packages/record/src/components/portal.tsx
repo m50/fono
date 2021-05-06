@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, PropsWithChildren } from 'react';
+import { useMemo, useEffect, PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = PropsWithChildren<{
@@ -17,7 +17,7 @@ export const Portal = ({ children, className = '', id = '' }: Props) => {
     document.body.appendChild(el);
     return () => {
       document.body.removeChild(el);
-    }
+    };
   }, []);
 
   return createPortal(children, el, id);

@@ -8,29 +8,31 @@ export const schema = yup.object({
     .matches(/^((?!(.)\2{1,}).)*$/, {
       excludeEmptyString: true,
       message: 'password must not have repeating characters.',
-    }).matches(/[A-Z]/, {
+    })
+    .matches(/[A-Z]/, {
       excludeEmptyString: true,
-      message: 'password must contain an upper-case letter.'
-    }).matches(/[0-9]/, {
+      message: 'password must contain an upper-case letter.',
+    })
+    .matches(/[0-9]/, {
       excludeEmptyString: true,
-      message: 'password must contain a number.'
-    }).matches(/[!$#%@^\\\/)(\.\[\]<>;:]/, {
+      message: 'password must contain a number.',
+    })
+    .matches(/[!$#%@^\\/)(.[\]<>;:]/, {
       excludeEmptyString: true,
-      message: 'password must contain a symbol ( ! $ # % @ ^ \\ / ( ) . [ ] < > ; : ).'
-    }).matches(/[a-z]/, {
+      message: 'password must contain a symbol ( ! $ # % @ ^ \\ / ( ) . [ ] < > ; : ).',
+    })
+    .matches(/[a-z]/, {
       excludeEmptyString: true,
-      message:  'password must contain a lower-case letter.'}
-    ),
+      message: 'password must contain a lower-case letter.' }),
   passwordConfirmation: yup.string().optional()
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.required() : schema)
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0
-      ? schema.equals([password], 'Passwords must match!')
-      : schema),
+    .when('password', (pword: string, sch: yup.StringSchema) => (pword.length > 0 ? sch.required() : sch))
+    .when('password', (pword: string, sch: yup.StringSchema) => (pword.length > 0
+      ? sch.equals([pword], 'Passwords must match!')
+      : sch)),
   currentPassword: yup.string()
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.required() : schema)
-    .when('password', (password: string, schema: yup.StringSchema) => password.length > 0 ? schema.notOneOf(
-        [password],
-        'New password and current password cannot match. Did you mistype your current password?'
-      ) : schema
-    ),
+    .when('password', (pword: string, sch: yup.StringSchema) => (pword.length > 0 ? sch.required() : sch))
+    .when('password', (pword: string, sch: yup.StringSchema) => (pword.length > 0 ? sch.notOneOf(
+      [pword],
+      'New password and current password cannot match. Did you mistype your current password?',
+    ) : sch)),
 });

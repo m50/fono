@@ -32,7 +32,7 @@ const CustomLink = tw(Link)`
   hover:-translate-y-1 active:translate-y-0 active:shadow-sm
 `;
 
-export const MenuLink = ({to, title, state, className = '', children = null}: Props) => (
+export const MenuLink = ({ to, title, state, className = '', children = null }: Props) => (
   <CustomLink to={to} className={cl`${className}`} state={state}>
     <span className="flex items-center justify-start">{children ?? title}</span>
     <RightArrow className="fill-current h-7 text-white" />

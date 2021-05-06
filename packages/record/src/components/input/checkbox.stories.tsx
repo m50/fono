@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
-import type { FieldError } from 'react-hook-form';
 import Checkbox from './checkbox';
 
 export default {
@@ -15,5 +14,5 @@ const register = {
   name: 'example',
 };
 
-export const Default = () => <Checkbox register={register} title="Checkbox" errors={undefined} />
+export const Default = () => <Checkbox register={register} title="Checkbox" errors={undefined} />;
 

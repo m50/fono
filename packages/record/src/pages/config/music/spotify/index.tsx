@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import Card from 'components/card';
 
+// eslint-disable-next-line camelcase
 const client_id: string = import.meta.env.SPOTIFY_CLIENT_ID;
 const PARAMS = {
   client_id,
@@ -33,4 +34,4 @@ export const Spotify = ({ location }: RouteComponentProps) => {
       </Card>
     </div>
   );
-}
+};

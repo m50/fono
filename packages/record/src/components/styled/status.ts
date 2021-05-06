@@ -6,5 +6,5 @@ interface Props {
 
 export const Status = tw.pre<Props>`
   text-sm w-full
-  ${({ $success }) => $success ? 'text-green-400' : 'text-red-400'}
+  ${({ $success }) => ($success ? 'text-green-400' : 'text-red-400')}
 `;

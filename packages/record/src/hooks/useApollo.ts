@@ -1,8 +1,8 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client/core';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
 import { isDev } from 'lib/helpers';
-import { useCallback, useMemo } from 'react';
-import { useToken, JWT } from './useApi';
+import { useMemo } from 'react';
+import { useToken, JWT } from './useApi/useToken';
 
 export const useApollo = () => {
   const [token, setToken] = useToken();
@@ -15,7 +15,7 @@ export const useApollo = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         ...token && { Authorization: `Bearer ${jwt}` },
-        ...options?.headers
+        ...options?.headers,
       },
     };
 
@@ -37,17 +37,15 @@ export const useApollo = () => {
   const client = useMemo(() => {
     const link = new HttpLink({
       uri: `${window.location.origin}/g/ql`,
-      fetch: fetchClient
+      fetch: fetchClient,
     });
-    const responseMod = new ApolloLink((operation, forward) => {
-      return forward(operation).map((response) => {
-        if (!response?.data) {
-          return response;
-        }
-        response.data = castTimestamps(response?.data ?? undefined);
+    const responseMod = new ApolloLink((operation, forward) => forward(operation).map((response) => {
+      if (!response?.data) {
         return response;
-      });
-    });
+      }
+      response.data = castTimestamps(response?.data ?? undefined);
+      return response;
+    }));
     return new ApolloClient({
       link: responseMod.concat(link),
       cache,

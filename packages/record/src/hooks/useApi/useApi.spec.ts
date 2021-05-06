@@ -1,8 +1,8 @@
 import { setupServer } from 'msw/node';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { rest, graphql } from 'msw';
-import useApi from '.';
 import { DateTime } from 'luxon';
+import useApi from '.';
 
 const mockNavigate = jest.fn();
 jest.mock('@reach/router', () => ({
@@ -26,13 +26,13 @@ const server = setupServer(
   rest.get('/g/ping', (req, res, { json }) => res(json<Response>({ message: 'pong' }))),
   rest.post('/g/login', (req, res, { set, json }) => res(
     set('X-Refresh-Token', btoa(JSON.stringify(
-      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 1 }).toMillis() }
+      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 1 }).toMillis() },
     ))),
     json<Response>({ message: 'Successfully Authenticated' }),
   )),
   rest.post('/g/login2', (req, res, { set, json }) => res(
     set('X-Refresh-Token', btoa(JSON.stringify(
-      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 20 * 24 }).toMillis() }
+      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 20 * 24 }).toMillis() },
     ))),
     json<Response>({ message: 'Successfully Authenticated' }),
   )),
@@ -118,7 +118,7 @@ describe('useApi()', () => {
     act(() => {
       jest.advanceTimersByTime(oneDay);
     });
-    console.log(result.current.token);
+
     expect(setTimeout).toHaveBeenCalledTimes(1);
     act(() => {
       jest.advanceTimersByTime(twentyDays - oneDay);

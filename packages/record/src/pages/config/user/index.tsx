@@ -6,14 +6,13 @@ import { SaveIcon, LogoutIcon, UserIcon } from '@heroicons/react/solid';
 import TextInput from 'components/input/text';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Status } from 'components/styled/status';
 import { schema } from './utils/schema';
 import { Props, FormData } from './utils/types';
 import { useFormStatus } from './utils/useFormStatus';
 
 export const ConfigUser: React.FC<Props> = ({ location }) => {
   const { api } = useApi();
-  const state = location?.state ?? undefined
+  const state = location?.state ?? undefined;
   const { handleSubmit, register, setError, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -39,9 +38,11 @@ export const ConfigUser: React.FC<Props> = ({ location }) => {
           </div>
         </Card.Body>
         <Card.Body title="Change Password" collapsable>
-          {state?.updatePassword && (<div className="text-red-400 text-3xl flex justify-center">
+          {state?.updatePassword && (
+          <div className="text-red-400 text-3xl flex justify-center">
             You should change your password!
-          </div>)}
+          </div>
+          )}
           <div className="flex space-x-12">
             <TextInput title="New Password" className="w-full"
               register={register('password')}

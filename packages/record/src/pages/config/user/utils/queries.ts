@@ -1,6 +1,6 @@
-import { ApolloQueryResult } from "@apollo/client";
-import { GQLAPI } from "hooks/useApi/useGraphql";
-import { User } from "types/user";
+import { ApolloQueryResult } from '@apollo/client';
+import { GQLAPI } from 'hooks/useApi/useGraphql';
+import { User } from 'types/user';
 
 export const getUser = (gql: GQLAPI, userId: number): Promise<ApolloQueryResult<{ user: User }>> => gql`
   query LoggedInUser {
@@ -12,4 +12,4 @@ export const getUser = (gql: GQLAPI, userId: number): Promise<ApolloQueryResult<
       updatedAt
     }
   }
-`
+`;

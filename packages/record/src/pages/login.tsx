@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { RouteComponentProps, useNavigate } from '@reach/router';
 import useApi from 'hooks/useApi';
 import { useForm } from 'react-hook-form';
@@ -38,7 +38,7 @@ const Login: React.FC<RouteComponentProps> = () => {
       return navigate('/');
     }
 
-    addToast({ title: 'Login failed!', body: response.message, type: 'error' });
+    return addToast({ title: 'Login failed!', body: response.message, type: 'error' });
   }, []);
 
   return (

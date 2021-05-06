@@ -1,8 +1,7 @@
-import castTimestamps from "@fono/gramophone/src/setup/db/castTimestamps";
-import { response } from "msw";
-import { useMemo } from "react";
-import { UpdateState } from "use-local-storage-state/src/useLocalStorageStateBase";
-import { JWT, useToken } from ".";
+import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
+import { useMemo } from 'react';
+import { UpdateState } from 'use-local-storage-state/src/useLocalStorageStateBase';
+import { JWT, useToken } from './useToken';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
@@ -46,39 +45,11 @@ type ResponseTypes<Res> =
   | SuccessResponse<Res>
   | CreatedResponse<Res>
 
-
 export type API = <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
   bodyOrQueryString?: TOpts,
 ) => Promise<ResponseTypes<TResponse>>;
-
-export const useRest = () => {
-  const [token, setToken] = useToken();
-  return useMemo(() => makeRest(token, setToken), [token, setToken])
-}
-
-const makeRest = (token: JWT | undefined, setToken: UpdateState<JWT | undefined>): API => {
-  return <TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
-    method: Method,
-    url: URL,
-    bodyOrQueryString?: TOpts,
-  ): Promise<ResponseTypes<TResponse>> => {
-    let reqUrl = `/g${url}`;
-    const opts = {
-      method,
-      headers: headers(token),
-      ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString ?? {}) }),
-    };
-    if (method === 'GET' && bodyOrQueryString) {
-      reqUrl += buildQueryString(bodyOrQueryString);
-    }
-    return fetch(reqUrl, opts)
-      .then((response) => handleResponse(response, setToken))
-      .then((response) => response.json())
-      .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
-  }
-}
 
 const handleResponse = (response: Response, setToken: UpdateState<JWT | undefined>) => {
   if (!response.ok) {
@@ -93,7 +64,7 @@ const handleResponse = (response: Response, setToken: UpdateState<JWT | undefine
     setToken(newJwt);
   }
   return response;
-}
+};
 
 const headers = (token: JWT | undefined): Record<string, any> => {
   const jwt = btoa(JSON.stringify(token));
@@ -102,7 +73,7 @@ const headers = (token: JWT | undefined): Record<string, any> => {
     'Content-Type': 'application/json',
     ...token && { Authorization: `Bearer ${jwt}` },
   };
-}
+};
 
 const buildQueryString = (qstring: Record<string, any>): string => {
   const queryString = Object
@@ -113,4 +84,32 @@ const buildQueryString = (qstring: Record<string, any>): string => {
     return `?${queryString}`;
   }
   return '';
-}
+};
+
+const makeRest = (
+  token: JWT | undefined,
+  setToken: UpdateState<JWT | undefined>,
+): API => <TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
+  method: Method,
+  url: URL,
+  bodyOrQueryString?: TOpts,
+): Promise<ResponseTypes<TResponse>> => {
+  let reqUrl = `/g${url}`;
+  const opts = {
+    method,
+    headers: headers(token),
+    ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString ?? {}) }),
+  };
+  if (method === 'GET' && bodyOrQueryString) {
+    reqUrl += buildQueryString(bodyOrQueryString);
+  }
+  return fetch(reqUrl, opts)
+    .then((response) => handleResponse(response, setToken))
+    .then((response) => response.json())
+    .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
+};
+
+export const useRest = () => {
+  const [token, setToken] = useToken();
+  return useMemo(() => makeRest(token, setToken), [token, setToken]);
+};

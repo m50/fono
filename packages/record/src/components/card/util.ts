@@ -17,11 +17,11 @@ export const extractChildren = (children?: Children) => {
         }
       });
   } else if (children?.type.name === 'Title') {
-    title = children
+    title = children;
   } else if (children?.type.name === 'Body') {
     body.push(children);
   } else if (children?.type.name === 'Footer') {
-    footer = children
+    footer = children;
   }
   return [title, body, footer];
-}
+};

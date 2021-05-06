@@ -17,7 +17,7 @@ const defaultQuery = `query Users {
 }
 `;
 type GraphiqlPage = (props: RouteComponentProps) => JSX.Element | null;
-const page: GraphiqlPage = (props: RouteComponentProps) => {
+const page: GraphiqlPage = () => {
   const { fetchClient } = useApollo();
   const fetcher = useMemo(() => createGraphiQLFetcher({
     url: `${window.location.origin}/g/ql`,
@@ -28,7 +28,7 @@ const page: GraphiqlPage = (props: RouteComponentProps) => {
     <div className="w-full h-full">
       <GraphiQL fetcher={fetcher} defaultQuery={defaultQuery} />
     </div>
-  ) : null)
+  ) : null);
 };
 
 export default page;

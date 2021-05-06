@@ -1,10 +1,10 @@
-import useApi from "hooks/useApi";
-import { isCustomValidationResponse, isSchemaValidationResponse, isSuccessResponse } from "hooks/useApi/useRest";
-import { useCallback, useEffect, useState } from "react";
-import type { Path, UseFormSetError } from "react-hook-form";
-import { User } from "types/user";
+import useApi from 'hooks/useApi';
+import { isCustomValidationResponse, isSchemaValidationResponse, isSuccessResponse } from 'hooks/useApi/useRest';
+import { useEffect, useState } from 'react';
+import type { Path, UseFormSetError } from 'react-hook-form';
+import { User } from 'types/user';
 import { useAddToast } from 'components/toasts';
-import { getUser } from "./queries";
+import { getUser } from './queries';
 
 export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSetError<T>, stateUser?: User) => {
   const { api, gql, userId } = useApi();
@@ -31,16 +31,16 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   const onSubmit = async (data: FormData) => {
     type Res = { message: string, user: User };
     const res = await api<Res>('PATCH', '/user', data);
-    const status = res.message.split(/, /).join('\n')
+    const title = res.message.split(/, /).join('\n');
     if (isSuccessResponse<Res>(res)) {
       setUser(res.user);
-      setStatus({ title: status, success: true});
+      setStatus({ title, success: true });
     }
     if (isSchemaValidationResponse(res)) {
-      setStatus({ title: status, success: false});
+      setStatus({ title, success: false });
     }
     if (isCustomValidationResponse(res)) {
-      setStatus({ title: status, success: false});
+      setStatus({ title, success: false });
       Object.keys(res.errors.body).forEach((k) => setError(k as Path<T>, {
         type: 'api',
         message: res.errors.body[k],
@@ -51,5 +51,5 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   return {
     user,
     onSubmit,
-  }
+  };
 };

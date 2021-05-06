@@ -17,5 +17,5 @@ export const withProviders: HOC = (Comp) => (props) => {
         </ToastsProvider>
       </SocketProvider>
     </ApolloProvider>
-  )
+  );
 };

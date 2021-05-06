@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import create from 'zustand';
-import { ToastsState } from './types';
 import { Portal } from 'components/portal';
+import shallow from 'zustand/shallow';
+import { ToastsState } from './types';
 import { Toast } from './toast';
-import shallow from 'zustand/shallow'
 
 export const useToasts = create<ToastsState>((set, get) => ({
   toasts: [],
@@ -42,5 +42,5 @@ export const ToastsProvider = ({ children }: Props) => {
       </Portal>
       {children}
     </>
-  )
+  );
 };

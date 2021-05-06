@@ -48,7 +48,8 @@ export default function Home(props: RouteComponentProps) {
 ~~~json
 ${JSON.stringify(welcomeData, null, 2)}
 ~~~
-            `}</Markdown>
+            `}
+            </Markdown>
           </Card.Body>
           <Card.Footer className="flex justify-end">
             <Button icon={LogoutIcon} onClick={() => api('GET', '/logout')}>

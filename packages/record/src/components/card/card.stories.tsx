@@ -1,7 +1,7 @@
+/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
-import { Story } from '@storybook/react';
-import Card from '../card';
+import Card from '.';
 
 export default {
   title: 'components/card',

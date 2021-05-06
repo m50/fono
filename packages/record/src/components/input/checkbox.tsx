@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import tw from 'tailwind-styled-components';
 
@@ -26,23 +26,21 @@ const Errors = tw.small`
   text-red-400 h-8 pl-2
 `;
 
-const Checkbox: Component = ({ title, register, errors, className = '' }) => {
-  return (
-    <label htmlFor={register.name} className={className}>
-      <div className="flex items-center justify-left">
-        <Input type="checkbox" {...register} />
-        <Label>{title}</Label>
-      </div>
-      <Errors>
-        {errors && (errors?.message || (
-          errors?.type === 'required'
-            ? 'This field is required.'
-            : 'An unknown error occured with this field.'
-        ))}
-      </Errors>
-    </label>
-  );
-};
+const Checkbox: Component = ({ title, register, errors, className = '' }) => (
+  <label htmlFor={register.name} className={className}>
+    <div className="flex items-center justify-left">
+      <Input type="checkbox" {...register} />
+      <Label>{title}</Label>
+    </div>
+    <Errors>
+      {errors && (errors?.message || (
+        errors?.type === 'required'
+          ? 'This field is required.'
+          : 'An unknown error occured with this field.'
+      ))}
+    </Errors>
+  </label>
+);
 
 export default Checkbox;
 

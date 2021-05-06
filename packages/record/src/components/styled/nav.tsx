@@ -1,8 +1,8 @@
 import { Link } from '@reach/router';
 import { cl } from 'lib/helpers';
 import React from 'react';
-import { Glass } from './glass';
 import tw from 'tailwind-styled-components';
+import { Glass } from './glass';
 
 interface PageDefinition {
   path: `/${string}`;
@@ -27,18 +27,16 @@ const Nav = tw.nav`
   backdrop-filter backdrop-blur-3xl backdrop-saturate-150
 `;
 
-export default ({ className = '', pages }: Props) => {
-  return (
-    <Nav className={cl`${className}`}>
-      <Glass />
-      <div className="flex justify-around items-center h-full">
-        {pages.map(({path, Icon, label}, idx) => (
-          <NavLink key={path + idx + label} to={path}>
-            <Icon className="fill-current h-10" />
-            <span className="sr-only md:not-sr-only">{label}</span>
-          </NavLink>
-        ))}
-      </div>
-    </Nav>
-  );
-};
+export default ({ className = '', pages }: Props) => (
+  <Nav className={cl`${className}`}>
+    <Glass />
+    <div className="flex justify-around items-center h-full">
+      {pages.map(({ path, Icon, label }, idx) => (
+        <NavLink key={path + idx + label} to={path}>
+          <Icon className="fill-current h-10" />
+          <span className="sr-only md:not-sr-only">{label}</span>
+        </NavLink>
+      ))}
+    </div>
+  </Nav>
+);

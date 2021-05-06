@@ -22,11 +22,11 @@ export const AppTemplate = forwardRef<HTMLElement, Props>(({ children }: Props, 
   const onLogin = useMatch('/login');
   const newPages: any = useMemo(() => {
     const graphiql = { path: '/__graphiql', Icon: GraphiqlIcon, label: 'GraphiQL' };
-    const newPages: any = [...pages];
+    const np: any = [...pages];
     if (isDev()) {
-      newPages.push(graphiql);
+      np.push(graphiql);
     }
-    return newPages;
+    return np;
   }, []);
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 dark:bg-black">

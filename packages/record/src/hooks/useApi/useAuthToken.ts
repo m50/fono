@@ -1,17 +1,15 @@
-import { useApolloClient } from "@apollo/client";
-import { useNavigate } from "@reach/router";
-import { useEffect } from "react";
-import { JWT, useToken } from ".";
+import { useNavigate } from '@reach/router';
+import { useEffect } from 'react';
+import { useToken } from './useToken';
 
 export const useAuthToken = () => {
   const [token, setToken] = useToken();
   const navigate = useNavigate();
-  const client = useApolloClient();
+
   useEffect(() => {
     if (!token) {
-      client.resetStore();
       navigate('/login');
-      return;
+      return () => (null);
     }
 
     const timer = setTimeout(() => {
@@ -26,4 +24,4 @@ export const useAuthToken = () => {
   }, [token]);
 
   return token;
-}
+};

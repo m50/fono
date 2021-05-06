@@ -2,9 +2,9 @@ import React, { useMemo, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { Glass } from 'components/styled/glass';
 import { cl } from 'lib/helpers';
+import { ChevronDownIcon as OpenArrow, ChevronUpIcon as CloseArrow } from '@heroicons/react/solid';
 import { Props, CardObj, TitleProps, BodyProps, ComponentProps } from './types';
 import { extractChildren } from './util';
-import { ChevronDownIcon as OpenArrow, ChevronUpIcon as CloseArrow } from '@heroicons/react/solid';
 
 const CardWrapperSection = tw.section`
   bg-gray-600 bg-opacity-40 text-white
@@ -27,7 +27,7 @@ const CollapseButton = tw.button`
 
 const Card: CardObj = ({ children, className = '', form }: Props) => {
   const [title, body, footer] = extractChildren(children);
-  const CardWrapper: React.FC<any> = useMemo(() => form ? CardWrapperForm : CardWrapperSection, []);
+  const CardWrapper: React.FC<any> = useMemo(() => (form ? CardWrapperForm : CardWrapperSection), []);
 
   return (
     <CardWrapper className={className} {...form}>
@@ -59,7 +59,7 @@ export const Body = ({
   className = '',
   collapsed: defaultCollapsed = false,
   collapsable = false,
-  title = ''
+  title = '',
 }: React.PropsWithChildren<BodyProps>) => {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const Icon = collapsed ? OpenArrow : CloseArrow;
@@ -87,7 +87,7 @@ export const Body = ({
         {children}
       </div>
     </div>
-  )
+  );
 };
 
 const FooterStyles = tw.footer`

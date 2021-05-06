@@ -1,7 +1,7 @@
 import { Link, useLocation, useMatch } from '@reach/router';
 import { cl } from 'lib/helpers';
 import React from 'react';
-import { ArrowLeftIcon as BackIcon } from '@heroicons/react/solid'
+import { ArrowLeftIcon as BackIcon } from '@heroicons/react/solid';
 import tw from 'tailwind-styled-components';
 
 interface Props {
@@ -31,5 +31,5 @@ export const PageHeader = ({ title, path, className = '' }: Props) => {
         <span className="w-8">{' '}</span>
       </div>
     </Header>
-  )
+  );
 };

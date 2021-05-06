@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Toast as ToastType } from './types';
 import { Transition } from '@headlessui/react';
 import tw from 'tailwind-styled-components';
 import {
@@ -8,6 +7,7 @@ import {
   ExclamationCircleIcon as ErrorInfoIcon,
 } from '@heroicons/react/solid';
 import { Glass } from 'components/styled/glass';
+import { Toast as ToastType } from './types';
 
 interface Props {
   toast: ToastType;
@@ -17,16 +17,16 @@ interface Props {
 const typeIcon = {
   error: <ErrorInfoIcon className="h-12 text-red-400" />,
   success: <SuccessIcon className="h-12 text-green-400" />,
-  info: <ErrorInfoIcon  className="h-12 text-blue-400" />,
+  info: <ErrorInfoIcon className="h-12 text-blue-400" />,
   warning: <WarningIcon className="h-12 text-yellow-400" />,
-}
+};
 
 const typeColor = {
   error: 'border-red-400',
   success: 'border-green-400',
   info: 'border-blue-400',
   warning: 'border-yellow-400',
-}
+};
 
 const ToastWrapper = tw.div`
   relative flex items-top z-50
@@ -51,7 +51,7 @@ export const Toast = ({ toast, onComplete }: Props) => {
   }, [toast.ttl]);
 
   return (
-    <Transition show={visible} className="overflow-hidden" unmount={true}
+    <Transition show={visible} className="overflow-hidden" unmount
       enter="transform transition-all duration-300 ease-in-out"
       enterFrom="opacity-0 translate-x-60"
       enterTo="opacity-100 translate-x-0"
