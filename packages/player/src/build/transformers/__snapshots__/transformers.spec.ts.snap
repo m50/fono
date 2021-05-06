@@ -9,7 +9,7 @@ exports[`transformers babel matches snapshot 1`] = `
 var _test = require(\\"./test\\");
 
 const k = \`hi\`;exports.k = k;var _default =
-k => {
+(k) => {
 
 };exports.default = _default;
 async function blah(l) {}
