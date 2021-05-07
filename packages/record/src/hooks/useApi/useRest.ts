@@ -4,6 +4,7 @@ import { Toast } from 'components/toasts/types';
 import { useMemo } from 'react';
 import { UpdateState } from 'use-local-storage-state/src/useLocalStorageStateBase';
 import { JWT, useToken } from './useToken';
+import { buildQueryParams } from 'lib/helpers';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
@@ -90,17 +91,6 @@ const headers = (token: JWT | undefined): Record<string, any> => {
   };
 };
 
-const buildQueryString = (qstring: Record<string, any>): string => {
-  const queryString = Object
-    .keys(qstring)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(qstring[key]))}`)
-    .join('&');
-  if (queryString) {
-    return `?${queryString}`;
-  }
-  return '';
-};
-
 const makeRest = (
   token: JWT | undefined,
   setToken: UpdateState<JWT | undefined>,
@@ -117,7 +107,7 @@ const makeRest = (
     ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString ?? {}) }),
   };
   if (method === 'GET' && bodyOrQueryString) {
-    reqUrl += buildQueryString(bodyOrQueryString);
+    reqUrl += '?' + buildQueryParams(bodyOrQueryString);
   }
   return fetch(reqUrl, opts)
     .then((response) => handleResponse(response, setToken, addToast))
