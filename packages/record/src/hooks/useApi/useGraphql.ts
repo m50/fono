@@ -11,7 +11,7 @@ export type GQLAPI = <Res = Record<string, any>>(
 const makeGql = (client: ApolloClient<any>): GQLAPI => (strings, ...expr) => {
   const q = strings.reduce((p, c, idx) => p + c + (expr[idx]?.toString() ?? ''), '');
   const fetchPolicy = /\s*#\s*no-?cache\n/.test(q) ? 'cache-first' : 'cache-first';
-  const query = gql(strings, expr);
+  const query = gql`${q}`;
   return client.query({ query, fetchPolicy });
 };
 

@@ -30,7 +30,7 @@ const typeColor = {
 
 const ToastWrapper = tw.div`
   relative flex items-top z-50
-  w-full md:w-64
+  w-full md:w-max md:min-w-[16rem] md:max-w-lg
   mr-10 md:mt-4 px-4 py-1 border-2 border-opacity-40
   shadow-lg rounded-lg
   backdrop-filter backdrop-blur-xl backdrop-saturate-150
@@ -51,7 +51,7 @@ export const Toast = ({ toast, onComplete }: Props) => {
   }, [toast.ttl]);
 
   return (
-    <Transition show={visible} className="overflow-hidden" unmount
+    <Transition show={visible} className="ml-auto overflow-hidden" unmount
       enter="transform transition-all duration-300 ease-in-out"
       enterFrom="opacity-0 translate-x-60"
       enterTo="opacity-100 translate-x-0"
@@ -65,7 +65,9 @@ export const Toast = ({ toast, onComplete }: Props) => {
         <div className="pr-2">{icon}</div>
         <div className="flex flex-col justify-center">
           <h3 className="text-md">{toast.title}</h3>
-          <p className="text-xs">{toast.body}</p>
+          {toast.body && toast.body.split(/\n/g).map((b) => (
+            <p className="text-xs">{b}</p>
+          ))}
         </div>
       </ToastWrapper>
     </Transition>

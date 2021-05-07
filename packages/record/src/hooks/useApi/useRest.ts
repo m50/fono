@@ -1,4 +1,6 @@
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
+import { useAddToast } from 'components/toasts';
+import { Toast } from 'components/toasts/types';
 import { useMemo } from 'react';
 import { UpdateState } from 'use-local-storage-state/src/useLocalStorageStateBase';
 import { JWT, useToken } from './useToken';
@@ -51,10 +53,23 @@ export type API = <TResponse extends Record<string, any> = { message: string }, 
   bodyOrQueryString?: TOpts,
 ) => Promise<ResponseTypes<TResponse>>;
 
-const handleResponse = (response: Response, setToken: UpdateState<JWT | undefined>) => {
+const handleResponse = async (
+  response: Response,
+  setToken: UpdateState<JWT | undefined>,
+  addToast: (toast: Toast) => void,
+) => {
   if (!response.ok) {
     if (response.status === 401) {
       setToken(undefined);
+    }
+    if (response.status >= 500) {
+      addToast({
+        type: 'error',
+        ttl: 20,
+        title: 'An unknown server error occured.',
+        body: `Code: ${response.status}
+Body: ${await response.text()}`,
+      });
     }
     return response;
   }
@@ -89,6 +104,7 @@ const buildQueryString = (qstring: Record<string, any>): string => {
 const makeRest = (
   token: JWT | undefined,
   setToken: UpdateState<JWT | undefined>,
+  addToast: (toast: Toast) => void,
 ): API => <TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
   method: Method,
   url: URL,
@@ -104,12 +120,13 @@ const makeRest = (
     reqUrl += buildQueryString(bodyOrQueryString);
   }
   return fetch(reqUrl, opts)
-    .then((response) => handleResponse(response, setToken))
+    .then((response) => handleResponse(response, setToken, addToast))
     .then((response) => response.json())
     .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
 };
 
 export const useRest = () => {
   const [token, setToken] = useToken();
-  return useMemo(() => makeRest(token, setToken), [token, setToken]);
+  const addToast = useAddToast();
+  return useMemo(() => makeRest(token, setToken, addToast), [token, setToken]);
 };
