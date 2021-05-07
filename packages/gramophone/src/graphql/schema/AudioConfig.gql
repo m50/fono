@@ -1,0 +1,8 @@
+type AudioConfig {
+    id: ID!
+    type: String!
+    config: JSONObject!
+
+    createdAt: Date!
+    updatedAt: Date!
+}
