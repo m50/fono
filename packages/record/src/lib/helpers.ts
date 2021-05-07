@@ -7,7 +7,20 @@ export const cl = (strings: TemplateStringsArray, ...expr: string[]): string => 
   .reduce((prev, cur, idx) => prev + cur + (expr[idx] ?? ''), '')
   .replace(/\s+/g, ' ')
   .trim();
-export const buildQueryParams = (params: Record<string, string | number | boolean>) => Object
-    .entries(params)
-    .map(([k, v]) => `${k}=${v.toString()}`)
-    .join('&');
+export const buildQueryParams = (params: Record<string, any>) => Object
+  .entries(params)
+  .flatMap(([$k, $v]) => {
+    if (Array.isArray($v)) {
+      // key[0]=value
+      return $v.map((v, idx) => ([`${$k}[${idx}]`, v]));
+    }
+    if (typeof $v === 'object' && $v !== null) {
+      // key[subkey]=value
+      return Object.entries($v).map(([k, v]) => ([`${$k}[${k}]`, v]));
+    }
+
+    return [[$k, $v]];
+  })
+  .filter(([k, v]) => typeof v !== 'undefined' && v !== null)
+  .map(([k, v]) => `${k}=${encodeURIComponent(v.toString())}`)
+  .join('&');
