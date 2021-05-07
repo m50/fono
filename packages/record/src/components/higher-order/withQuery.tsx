@@ -3,7 +3,7 @@ import useApi from 'hooks/useApi';
 import { GQLAPI } from 'hooks/useApi/useGraphql';
 import { ApolloQueryResult } from '@apollo/client';
 
-const isReady = <P extends Record<string, any>>(p: Partial<P>, ready: boolean): p is P => ready;
+const isReady = <P extends Record<string, any>>(p: Partial<P> | undefined, ready: boolean): p is P => ready;
 
 /**
  * How to use:
@@ -29,17 +29,17 @@ const isReady = <P extends Record<string, any>>(p: Partial<P>, ready: boolean): 
  * @returns The component with it's props filled from graphql.
  */
 export const withQuery = <
+  QueriedProps extends Partial<Record<keyof Props, any>>,
   Props extends Record<string, any>,
-  RProps extends Record<keyof Props, any>,
-  FProps = Partial<Props>,
+  PassedProps = Omit<Props, keyof QueriedProps>,
 >(
-    request: (gql: GQLAPI) => Promise<ApolloQueryResult<RProps>>,
-    Comp: React.FC<Props> | ((props: Props) => JSX.Element),
-  ) => (props: FProps) => {
+    request: (gql: GQLAPI) => Promise<ApolloQueryResult<QueriedProps>>,
+    Comp: React.ComponentType<Props>,
+  ) => (props: PassedProps) => {
     const { gql } = useApi();
     const [ready, setReady] = useState(false);
-    const [status, setStatus] = useState<ApolloQueryResult<RProps>>();
-    const [fulfilledProps, setFulfilledProps] = useState<Partial<Props> | Props>(props);
+    const [status, setStatus] = useState<ApolloQueryResult<QueriedProps>>();
+    const [fulfilledProps, setFulfilledProps] = useState<QueriedProps | undefined>();
 
     useEffect(() => {
       request(gql).then((result) => setStatus(result));
@@ -61,7 +61,7 @@ export const withQuery = <
     }
 
     if (isReady(fulfilledProps, ready)) {
-      return <Comp {...fulfilledProps} />;
+      return <Comp {...props} {...fulfilledProps} />;
     }
 
     return null;

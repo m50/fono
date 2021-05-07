@@ -11,6 +11,7 @@ interface UserExample {
 
 interface ExampleProps {
   user: UserExample;
+  className: string;
 }
 
 const mockNavigate = jest.fn();
@@ -18,13 +19,13 @@ jest.mock('@reach/router', () => ({
   useNavigate: () => mockNavigate,
 }));
 const server = setupServer(
-  graphql.query<ExampleProps>(
+  graphql.query<{ user: UserExample }>(
     'GetUser',
     (req, res, ctx) => res(ctx.data({ user: { name: 'John' } })),
   ),
 );
 
-const Example = (props: ExampleProps) => (<div>{props.user.name}</div>);
+const Example = (props: ExampleProps) => (<div className={props.className}>{props.user.name}</div>);
 
 describe('withQuery()', () => {
   beforeAll(() => server.listen());
@@ -42,10 +43,11 @@ describe('withQuery()', () => {
       Example,
     );
     const Wrapped = withProviders(Element);
-    const { queryByText, getByText } = render(<div><Wrapped /></div>);
+    const { queryByText, getByText, asFragment } = render(<Wrapped className="text-blue-400" />);
     expect(queryByText('John')).toBeNull();
     await waitFor(() => {
       expect(getByText('John')).toBeInTheDocument();
     });
+    expect(asFragment()).toMatchSnapshot();
   });
 });
