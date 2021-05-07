@@ -7,3 +7,7 @@ export const cl = (strings: TemplateStringsArray, ...expr: string[]): string => 
   .reduce((prev, cur, idx) => prev + cur + (expr[idx] ?? ''), '')
   .replace(/\s+/g, ' ')
   .trim();
+export const buildQueryParams = (params: Record<string, string | number | boolean>) => Object
+    .entries(params)
+    .map(([k, v]) => `${k}=${v.toString()}`)
+    .join('&');
