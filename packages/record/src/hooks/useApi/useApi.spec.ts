@@ -1,6 +1,6 @@
 import { setupServer } from 'msw/node';
 import { renderHook, act } from '@testing-library/react-hooks';
-import { rest, graphql } from 'msw';
+import { rest } from 'msw';
 import { DateTime } from 'luxon';
 import useApi from '.';
 
@@ -9,17 +9,11 @@ jest.mock('@reach/router', () => ({
   useNavigate: () => mockNavigate,
 }));
 jest.mock('@apollo/client/react', () => ({
-  useApolloClient: () => jest.fn(),
+  useApolloClient: () => ({ resetStore: jest.fn() }),
 }));
 
 interface Response {
   message: string;
-}
-
-interface GetUserQueryResponse {
-  user: {
-    name: string;
-  };
 }
 
 const server = setupServer(
@@ -40,10 +34,6 @@ const server = setupServer(
     status(401),
     json<Response>({ message: 'Logged out' }),
   )),
-  graphql.query<GetUserQueryResponse>(
-    'GetUser',
-    (req, res, ctx) => res(ctx.data({ user: { name: 'John' } })),
-  ),
 );
 
 describe('useApi()', () => {
