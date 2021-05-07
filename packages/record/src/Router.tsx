@@ -10,6 +10,7 @@ import { AuthGate } from 'templates/AuthGate';
 import { AppTemplate } from 'templates/AppTemplate';
 import { StandardTemplate } from 'templates/StandardTemplate';
 import './styles/tailwind.css';
+import { isDev } from 'lib/helpers';
 
 const AppRouter = () => (
   <Router component={AppTemplate}>
@@ -19,7 +20,7 @@ const AppRouter = () => (
         <Home path="/" />
       </StandardTemplate>
 
-      <Graphiql path="__graphiql" />
+      {isDev() && <Graphiql path="__graphiql" />}
 
       <StandardTemplate path="speaker-groups" title="Speaker Groups">
         <SpeakerGroups path="/" />
