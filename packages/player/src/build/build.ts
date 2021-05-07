@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import glob from 'glob-promise';
-import { rmdir, writeFile, readFile } from 'fs/promises';
-import { existsSync as exists } from 'fs';
+import { writeFile, readFile } from 'fs/promises';
 import { join } from 'path';
 import chalk from 'chalk';
 import { sha256 } from '@fono/gramophone/src/utils/hash';
 import { transformers } from './build.config.json';
-import { isInTransformers, isInExtensionMap, ext, doTransform, write, getExtension } from './utils';
+import { isInTransformers, isInExtensionMap, ext, doTransform, write, getExtension, exists } from './utils';
+
 
 const checkForNewFiles = async (
   rootDir: string,
@@ -19,7 +19,7 @@ const checkForNewFiles = async (
   debug && console.log(`[${chalk.yellow(timeTaken)}] Looking to see if new files exist...`);
   const metaFile = join(rootDir, 'dist', 'meta.json');
   const discoveryFile = join(rootDir, 'dist', 'discovery.json');
-  if (exists(discoveryFile)) {
+  if (await exists(discoveryFile)) {
     const discovery = JSON.parse((await readFile(discoveryFile)).toString());
     const newPaths = Object.keys(discovery)
       .filter((p) => !Object.keys(hashes).includes(p));
@@ -56,7 +56,7 @@ const checkForNewFiles = async (
 export const build = async (rootDir: string, debug?: boolean, start = Date.now()): Promise<void> => {
   const metaFile = join(rootDir, 'dist', 'meta.json');
   let hashes: Record<string, string> = {};
-  if (exists(metaFile)) {
+  if (await exists(metaFile)) {
     hashes = JSON.parse((await readFile(metaFile)).toString());
   }
   // eslint-disable-next-line
@@ -78,7 +78,7 @@ export const build = async (rootDir: string, debug?: boolean, start = Date.now()
   const transformed = await Promise.all(paths.map(async (path) => {
     const transformStart = Date.now();
     const relativePath = path.replace(`${rootDir}/src`, '.');
-    if (!exists(path)) {
+    if (!await exists(path)) {
       delete hashes[relativePath];
       const tt = `${((Date.now() - transformStart) / 1000).toString().padEnd(5, '0')}s`;
       debug && console.log(
@@ -122,10 +122,12 @@ export const build = async (rootDir: string, debug?: boolean, start = Date.now()
 
     const timeTaken = `${((Date.now() - start) / 1000).toString().padEnd(5, '0')}s`;
     console.log(` ✨ No changes... Took ${chalk.yellow(timeTaken)} to complete. ✨`);
+    return;
   }
 
-  await rmdir(`${rootDir}/dist`, { recursive: true });
-  await Promise.all(transformed.map(async ({ path, code }) => write(path, rootDir, code)));
+  await Promise.all(transformed
+    .filter(({ noChange }) => !noChange)
+    .map(async ({ path, code }) => write(path, rootDir, code)));
   await writeFile(metaFile, JSON.stringify(hashes, null, 2));
   if (await checkForNewFiles(rootDir, paths, hashes, debug ?? false, start)) {
     build(rootDir, debug, start);
