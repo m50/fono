@@ -10,23 +10,11 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
   const { api, gql, userId } = useApi();
   const addToast = useAddToast();
   const [user, setUser] = useState<User | undefined>(stateUser);
-  const [status, setStatus] = useState({ title: '', success: false });
 
   useEffect(() => {
     if (!userId || user) return;
     getUser(gql, userId).then((res) => setUser(res.data?.user));
   }, [userId]);
-
-  useEffect(() => {
-    if (!status || status.title.trim().length < 1) {
-      return;
-    }
-    addToast({
-      title: status.title,
-      type: status.success ? 'success' : 'error',
-    });
-    setStatus({ title: '', success: false });
-  }, [status]);
 
   const onSubmit = async (data: FormData) => {
     type Res = { message: string, user: User };
@@ -34,13 +22,13 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
     const title = res.message.split(/, /).join('\n');
     if (isSuccessResponse<Res>(res)) {
       setUser(res.user);
-      setStatus({ title, success: true });
+      addToast({ title, type: 'success' });
     }
     if (isSchemaValidationResponse(res)) {
-      setStatus({ title, success: false });
+      addToast({ title, type: 'error' });
     }
     if (isCustomValidationResponse(res)) {
-      setStatus({ title, success: false });
+      addToast({ title, type: 'error' });
       Object.keys(res.errors.body).forEach((k) => setError(k as Path<T>, {
         type: 'api',
         message: res.errors.body[k],
@@ -48,8 +36,5 @@ export const useFormStatus = <T extends Record<string, any>>(setError: UseFormSe
     }
   };
 
-  return {
-    user,
-    onSubmit,
-  };
+  return { user, onSubmit };
 };

@@ -5,24 +5,32 @@ import Login from 'pages/login';
 import Home from 'pages';
 import Graphiql from 'pages/__graphiql';
 import { SpeakerGroups } from 'pages/speaker-groups';
-import { Config, ConfigMain, ConfigUser, ConfigMusic } from 'pages/config';
+import { ConfigMain, ConfigUser, ConfigMusic } from 'pages/config';
 import { AuthGate } from 'templates/AuthGate';
 import { AppTemplate } from 'templates/AppTemplate';
+import { StandardTemplate } from 'templates/StandardTemplate';
 import './styles/tailwind.css';
 
 const AppRouter = () => (
   <Router component={AppTemplate}>
     <Login path="login" />
     <AuthGate path="/">
-      <Home path="/" />
+      <StandardTemplate path="/" title="Home">
+        <Home path="/" />
+      </StandardTemplate>
+
       <Graphiql path="__graphiql" />
-      <SpeakerGroups path="speaker-groups" />
-      <Config path="settings">
+
+      <StandardTemplate path="speaker-groups" title="Speaker Groups">
+        <SpeakerGroups path="/" />
+      </StandardTemplate>
+
+      <StandardTemplate path="settings" title="Settings">
         <ConfigMain path="/" />
         <ConfigUser path="user" />
         <ConfigMusic path="music" />
         <ConfigMusic.Spotify path="music/spotify" />
-      </Config>
+      </StandardTemplate>
     </AuthGate>
   </Router>
 );

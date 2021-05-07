@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import Card from 'components/card';
+import { buildQueryParams } from 'lib/helpers';
 
 // eslint-disable-next-line camelcase
 const client_id: string = import.meta.env.SPOTIFY_CLIENT_ID;
@@ -20,10 +21,7 @@ const PARAMS = {
 const SPOTIFY_AUTH = 'https://accounts.spotify.com/authorize';
 
 export const Spotify = ({ location }: RouteComponentProps) => {
-  const params = Object
-    .entries({ ...PARAMS, redirect_uri: encodeURIComponent(location?.href as string) })
-    .map(([k, v]) => `${k}=${v}`)
-    .join('&');
+  const params = buildQueryParams({ ...PARAMS, redirect_uri: encodeURIComponent(location?.href as string) });
   const url = `${SPOTIFY_AUTH}?${params}`;
   return (
     <div className="w-full px-2 space-y-2">

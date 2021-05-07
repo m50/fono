@@ -1,15 +1,15 @@
 import React from 'react';
 import type { RouteComponentProps } from '@reach/router';
-import { PageHeader } from 'components/styled/page-header';
-import { PageWrapper } from 'components/styled/page-wrapper';
 import useApi from 'hooks/useApi';
+import Card from 'components/card';
 
-export const SpeakerGroups = (props: RouteComponentProps) => {
+export const SpeakerGroups: React.FC<RouteComponentProps> = () => {
   useApi();
   return (
-    <div className="flex w-full flex-col h-full relative justify-center items-center">
-      <PageHeader path={props.uri as string} title="Speaker Groups" />
-      <PageWrapper />
+    <div className="w-full px-2">
+      <Card>
+        <Card.Title>Speaker Groups</Card.Title>
+      </Card>
     </div>
   );
 };
