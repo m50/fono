@@ -37,6 +37,9 @@ const QueryResolvers: IResolverObject = {
   async audioConfig(_, { type }: AudioConfigQueryArgs) {
     return AudioConfigs().where('type', type).first();
   },
+  async audioConfigs() {
+    return AudioConfigs();
+  },
 };
 
 export default QueryResolvers;

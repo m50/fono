@@ -1,5 +1,6 @@
 type Query {
     users(createdAfter: Date): [User!]
     user(id: ID, username: String, email: String): User
+    audioConfigs: [AudioConfig!]
     audioConfig(type: String!): AudioConfig
 }
