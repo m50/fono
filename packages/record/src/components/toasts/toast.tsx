@@ -31,7 +31,7 @@ const typeColor = {
 const ToastWrapper = tw.div`
   relative flex items-top z-50
   w-full md:w-max md:min-w-[16rem] md:max-w-lg
-  mr-10 md:mt-4 px-4 py-1 border-2 border-opacity-40
+  ml-auto mr-10 md:mt-4 px-4 py-1 border-2 border-opacity-40
   shadow-lg rounded-lg
   backdrop-filter backdrop-blur-xl backdrop-saturate-150
   text-white bg-gray-600 bg-opacity-60
@@ -43,6 +43,9 @@ export const Toast = ({ toast, onComplete }: Props) => {
   const icon = typeIcon[toast.type];
 
   useEffect(() => {
+    if (visible === true) {
+      return;
+    }
     setVisible(true);
     const timeout = setTimeout(() => {
       setVisible(false);
@@ -66,7 +69,7 @@ export const Toast = ({ toast, onComplete }: Props) => {
         <div className="flex flex-col justify-center">
           <h3 className="text-md">{toast.title}</h3>
           {toast.body && toast.body.split(/\n/g).map((b) => (
-            <p className="text-xs">{b}</p>
+            <p key={b} className="text-xs">{b}</p>
           ))}
         </div>
       </ToastWrapper>

@@ -1,5 +1,6 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client/core';
 import castTimestamps from '@fono/gramophone/src/setup/db/castTimestamps';
+import castJson from '@fono/gramophone/src/setup/db/castJson';
 import { isDev } from 'lib/helpers';
 import { useMemo } from 'react';
 import { useToken, JWT } from './useApi/useToken';
@@ -43,7 +44,7 @@ export const useApollo = () => {
       if (!response?.data) {
         return response;
       }
-      response.data = castTimestamps(response?.data ?? undefined);
+      response.data = castTimestamps(castJson(response?.data ?? undefined));
       return response;
     }));
     return new ApolloClient({

@@ -30,6 +30,12 @@ export interface CustomValidationResponse {
 export const isCustomValidationResponse = (obj: any): obj is CustomValidationResponse => obj?.statusCode
   && obj.statusCode === 422;
 
+export interface ErrorResponse {
+  statusCode: number;
+  message: string;
+}
+export const isErrorResponse = (obj: any): obj is ErrorResponse => obj?.statusCode && obj.statusCode >= 400;
+
 export type SuccessResponse<Res extends {}> = Res & {
   statusCode: 200;
 }
@@ -40,11 +46,12 @@ export type CreatedResponse<Res extends {}> = Res & {
   statusCode: 201;
 }
 export const isCreatedResponse = <Res extends {}>(obj: any): obj is CreatedResponse<Res> => obj?.statusCode
-  && obj.statusCode === 200;
+  && obj.statusCode === 201;
 
 type ResponseTypes<Res> =
   | SchemaValidationResponse
   | CustomValidationResponse
+  | ErrorResponse
   | SuccessResponse<Res>
   | CreatedResponse<Res>
 
@@ -69,8 +76,9 @@ const handleResponse = async (
         ttl: 20,
         title: 'An unknown server error occured.',
         body: `Code: ${response.status}
-Body: ${await response.text()}`,
+Body: ${await response.clone().text()}`,
       });
+      return response;
     }
     return response;
   }
@@ -95,7 +103,7 @@ const makeRest = (
   token: JWT | undefined,
   setToken: UpdateState<JWT | undefined>,
   addToast: (toast: Toast) => void,
-): API => <TResponse extends Record<string, any>, TOpts extends Record<string, any>>(
+): API => <TResponse extends Record<string, any> = { message: string }, TOpts extends Record<string, any> = {}>(
   method: Method,
   url: URL,
   bodyOrQueryString?: TOpts,

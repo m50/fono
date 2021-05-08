@@ -31,7 +31,7 @@ export const up = async () => {
   });
 
   await Users().insert({
-    email: 'admin',
+    email: 'admin@root.test',
     username: 'admin',
     password: await bcrypt('admin'),
   });

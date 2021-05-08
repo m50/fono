@@ -35,7 +35,7 @@ export const ToastsProvider = ({ children }: Props) => {
     <>
       <Portal id="toasts" className="absolute right-0 top-0 overflow-hidden md:mt-16">
         {toasts.map((toast, idx) => (
-          <Toast key={idx + toast?.type} toast={toast}
+          <Toast key={idx + toast?.type + Date.now()} toast={toast}
             onComplete={() => setHiddenToasts((v) => v + 1)}
           />
         ))}

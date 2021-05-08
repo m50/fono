@@ -19,7 +19,6 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
   withAuth(app).patch<Request>('/user', opts, async ({ body, user }, res) => {
     const { email, username, password } = body;
     const update: Partial<User> = { email, username };
-    console.log(body);
     if (password) {
       const { currentPassword, passwordConfirmation } = body;
       if (!await check(currentPassword ?? '', user.password)) {

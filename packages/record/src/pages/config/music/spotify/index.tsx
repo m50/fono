@@ -5,7 +5,8 @@ import { buildQueryParams } from 'lib/helpers';
 import { useAddToast } from 'components/toasts';
 import { withQuery } from 'components/higher-order/withQuery';
 import { DateTime } from 'luxon';
-import { useRest } from 'hooks/useApi/useRest';
+import { isCreatedResponse, isSuccessResponse, useRest } from 'hooks/useApi/useRest';
+import { Spotify as SpotifyConfig } from '@fono/gramophone/src/schema/AudioConfig';
 
 const PARAMS = {
   client_id: import.meta.env.SPOTIFY_CLIENT_ID,
@@ -23,14 +24,14 @@ const PARAMS = {
 const SPOTIFY_AUTH = 'https://accounts.spotify.com/authorize';
 
 interface Props extends Required<RouteComponentProps> {
-  spotify?: {
-    config: Record<string, any>;
+  audioConfig: {
+    config: SpotifyConfig;
     createdAt: DateTime;
     updatedAt: DateTime;
   };
 }
 
-const SpotifyComponent = ({ location, navigate, uri, spotify }: Props) => {
+const SpotifyComponent = ({ location, navigate, uri, audioConfig: spotify }: Props) => {
   const addToast = useAddToast();
   const api = useRest();
   useEffect(() => {
@@ -42,7 +43,7 @@ const SpotifyComponent = ({ location, navigate, uri, spotify }: Props) => {
     if (!code) {
       const params = buildQueryParams({ ...PARAMS, redirect_uri: location.href });
       const url = `${SPOTIFY_AUTH}?${params}`;
-      navigate(url);
+      window.location.href = url;
       return;
     }
 
@@ -52,13 +53,27 @@ const SpotifyComponent = ({ location, navigate, uri, spotify }: Props) => {
         body: 'Authenticated with Spotify, setting it up now.',
         type: 'info',
       });
-      return api('POST', '/music/spotify/login', { redirectUri: location.href, code });
-    }).then(() => {
-      addToast({
-        title: 'Success!',
-        body: 'Spotify is setup.',
-        type: 'success',
-      });
+      return api('POST', '/music/spotify/login', { redirectUri: location.href.replace(/\?.+$/, ''), code });
+    }).then((res) => {
+      if (isCreatedResponse(res) || isSuccessResponse(res)) {
+        addToast({
+          title: 'Success!',
+          body: `Spotify is setup.\n${res.message}`,
+          type: 'success',
+        });
+      } else {
+        addToast({
+          title: 'Warning!',
+          body: res.message,
+          type: 'warning',
+        });
+      }
+    }).catch((err) => {
+        addToast({
+          title: 'Error!',
+          body: err.toString(),
+          type: 'error',
+        });
     });
   }, []);
 
@@ -66,6 +81,7 @@ const SpotifyComponent = ({ location, navigate, uri, spotify }: Props) => {
     <div className="w-full px-2 space-y-2">
       <Card>
         <Card.Body>
+          <pre>{JSON.stringify(spotify.config, null, 2)}</pre>
         </Card.Body>
       </Card>
     </div>
@@ -75,7 +91,7 @@ const SpotifyComponent = ({ location, navigate, uri, spotify }: Props) => {
 export const Spotify = withQuery(
   (gql) => gql`
     query Spotify {
-      audioConfig(type: 'spotify') {
+      audioConfig(type: "spotify") {
         config
         createdAt
         updatedAt
