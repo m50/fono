@@ -6,10 +6,12 @@ import useApi from 'hooks/useApi';
 import { Markdown } from 'components/markdown/Markdown';
 import { RefreshIcon } from '@heroicons/react/solid';
 import { User } from 'types/user';
+import { useAddToast } from 'components/toasts';
 
 export default function Home(props: RouteComponentProps) {
   const { gql, userId } = useApi();
   const [welcomeData, setWelcomeData] = useState<User | {}>({});
+  const addToast = useAddToast();
 
   const requestUser = useCallback(async () => {
     if (!userId) return;
@@ -25,6 +27,15 @@ export default function Home(props: RouteComponentProps) {
       }
     `;
     setWelcomeData(data.user);
+  }, []);
+
+  const createToast = useCallback(() => {
+    const type = ['info', 'success', 'error', 'warning'][Math.floor(Math.random() * 4)] as "info" | "success" | "error" | "warning";
+    addToast({
+      type,
+      title: 'test',
+      ttl: Math.random() * 10,
+    })
   }, []);
 
   useEffect(() => {
@@ -48,6 +59,7 @@ ${JSON.stringify(welcomeData, null, 2)}
           `}
           </Markdown>
         </Card.Body>
+        <Card.Body><Button onClick={createToast}>Create Toast</Button></Card.Body>
       </Card>
     </div>
   );
