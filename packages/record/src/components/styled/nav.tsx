@@ -25,6 +25,7 @@ const NavLink = tw(Link)`
 const Nav = tw.nav`
   bg-gray-600 text-white bg-opacity-40 p-5 h-24 z-50
   backdrop-filter backdrop-blur-3xl backdrop-saturate-150
+  border-t border-gray-400 border-opacity-60
 `;
 
 export default ({ className = '', pages }: Props) => (

@@ -9,12 +9,14 @@ import { extractChildren } from './util';
 const CardWrapperSection = tw.section`
   bg-gray-600 bg-opacity-40 text-white
   backdrop-filter backdrop-blur-xl backdrop-saturate-150
+  border border-gray-400 border-opacity-60
   p-5 rounded-xl
   shadow-lg relative
 `;
 const CardWrapperForm = tw.form`
   bg-gray-600 bg-opacity-40 text-white
   backdrop-filter backdrop-blur-xl backdrop-saturate-150
+  border border-gray-400 border-opacity-60
   p-5 rounded-xl
   shadow-lg relative
 `;
