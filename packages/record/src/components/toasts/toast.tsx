@@ -34,8 +34,7 @@ const ToastWrapper = tw.div`
   ml-auto mr-10 md:mt-4 px-4 py-1 border-2 border-opacity-40
   shadow-lg rounded-lg
   backdrop-filter backdrop-blur-xl backdrop-saturate-150
-  text-white bg-gray-600 bg-opacity-60
-  dark:bg-gray-400 dark:bg-opacity-40
+  text-white bg-gray-600 bg-opacity-40
 `;
 
 export const Toast = ({ toast, onComplete }: Props) => {
