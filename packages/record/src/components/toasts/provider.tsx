@@ -1,44 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import create from 'zustand';
+import React, { useLayoutEffect, useState } from 'react';
 import { Portal } from 'components/portal';
 import shallow from 'zustand/shallow';
-import { ToastsState } from './types';
 import { Toast } from './toast';
-
-export const useToasts = create<ToastsState>((set, get) => ({
-  toasts: [],
-  addToast: (toast) => set({ toasts: [...get().toasts, toast] }),
-  removeToast: (toast) => {
-    const oldToasts = get().toasts;
-    const idx = oldToasts.findIndex((v) => v.type === toast.type
-      && v.body === toast.body
-      && v.title === toast.title
-      && v.ttl === toast.ttl);
-    const toasts = oldToasts.filter((t, index) => index !== idx);
-    set({ toasts });
-  },
-  clearToasts: () => set({ toasts: [] }),
-}));
+import { useToasts } from './useToasts';
 
 type Props = React.PropsWithChildren<{}>;
 export const ToastsProvider = ({ children }: Props) => {
   const toasts = useToasts((state) => state.toasts, shallow);
-  const clearToasts = useToasts((state) => state.clearToasts, shallow);
-  const [hiddenToasts, setHiddenToasts] = useState(0);
-  useEffect(() => {
-    if (hiddenToasts === toasts.length) {
-      clearToasts();
-      setHiddenToasts(0);
-    }
-  }, [hiddenToasts, toasts]);
+  const removeToast = useToasts((state) => state.removeToast, shallow);
   return (
     <>
-      <Portal id="toasts" className="absolute right-0 top-0 overflow-hidden md:mt-16">
-        {toasts.map((toast, idx) => (
-          <Toast key={idx + toast?.type + Date.now()} toast={toast}
-            onComplete={() => setHiddenToasts((v) => v + 1)}
-          />
-        ))}
+      <Portal id="toasts" className="absolute right-0 top-0 overflow-hidden md:mt-16 bottom-0">
+        {toasts.map((toast) => {
+          return (
+            <Toast key={JSON.stringify(toast)} toast={toast}
+              onComplete={() => removeToast(toast)}
+            />
+          )
+        })}
       </Portal>
       {children}
     </>

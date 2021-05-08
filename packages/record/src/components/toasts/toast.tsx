@@ -39,22 +39,18 @@ const ToastWrapper = tw.div`
 `;
 
 export const Toast = ({ toast, onComplete }: Props) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const icon = typeIcon[toast.type];
 
   useEffect(() => {
-    if (visible === true) {
-      return;
-    }
-    setVisible(true);
     const timeout = setTimeout(() => {
       setVisible(false);
     }, (toast.ttl ?? 5) * 1000);
     return () => clearTimeout(timeout);
-  }, [toast.ttl]);
+  }, []);
 
   return (
-    <Transition show={visible} className="ml-auto overflow-hidden" unmount
+    <Transition show={visible} className="ml-auto overflow-hidden" unmount appear
       enter="transform transition-all duration-300 ease-in-out"
       enterFrom="opacity-0 translate-x-60"
       enterTo="opacity-100 translate-x-0"
