@@ -36,6 +36,11 @@ export interface ErrorResponse {
 }
 export const isErrorResponse = (obj: any): obj is ErrorResponse => obj?.statusCode && obj.statusCode >= 400;
 
+export type DeleteResponse = {
+  statusCode: 204
+}
+export const isDeleteResponse = (obj: any): obj is DeleteResponse => obj?.statusCode
+  && obj.statusCode === 204;
 export type SuccessResponse<Res extends {}> = Res & {
   statusCode: 200;
 }
@@ -119,7 +124,7 @@ const makeRest = (
   }
   return fetch(reqUrl, opts)
     .then((response) => handleResponse(response, setToken, addToast))
-    .then((response) => response.json())
+    .then((response) => response.json()).catch((e) => ({ statusCode: 204 }))
     .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
 };
 
