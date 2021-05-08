@@ -33,7 +33,7 @@ export const withQuery = <
   Props extends Record<string, any>,
   PassedProps = Omit<Props, keyof QueriedProps>,
 >(
-    request: (gql: GQLAPI) => Promise<ApolloQueryResult<QueriedProps>>,
+    request: (gql: GQLAPI, props: PassedProps) => Promise<ApolloQueryResult<QueriedProps>>,
     Comp: React.ComponentType<Props>,
   ) => (props: PassedProps) => {
     const { gql } = useApi();
@@ -42,7 +42,7 @@ export const withQuery = <
     const [fulfilledProps, setFulfilledProps] = useState<QueriedProps | undefined>();
 
     useEffect(() => {
-      request(gql).then((result) => setStatus(result));
+      request(gql, props).then((result) => setStatus(result));
     }, []);
 
     useEffect(() => {
