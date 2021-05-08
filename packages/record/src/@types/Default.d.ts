@@ -13,3 +13,8 @@ declare module '*.module.css' {
 
   export default styles;
 }
+
+declare module 'setup/db' {
+  const db: import('knex').Knex;
+  export default db;
+}
