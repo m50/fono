@@ -7,8 +7,10 @@ export const AudioConfigs = <C extends {} = Record<string, any>>() => db<AudioCo
 export const SpotifyConfig = () => AudioConfigs<Spotify>().where('type', 'spotify').first();
 
 export interface Spotify {
+  accountName: string;
   redirectUri: string;
   accessToken: string;
+  expiresIn: number;
   expiresAt: DateTime | Date;
   refreshToken: string;
   tokenType: string;
