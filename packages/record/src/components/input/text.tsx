@@ -8,12 +8,8 @@ interface Props {
   readonly value?: string;
   readonly example?: string;
   className?: string;
-  readonly register: UseFormRegisterReturn;
-  readonly errors: FieldError | undefined;
-}
-
-interface Component {
-  (props: Props): JSX.Element;
+  readonly register?: UseFormRegisterReturn;
+  readonly errors?: FieldError | undefined;
 }
 
 const Label = tw.div`
@@ -32,26 +28,32 @@ const Errors = tw.small`
   text-red-400 h-8 pl-2
 `;
 
-const TextInput: Component = ({ title, type, value, register, errors, example, className = '' }) => {
+const TextInput = React.forwardRef<HTMLInputElement, Props>((
+  { title, type, value, register, errors, example, className = '' },
+  ref
+) => {
   const [moveTextUp, setMoveTextUp] = useState(!!value);
   return (
-    <label htmlFor={register.name} className={className}>
+    <label htmlFor={register?.name ?? title} className={className}>
       <Label className={moveTextUp ? 'translate-y-0' : 'translate-y-7'}>{title}</Label>
       <div>
-        <Input type={type} {...register}
+        <Input type={type}
+          name={title}
+          ref={ref}
+          {...register}
           aria-invalid={errors ? 'true' : 'false'}
           defaultValue={value ?? ''}
           placeholder={moveTextUp ? example : ''}
           onFocus={() => setMoveTextUp(true)}
           onChange={(e: any) => {
             setMoveTextUp(!!e.target.value);
-            register.onChange(e);
+            register?.onChange(e);
           }}
           onBlur={(e: any) => {
             if (!e.target.value) {
               setMoveTextUp(false);
             }
-            register.onBlur(e);
+            register?.onBlur(e);
           }}
         />
       </div>
@@ -64,6 +66,6 @@ const TextInput: Component = ({ title, type, value, register, errors, example, c
       </Errors>
     </label>
   );
-};
+});
 
 export default TextInput;
