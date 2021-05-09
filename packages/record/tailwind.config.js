@@ -12,12 +12,16 @@ module.exports = {
   theme: {
   },
   variants: {
-    extends: {
+    extend: {
       shadowFill: ['autofill'],
+      textColor: ['active'],
+      backgroundColor: ['active'],
     },
   },
   plugins: [
-    require('@tailwindcss/forms')({}),
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    }),
     require('@tailwindcss/typography'),
     require('./src/styles/tailwind-autofill'),
   ],

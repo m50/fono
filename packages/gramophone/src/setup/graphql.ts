@@ -2,9 +2,10 @@ import { ApolloServer, IResolvers } from 'apollo-server-fastify';
 import { glob } from 'glob';
 import { basename, dirname } from 'path';
 import type { DocumentNode } from 'graphql';
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyPluginCallback } from 'fastify';
+import { withAuth } from 'middleware/auth';
 
-export default (app: FastifyInstance<any, any, any>) => {
+export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   const typeDefs = glob.sync(`${dirname(__dirname)}/graphql/schema/**`, { dot: true, nodir: true })
     .map((p) => require(p))
     .map((node: DocumentNode) => node);
@@ -21,9 +22,9 @@ export default (app: FastifyInstance<any, any, any>) => {
     typeDefs,
     resolvers,
   });
-  app.register(apollo.createHandler());
+  withAuth(app).register(apollo.createHandler());
 
-  apollo.setGraphQLPath('/ql'); // /g/ql
+  apollo.setGraphQLPath('/ql'); // `/g/ql`
 
-  return app;
+  done();
 };

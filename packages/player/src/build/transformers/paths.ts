@@ -1,18 +1,19 @@
 import { dirname, join, relative } from 'path';
-import { existsSync as exists } from 'fs';
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile, access } from 'fs/promises';
+import { constants } from 'fs';
 
+export const exists = (path: string) => access(path, constants.F_OK).then(() => true).catch(() => false);
 const ext = (path: string): string => `.${path.split('.').pop() ?? ''}`;
 
 export const transform = async (source: string, path: string, rootDir: string, paths: string[]): Promise<string> => {
   let code = source;
   const metaFile = join(rootDir, 'dist', 'meta.json');
   let hashes: Record<string, string> = {};
-  if (exists(metaFile)) {
+  if (await exists(metaFile)) {
     hashes = JSON.parse((await readFile(metaFile)).toString());
   }
   const discoveryFile = join(rootDir, 'dist', 'discovery.json');
-  if (exists(discoveryFile)) {
+  if (await exists(discoveryFile)) {
     hashes = {
       ...JSON.parse((await readFile(discoveryFile)).toString()),
       ...hashes,

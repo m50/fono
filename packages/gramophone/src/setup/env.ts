@@ -9,12 +9,26 @@ const files = [
 ];
 
 files.forEach((file) => {
-  if (exists(join(__dirname, '..', '..', file))) {
-    const env = dotenv.config({ path: join(__dirname, '..', '..', file) });
-    dotenvExpand(env);
+  try {
+    const file1 = require.resolve(join(__dirname, '..', '..', file));
+    if (exists(file1)) {
+      const env = dotenv.config({ path: file1 });
+      dotenvExpand(env);
+      // @ts-ignore
+      process.env = { ...process.env, ...env };
+    }
+  } catch (e) {
+    // Intentionally empty
   }
-  if (exists(join(__dirname, '..', '..', '..', file))) {
-    const env = dotenv.config({ path: join(__dirname, '..', '..', '..', file) });
-    dotenvExpand(env);
+  try {
+    const file2 = require.resolve(join(__dirname, '..', '..', '..', '..', file));
+    if (exists(file2)) {
+      const env = dotenv.config({ path: file2 });
+      dotenvExpand(env);
+      // @ts-ignore
+      process.env = { ...process.env, ...env };
+    }
+  } catch (e) {
+    // Intentionally empty
   }
 });

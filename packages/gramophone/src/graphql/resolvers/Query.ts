@@ -1,6 +1,7 @@
 import { IResolverObject } from 'apollo-server-fastify';
 import { Users } from 'schema/User';
 import { DateTime } from 'luxon';
+import { AudioConfig, AudioConfigs } from 'schema/AudioConfig';
 
 interface UserQueryArgs {
   email?: string;
@@ -10,6 +11,10 @@ interface UserQueryArgs {
 
 interface UsersQueryArgs {
   createdAfter?: DateTime;
+}
+
+interface AudioConfigQueryArgs {
+  type: AudioConfig['type'];
 }
 
 const QueryResolvers: IResolverObject = {
@@ -28,6 +33,12 @@ const QueryResolvers: IResolverObject = {
       .maybeWhere('email', email)
       .maybeWhere('username', username)
       .first();
+  },
+  async audioConfig(_, { type }: AudioConfigQueryArgs) {
+    return AudioConfigs().where('type', type).first();
+  },
+  async audioConfigs() {
+    return AudioConfigs();
   },
 };
 

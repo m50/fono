@@ -1,5 +1,6 @@
 import { knex, Knex } from 'knex';
 import castTimestamps from './castTimestamps';
+import castJson from './castJson';
 import getRelationships from './relations';
 
 type Result = Record<string, any> | Record<string, any>[] | undefined | null;
@@ -31,10 +32,10 @@ const db = knex({
     }
 
     if (Array.isArray(result)) {
-      return result.map((record) => getRelationships(castTimestamps(record), context));
+      return result.map((record) => getRelationships(castTimestamps(castJson(record)), context));
     }
 
-    return getRelationships(castTimestamps(result), context);
+    return getRelationships(castTimestamps(castJson(result)), context);
   },
 });
 

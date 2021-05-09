@@ -3,9 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "types/*": ["./src/@types/*"],
       "*": ["./src/*"]
     },
     "jsx": "react",
+    "isolatedModules": true,
     "noEmit": true
   },
   "include": [

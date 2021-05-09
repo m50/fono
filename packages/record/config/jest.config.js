@@ -6,6 +6,7 @@ module.exports = {
   rootDir: dirname(__dirname),
   ...snowpackJest(),
   clearMocks: true,
+  maxWorkers: 1,
   setupFilesAfterEnv: [
     '<rootDir>/config/jest.setup.ts',
   ],

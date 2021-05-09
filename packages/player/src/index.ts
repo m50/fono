@@ -1,3 +1,4 @@
+import '@fono/gramophone/src/setup/env';
 import yargs from 'yargs';
 import migrate from './commands/migrate';
 

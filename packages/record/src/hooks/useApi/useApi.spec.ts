@@ -1,14 +1,15 @@
 import { setupServer } from 'msw/node';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { rest } from 'msw';
-import useApi from './useApi';
+import { DateTime } from 'luxon';
+import useApi from '.';
 
 const mockNavigate = jest.fn();
 jest.mock('@reach/router', () => ({
   useNavigate: () => mockNavigate,
 }));
 jest.mock('@apollo/client/react', () => ({
-  useApolloClient: () => jest.fn(),
+  useApolloClient: () => ({ resetStore: jest.fn() }),
 }));
 
 interface Response {
@@ -18,7 +19,15 @@ interface Response {
 const server = setupServer(
   rest.get('/g/ping', (req, res, { json }) => res(json<Response>({ message: 'pong' }))),
   rest.post('/g/login', (req, res, { set, json }) => res(
-    set('X-Refresh-Token', btoa(JSON.stringify({ u: 1, t: Date.now(), k: '1234567890' }))),
+    set('X-Refresh-Token', btoa(JSON.stringify(
+      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 1 }).toMillis() },
+    ))),
+    json<Response>({ message: 'Successfully Authenticated' }),
+  )),
+  rest.post('/g/login2', (req, res, { set, json }) => res(
+    set('X-Refresh-Token', btoa(JSON.stringify(
+      { u: 1, t: Date.now(), k: '1234567890', e: DateTime.now().plus({ hour: 20 * 24 }).toMillis() },
+    ))),
     json<Response>({ message: 'Successfully Authenticated' }),
   )),
   rest.post('/g/logout', (req, res, { json, status }) => res(
@@ -29,7 +38,11 @@ const server = setupServer(
 
 describe('useApi()', () => {
   beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    server.resetHandlers();
+    mockNavigate.mockReset();
+    localStorage.clear();
+  });
   afterAll(() => server.close());
 
   it('can make request', async () => {
@@ -60,13 +73,13 @@ describe('useApi()', () => {
     expect(setTimeout).not.toHaveBeenCalled();
     const oneHour = 1 /* h */ * 60 /* m */ * 60 /* s */ * 1000; /* ms */
     const { result } = renderHook(() => useApi());
-    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(setTimeout).toHaveBeenCalledTimes(0);
 
     await act(async () => {
       const response = await result.current.api<Response>('POST', '/login');
       expect(response.message).toBe('Successfully Authenticated');
     });
-    expect(setTimeout).toHaveBeenCalledTimes(3);
+    expect(setTimeout).toHaveBeenCalledTimes(2);
     act(() => {
       jest.advanceTimersByTime(oneHour);
     });
@@ -75,7 +88,37 @@ describe('useApi()', () => {
     expect(result.current.userId).toBeUndefined();
   });
 
-  it('logs you out if X-Refresh-Token is not returned', async () => {
+  it('logs you out after specified time', async () => {
+    jest.useFakeTimers();
+    expect(setTimeout).not.toHaveBeenCalled();
+    const twentyDays = 20 /* d */ * 24 /* h */ * 60 /* m */ * 60 /* s */ * 1000; /* ms */
+    const oneDay = 24 /* h */ * 60 /* m */ * 60 /* s */ * 1000; /* ms */
+    const { result } = renderHook(() => useApi());
+    expect(setTimeout).toHaveBeenCalledTimes(0);
+
+    await act(async () => {
+      const response = await result.current.api<Response>('POST', '/login2');
+      expect(response.message).toBe('Successfully Authenticated');
+    });
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    act(() => {
+      jest.advanceTimersByTime(oneDay);
+    });
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    act(() => {
+      jest.advanceTimersByTime(twentyDays - oneDay);
+    });
+
+    expect(mockNavigate).toHaveBeenCalled();
+    expect(result.current.userId).toBeUndefined();
+  });
+
+  it('logs you out if 401 is not returned', async () => {
     const { result } = renderHook(() => useApi());
     expect(mockNavigate).toHaveBeenCalledTimes(1);
 

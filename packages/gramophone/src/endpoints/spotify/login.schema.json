@@ -1,0 +1,10 @@
+{
+  "title": "Login Body Schema",
+  "type": "object",
+  "properties": {
+    "redirectUri": { "type": "string" },
+    "code": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "required": ["redirectUri", "code"]
+}

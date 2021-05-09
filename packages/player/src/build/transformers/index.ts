@@ -10,6 +10,8 @@ import { transform as graphql } from './graphql';
 
 type Transformer = (source: string, path: string) => Promise<string>;
 
+let tsconfig = '';
+
 export const transform = (type: string, rootDir: string, srcPaths: string[]): Transformer => {
   if (type === 'babel') return (source, path) => babel(source, path, rootDir);
   if (type === 'es5-regex') return es5;
@@ -18,8 +20,7 @@ export const transform = (type: string, rootDir: string, srcPaths: string[]): Tr
   if (type === 'stringify') return stringify;
   if (type === 'graphql') return graphql;
   if (type === 'esbuild') {
-    let tsconfig = '';
-    if (exists(join(rootDir, 'tsconfig.json'))) {
+    if (tsconfig.length < 1 && exists(join(rootDir, 'tsconfig.json'))) {
       tsconfig = readFile(join(rootDir, 'tsconfig.json')).toString();
     }
 

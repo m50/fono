@@ -1,10 +1,11 @@
-import { mkdir, writeFile } from 'fs/promises';
-import { existsSync as exists } from 'fs';
+import { mkdir, writeFile, rm, access } from 'fs/promises';
+import { constants } from 'fs';
 import { dirname } from 'path';
 import chalk from 'chalk';
 import { transformers, extensionMap } from './build.config.json';
 import { transform } from './transformers';
 
+export const exists = (path: string) => access(path, constants.F_OK).then(() => true).catch(() => false);
 export const isInTransformers = (extension: string):
   extension is keyof typeof transformers => Object.keys(transformers).includes(extension);
 export const isInExtensionMap = (extension: string):
@@ -73,10 +74,13 @@ export async function write(path: string, rootDir: string, code: string) {
       return s;
     });
 
-  if (!exists(dirname(newPath))) {
+  if (!await exists(dirname(newPath))) {
     await mkdir(dirname(newPath), { recursive: true });
   }
   if (['\n', ''].includes(code)) {
+    if (await exists(newPath)) {
+      await rm(newPath);
+    }
     return;
   }
   writeFile(newPath, code);

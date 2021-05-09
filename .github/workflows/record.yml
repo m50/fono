@@ -1,9 +1,6 @@
 name: Record (control panel) checks
 on:
   pull_request:
-    paths:
-      - 'packages/record/**'
-      - yarn.lock
 
 jobs:
   unit:

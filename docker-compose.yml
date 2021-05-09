@@ -2,17 +2,14 @@ version: "3.9"
 
 services:
   router:
-    image: caddy:2-alpine
+    image: ghcr.io/m50/fono/router:latest
     restart: always
     environment:
       UI: record
       API: gramophone
-    env_file:
-      - .env
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-      - ./Caddyfile:/etc/caddy/Caddyfile
     ports:
       - "80:80"
       - "443:433"
@@ -31,9 +28,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    env_file:
-      - .env
-      - packages/gramophone/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -51,9 +45,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    env_file:
-      - .env
-      - packages/record/.env
     networks:
       - frontend
   cache:

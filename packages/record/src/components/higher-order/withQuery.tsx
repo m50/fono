@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import useApi, { GQLAPI } from 'hooks/useApi';
+import useApi from 'hooks/useApi';
+import { GQLAPI } from 'hooks/useApi/useGraphql';
 import { ApolloQueryResult } from '@apollo/client';
 
-const isReady = <Props extends Record<string, any>>(props: Partial<Props>, ready: boolean): props is Props => ready;
+const isReady = <P extends Record<string, any>>(p: Partial<P> | undefined, ready: boolean): p is P => ready;
 
 /**
  * How to use:
@@ -28,26 +29,39 @@ const isReady = <Props extends Record<string, any>>(props: Partial<Props>, ready
  * @returns The component with it's props filled from graphql.
  */
 export const withQuery = <
+  QueriedProps extends Partial<Record<keyof Props, any>>,
   Props extends Record<string, any>,
-  RProps extends Record<keyof Props, any>,
-  FProps = Partial<Props>,
+  PassedProps = Omit<Props, keyof QueriedProps>,
 >(
-    request: (gql: GQLAPI) => Promise<ApolloQueryResult<RProps>>,
-    Comp: React.FC<Props> | ((props: Props) => JSX.Element),
-  ) => (props: FProps) => {
+    request: (gql: GQLAPI, props: PassedProps) => Promise<ApolloQueryResult<QueriedProps>>,
+    Comp: React.ComponentType<Props>,
+  ) => (props: PassedProps) => {
     const { gql } = useApi();
     const [ready, setReady] = useState(false);
-    const [fulfilledProps, setFulfilledProps] = useState<Partial<Props> | Props>(props);
+    const [status, setStatus] = useState<ApolloQueryResult<QueriedProps>>();
+    const [fulfilledProps, setFulfilledProps] = useState<QueriedProps | undefined>();
 
     useEffect(() => {
-      request(gql)
-        .then((result) => result.data)
-        .then((result) => setFulfilledProps((p) => ({ ...p, ...result })))
-        .then(() => setReady(true));
+      request(gql, props).then((result) => setStatus(result));
     }, []);
 
+    useEffect(() => {
+      if (status && !status.loading) {
+        setReady(true);
+        setFulfilledProps(status.data);
+      }
+    }, [status]);
+
+    if (status?.errors) {
+      return (
+        <div className="w-screen h-screen flex justify-center items-centertext-red-400 text-4xl">
+          Failed to load data. Please refresh.
+        </div>
+      );
+    }
+
     if (isReady(fulfilledProps, ready)) {
-      return <Comp {...fulfilledProps} />;
+      return <Comp {...props} {...fulfilledProps} />;
     }
 
     return null;

@@ -1,7 +1,6 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyRequest } from 'fastify';
 import { ApiKeys } from 'schema/ApiKey';
 import { User } from 'schema/User';
-import { bcrypt } from 'utils/bcrypt';
 import { sha256 } from 'utils/hash';
 import { DateTime } from 'luxon';
 import { JWT } from './types';
@@ -17,17 +16,16 @@ export const getJwt = (headers: FastifyRequest['headers']): JWT | undefined => {
   return data;
 };
 
-export const unauthenticated = (reply: FastifyReply) => reply.status(401).send({ message: 'Unauthenticated.' });
-
-export const refreshToken = async (user: User): Promise<string> => {
-  const token = await bcrypt(sha256(Date.now()));
-  const expiresAt = DateTime.now().plus({ hour: 1 });
+export const refreshToken = async (user: User, expiresIn = 1): Promise<string> => {
+  const token = sha256(Date.now());
+  const expiresAt = DateTime.now().plus({ hour: expiresIn });
   await ApiKeys().insert({
     userId: user.id,
     token,
     type: 'refresh',
     expiresAt: expiresAt.toJSDate(),
   });
+  const jwt: JWT = { u: user.id, k: token, t: Date.now(), e: expiresAt.toMillis() };
 
-  return token;
+  return Buffer.from(JSON.stringify(jwt)).toString('base64');
 };
