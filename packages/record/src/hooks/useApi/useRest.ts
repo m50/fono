@@ -3,8 +3,8 @@ import { useAddToast } from 'components/toasts';
 import { Toast } from 'components/toasts/types';
 import { useMemo } from 'react';
 import { UpdateState } from 'use-local-storage-state/src/useLocalStorageStateBase';
-import { JWT, useToken } from './useToken';
 import { buildQueryParams } from 'lib/helpers';
+import { JWT, useToken } from './useToken';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type URL = `/${string}`;
@@ -120,11 +120,11 @@ const makeRest = (
     ...(method !== 'GET' && { body: JSON.stringify(bodyOrQueryString ?? {}) }),
   };
   if (method === 'GET' && bodyOrQueryString) {
-    reqUrl += '?' + buildQueryParams(bodyOrQueryString);
+    reqUrl += `?${buildQueryParams(bodyOrQueryString)}`;
   }
   return fetch(reqUrl, opts)
     .then((response) => handleResponse(response, setToken, addToast))
-    .then((response) => response.json()).catch((e) => ({ statusCode: 204 }))
+    .then((response) => response.json()).catch(() => ({ statusCode: 204 }))
     .then((response) => castTimestamps(response) as ResponseTypes<TResponse>);
 };
 

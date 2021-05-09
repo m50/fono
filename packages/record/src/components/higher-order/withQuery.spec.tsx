@@ -2,9 +2,9 @@ import React from 'react';
 import { setupServer } from 'msw/node';
 import { render, waitFor } from '@testing-library/react';
 import { graphql } from 'msw';
+import { DateTime } from 'luxon';
 import { withQuery } from './withQuery';
 import { withProviders } from './withProviders';
-import { DateTime } from 'luxon';
 
 interface UserExample {
   name: string;

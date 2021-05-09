@@ -28,7 +28,7 @@ describe('helpers', () => {
         a: 1,
         b: 2,
       },
-      test5: [1, 2]
+      test5: [1, 2],
     });
     expect(real).toBe('test=1&test2=hi&test3=true&test4[a]=1&test4[b]=2&test5[0]=1&test5[1]=2');
   });

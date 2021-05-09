@@ -1,13 +1,13 @@
-import { FastifyInstance } from "fastify";
-import { DateTime } from "luxon";
-import { AudioConfigs, Spotify, SpotifyConfig } from "schema/AudioConfig";
-import SpotifyWebApi from "spotify-web-api-node";
+import { FastifyInstance } from 'fastify';
+import { DateTime } from 'luxon';
+import { AudioConfigs, Spotify, SpotifyConfig } from 'schema/AudioConfig';
+import SpotifyWebApi from 'spotify-web-api-node';
 
-let intervals: NodeJS.Timeout[] = [];
+let intervals: any[] = [];
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
-const refreshToken = async (id: number, app: FastifyInstance) => {
+const handleTokenRefresh = async (id: number, app: FastifyInstance) => {
   const config = await SpotifyConfig(id);
   if (!config) {
     clearTimeout(intervals[id]);
@@ -46,11 +46,11 @@ export const keepSpotifyKeysAlive = async (app: FastifyInstance) => {
 
   spotifyConfigs.forEach((spotifyConfig) => {
     intervals[spotifyConfig.id] = setInterval(
-      refreshToken,
+      handleTokenRefresh,
       (spotifyConfig.config.expiresIn - 60) * 1000,
       spotifyConfig.id,
-      app
+      app,
     );
-    setImmediate(refreshToken, spotifyConfig.id, app);
+    setImmediate(handleTokenRefresh, spotifyConfig.id, app);
   });
 };

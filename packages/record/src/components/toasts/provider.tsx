@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React from 'react';
 import { Portal } from 'components/portal';
 import shallow from 'zustand/shallow';
 import { Toast } from './toast';
@@ -11,13 +11,11 @@ export const ToastsProvider = ({ children }: Props) => {
   return (
     <>
       <Portal id="toasts" className="absolute right-0 top-0 overflow-hidden md:mt-16 bottom-0">
-        {toasts.map((toast) => {
-          return (
-            <Toast key={JSON.stringify(toast)} toast={toast}
-              onComplete={() => removeToast(toast)}
-            />
-          )
-        })}
+        {toasts.map((toast) => (
+          <Toast key={JSON.stringify(toast)} toast={toast}
+            onComplete={() => removeToast(toast)}
+          />
+        ))}
       </Portal>
       {children}
     </>

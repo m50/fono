@@ -7,7 +7,6 @@ import { sha256 } from '@fono/gramophone/src/utils/hash';
 import { transformers } from './build.config.json';
 import { isInTransformers, isInExtensionMap, ext, doTransform, write, getExtension, exists } from './utils';
 
-
 const checkForNewFiles = async (
   rootDir: string,
   paths: string[],

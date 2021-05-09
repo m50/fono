@@ -21,6 +21,6 @@ export const buildQueryParams = (params: Record<string, any>) => Object
 
     return [[$k, $v]];
   })
-  .filter(([k, v]) => typeof v !== 'undefined' && v !== null)
+  .filter(([, v]) => typeof v !== 'undefined' && v !== null)
   .map(([k, v]) => `${k}=${encodeURIComponent(v.toString())}`)
   .join('&');

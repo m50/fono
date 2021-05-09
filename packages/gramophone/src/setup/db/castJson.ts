@@ -1,5 +1,4 @@
 
-
 export default function castJson(result?: Record<string, any>) {
   if (!result) {
     return result;

@@ -3,9 +3,9 @@ import { RouteComponentProps } from '@reach/router';
 import Card from 'components/card';
 import type { AudioConfig, Spotify } from '@fono/gramophone/src/schema/AudioConfig';
 import { withQuery } from 'components/higher-order/withQuery';
-import { SpotifyLink } from './spotify';
 import Button from 'components/input/button';
 import { PlusIcon } from '@heroicons/react/solid';
+import { SpotifyLink } from './spotify';
 
 interface Props extends RouteComponentProps {
   audioConfigs: AudioConfig[];
@@ -22,8 +22,9 @@ const Music = ({ audioConfigs, navigate }: Props) => {
         <Card.Body>
           {audioConfigs.map((audioConfig) => {
             if (audioConfig.type === 'spotify') {
-              return <SpotifyLink key={audioConfig.id} audioConfig={audioConfig as AudioConfig<Spotify>} />
+              return <SpotifyLink key={audioConfig.id} audioConfig={audioConfig as AudioConfig<Spotify>} />;
             }
+            return null;
           })}
         </Card.Body>
         <Card.Footer className="flex justify-center">

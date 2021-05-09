@@ -74,7 +74,7 @@ const SpotifyComponent = ({ location, navigate, uri, audioConfig: spotify }: Pro
 
   const updateAccountName = useCallback(async () => {
     const res = await api('PATCH', '/music/spotify/account-name', {
-      accountName: accountName.current?.value
+      accountName: accountName.current?.value,
     });
     if (isSuccessResponse(res)) {
       addToast({

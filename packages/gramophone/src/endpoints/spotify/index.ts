@@ -1,14 +1,14 @@
 import { FastifyInstance, FastifyPluginCallback } from 'fastify';
 import { DateTime } from 'luxon';
-import { auth } from 'middleware/auth';
+import { withAuth } from 'middleware/auth';
 import { AudioConfigs, SpotifyConfig, Spotify } from 'schema/AudioConfig';
 import SpotifyWebApi from 'spotify-web-api-node';
+import { keepSpotifyKeysAlive } from 'housekeeping/keepSpotifyKeysAlive';
 import loginSchema from './login.schema.json';
 import accountNameSchema from './account-name.schema.json';
-import { keepSpotifyKeysAlive } from 'housekeeping/keepSpotifyKeysAlive';
 
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
-  auth(app);
+  withAuth(app);
 
   interface LoginRequest {
     Body: {
@@ -32,7 +32,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
     });
     try {
       const { body: auth } = await spotify.authorizationCodeGrant(req.body.code);
-      spotify.setAccessToken(auth.access_token)
+      spotify.setAccessToken(auth.access_token);
       const { body: user } = await spotify.getMe();
       await AudioConfigs<Spotify | string>().insert({
         type: 'spotify',
@@ -121,7 +121,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
         res.status(500);
         return { statusCode: 500, message: err.toString() };
       }
-    }
+    },
   );
 
   app.delete('/music/spotify', async (req, res) => {

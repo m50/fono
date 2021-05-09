@@ -8,6 +8,7 @@ import { RefreshIcon } from '@heroicons/react/solid';
 import { User } from 'types/user';
 import { useAddToast } from 'components/toasts';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Home(props: RouteComponentProps) {
   const { gql, userId } = useApi();
   const [welcomeData, setWelcomeData] = useState<User | {}>({});
@@ -30,12 +31,13 @@ export default function Home(props: RouteComponentProps) {
   }, []);
 
   const createToast = useCallback(() => {
-    const type = ['info', 'success', 'error', 'warning'][Math.floor(Math.random() * 4)] as "info" | "success" | "error" | "warning";
+    const types = ['info', 'success', 'error', 'warning'] as const;
+    const type = types[Math.floor(Math.random() * 4)];
     addToast({
       type,
       title: 'test',
       ttl: Math.random() * 10,
-    })
+    });
   }, []);
 
   useEffect(() => {

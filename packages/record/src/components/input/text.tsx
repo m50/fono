@@ -30,7 +30,7 @@ const Errors = tw.small`
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>((
   { title, type, value, register, errors, example, className = '' },
-  ref
+  ref,
 ) => {
   const [moveTextUp, setMoveTextUp] = useState(!!value);
   return (
