@@ -15,7 +15,7 @@ describe('passwordAuth', () => {
     // @ts-expect-error
     const user = await passwordAuth(request);
     expect(user?.id).toBe(1);
-    expect(user?.email).toBe('admin');
+    expect(user?.email).toBe('admin@root.test');
     expect(user?.username).toBe('admin');
   });
 
