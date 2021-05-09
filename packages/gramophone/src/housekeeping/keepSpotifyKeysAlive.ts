@@ -1,13 +1,19 @@
 import { FastifyInstance } from "fastify";
 import { DateTime } from "luxon";
-import { AudioConfig, AudioConfigs, Spotify } from "schema/AudioConfig";
+import { AudioConfigs, Spotify, SpotifyConfig } from "schema/AudioConfig";
 import SpotifyWebApi from "spotify-web-api-node";
 
 let intervals: NodeJS.Timeout[] = [];
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
-const refreshToken = async (config: AudioConfig<Spotify>, app: FastifyInstance) => {
+const refreshToken = async (id: number, app: FastifyInstance) => {
+  const config = await SpotifyConfig(id);
+  if (!config) {
+    clearTimeout(intervals[id]);
+    delete intervals[id];
+    return;
+  }
   const { redirectUri, accessToken, accountName, refreshToken } = config.config;
   try {
     const spotify = new SpotifyWebApi({ redirectUri, accessToken, clientId, clientSecret, refreshToken });
@@ -39,7 +45,12 @@ export const keepSpotifyKeysAlive = async (app: FastifyInstance) => {
   intervals = [];
 
   spotifyConfigs.forEach((spotifyConfig) => {
-    intervals.push(setInterval(refreshToken, (spotifyConfig.config.expiresIn - 60) * 1000, spotifyConfig, app));
-    setImmediate(refreshToken, spotifyConfig, app);
+    intervals[spotifyConfig.id] = setInterval(
+      refreshToken,
+      (spotifyConfig.config.expiresIn - 60) * 1000,
+      spotifyConfig.id,
+      app
+    );
+    setImmediate(refreshToken, spotifyConfig.id, app);
   });
 };

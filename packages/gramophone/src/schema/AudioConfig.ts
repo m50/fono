@@ -4,7 +4,10 @@ import db from 'setup/db';
 export const timestamp = 1620363602644;
 
 export const AudioConfigs = <C extends {} = Record<string, any>>() => db<AudioConfig<C>>('audio_configs');
-export const SpotifyConfig = () => AudioConfigs<Spotify>().where('type', 'spotify').first();
+export const SpotifyConfig = (id?: number) => AudioConfigs<Spotify>()
+  .where('type', 'spotify')
+  .maybeWhere('id', id)
+  .first();
 
 export interface Spotify {
   accountName: string;
