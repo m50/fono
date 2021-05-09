@@ -14,7 +14,7 @@ export const handler = async () => {
   const app = setupServer();
   try {
     await up();
-    housekeeping();
+    housekeeping(app);
     console.log(`\n\t🔊 Server started at ${chalk.cyan(`${URL}/`)} 🔊\n`);
     await app.listen(PORT, '0.0.0.0');
   } catch (err) {

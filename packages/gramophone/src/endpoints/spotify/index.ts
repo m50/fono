@@ -5,6 +5,7 @@ import { AudioConfigs, SpotifyConfig, Spotify } from 'schema/AudioConfig';
 import SpotifyWebApi from 'spotify-web-api-node';
 import loginSchema from './login.schema.json';
 import accountNameSchema from './account-name.schema.json';
+import { keepSpotifyKeysAlive } from 'housekeeping/keepSpotifyKeysAlive';
 
 export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, done) => {
   auth(app);
@@ -46,6 +47,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
           scope: auth.scope,
         }),
       });
+      await keepSpotifyKeysAlive(app);
 
       res.status(201);
       return { statusCode: 201, message: 'Successfuly configured Spotify.' };
@@ -70,8 +72,8 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
     });
     try {
       const { body: auth } = await spotify.authorizationCodeGrant(req.body.code);
-      await AudioConfigs<Spotify | string>().where('type', 'spotify').update({
-        type: 'spotify',
+      await AudioConfigs<Spotify | string>().where('id', spotifyConfig.id).update({
+        updatedAt: DateTime.now().toJSDate(),
         config: JSON.stringify({
           accountName: spotifyConfig.config.accountName,
           redirectUri,
@@ -83,6 +85,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
           scope: auth.scope,
         }),
       });
+      await keepSpotifyKeysAlive(app);
 
       res.status(200);
       return { statusCode: 200, message: 'Successfuly re-authorized Spotify.' };
@@ -124,6 +127,7 @@ export const register: FastifyPluginCallback<{}> = (app: FastifyInstance, _, don
   app.delete('/music/spotify', async (req, res) => {
     try {
       await AudioConfigs().where('type', 'spotify').delete();
+      await keepSpotifyKeysAlive(app);
       res.status(204);
       return { statusCode: 204 };
     } catch (err) {

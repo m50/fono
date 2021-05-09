@@ -4,7 +4,6 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "lib": [
-      "dom",
       "esnext",
       "es2015",
       "es2016",
