@@ -58,7 +58,7 @@
     "ts-invariant": "^0.7.3",
     "use-local-storage-state": "^9.0.2",
     "yup": "^0.32.9",
-    "zustand": "^3.4.2"
+    "zustand": "^3.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
