@@ -112,7 +112,7 @@
     "json-schema-to-typescript": "^10.1.4",
     "nodemon": "^2.0.7",
     "pluralize": "^8.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "sqlite3": "^5.0.2",
     "ts-node": "^9.1.1",
     "tsc-alias": "^1.2.10",
