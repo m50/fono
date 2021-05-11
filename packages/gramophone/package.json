@@ -100,7 +100,7 @@
     "@types/pluralize": "^0.0.29",
     "@types/ws": "^7.4.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
+    "@typescript-eslint/parser": "^4.23.0",
     "babel-jest": "^26.6.3",
     "babel-plugin-tsconfig-paths": "^1.0.1",
     "eslint": "^7.26.0",
