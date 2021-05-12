@@ -72,7 +72,7 @@
     "glob-promise": "^4.1.0",
     "graphql": "^15.5.0",
     "graphql-type-json": "^0.3.2",
-    "knex": "^0.95.4",
+    "knex": "^0.95.5",
     "lodash": "^4.17.21",
     "luxon": "^1.26.0",
     "mysql": "^2.18.1",
