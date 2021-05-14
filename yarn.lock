@@ -1638,10 +1638,10 @@
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-1.0.1.tgz#66d25f6441920bd5c2146ea27fd33995885452dd"
   integrity sha512-uikw2gKCmqnvjVxitecWfFLMOKyL9BTFcU4VM3hHj9OMwpkCr5Ke+MRMyY2/aQVmsYs4VTq7NCFX05MYwAHi3g==
 
-"@hookform/resolvers@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.4.0.tgz#3b454463fbb5e7a0de4da029fa34e677f32d8d8d"
-  integrity sha512-KiHc7Uwd2IJMvPTMQ9vQxfss2ulq2gRYL/HYZ90qiTs+07UgGWCikiIvE2pKjjGVltEYjq5eR8x0ITmoyEjGxQ==
+"@hookform/resolvers@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.5.0.tgz#ce6bac219339f2c0877c517b2632a163a2abdd53"
+  integrity sha512-hQpocA/SAodTeR4EJWB+Setx95FwGU7yd5vux7GnlnqFwc0Uk89G5XPrsPoGyLYzolCoI3ojDswDCWl/sTTQXw==
 
 "@hypnosphi/create-react-context@^0.3.1":
   version "0.3.1"
