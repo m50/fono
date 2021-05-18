@@ -85,7 +85,7 @@
     "@tailwindcss/typography": "^0.4.0",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
-    "@testing-library/react-hooks": "^5.1.2",
+    "@testing-library/react-hooks": "^6.0.0",
     "@types/codemirror": "5.60.0",
     "@types/estree": "^0.0.47",
     "@types/jest": "^26.0.23",
