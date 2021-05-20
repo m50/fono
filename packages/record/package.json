@@ -40,7 +40,7 @@
     "graphiql": "^1.4.1",
     "graphql": "^15.5.0",
     "gray-matter": "^4.0.3",
-    "luxon": "^1.26.0",
+    "luxon": "^1.27.0",
     "prop-types": "^15.7.2",
     "react": "^17",
     "react-dom": "^17",
