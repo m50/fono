@@ -57,7 +57,7 @@
     "chalk": "^4.1.0",
     "esbuild": "^0.11.20",
     "glob-promise": "^4.1.0",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0",
     "yargs": "^17.0.1"
   },
