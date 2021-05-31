@@ -80,7 +80,7 @@
     "reflect-metadata": "^0.1.13",
     "spotify-web-api-node": "^5.0.2",
     "whatwg-fetch": "^3.6.2",
-    "ws": "^7.4.5"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
