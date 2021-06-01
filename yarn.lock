@@ -2318,10 +2318,10 @@
     dotenv "^8.2.0"
     dotenv-expand "^5.1.0"
 
-"@snowpack/plugin-postcss@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@snowpack/plugin-postcss/-/plugin-postcss-1.2.2.tgz#e5f22c9474df559e14ac4df1783189efc58dce81"
-  integrity sha512-XL4EyfDLcxCeo9bOm8ScNAFq9pU4bFkFq4GY6/Zokq/rxMh9lugOHTLWeT/p4IxLh4CX1o7pX8b61Eplcqlfqg==
+"@snowpack/plugin-postcss@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@snowpack/plugin-postcss/-/plugin-postcss-1.4.0.tgz#af95fca31ac9663ad41b89d58c7473776fb6c415"
+  integrity sha512-IKJefynh4Bnpy2bXFxGFdwu9uAHvcL2jmpuiR6qZADbd1Pi6dUnRI6Ip84nYoGUMeIaGrbbHPMeAKuSlVv2GTQ==
   dependencies:
     postcss-load-config "^3.0.1"
     workerpool "^6.1.2"
@@ -3860,10 +3860,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@types/yargs@^16.0.1":
-  version "16.0.1"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-16.0.1.tgz#5fc5d41f69762e00fbecbc8d4bf9dea47d8726f4"
-  integrity sha512-x4HABGLyzr5hKUzBC9dvjciOTm11WVH1NWonNjGgxapnTHu5SWUqyqn0zQ6Re0yQU0lsQ6ztLCoMAKDGZflyxA==
+"@types/yargs@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.0.tgz#32f740934eedf0a5cd19470249f317755c91f1ae"
+  integrity sha512-RS7u2X7vdXjVQs160PWY1pjLBw6GJj04utojn0KU8p2rRZR37FSzzK6XOT+KLzT/DVbDYRyezroc0LHIvM5Z2A==
   dependencies:
     "@types/yargs-parser" "*"
 
