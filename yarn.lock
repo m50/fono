@@ -16213,10 +16213,10 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tsc-alias@^1.2.10:
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.2.10.tgz#edcc018ab94104e795999a9960bb94e7c9a3ca23"
-  integrity sha512-6koWkGL9A/01qC65vVecgN3vZwCvWqx1GPoksgvQkNp+GAbT1z5tuFx+pvtmkYjR07WcNP1rGln/+RRvlIrNRQ==
+tsc-alias@^1.2.11:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.2.11.tgz#661d5b596acffd5f3cf21874f966ef19689e2b7c"
+  integrity sha512-cHYhOG/kolBq7ZrNLj355FYOlXYhfv0poOO3Fm9j9igcZeNGqnwOsouE3ltcymODjjU7XD/7KdWnZWanaXDJiw==
   dependencies:
     "@jfonx/console-utils" "^1.0.3"
     "@jfonx/file-utils" "^3.0.1"
