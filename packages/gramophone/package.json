@@ -58,7 +58,7 @@
   "dependencies": {
     "@fono/horn": "1.0.0",
     "@fono/record": "1.0.0",
-    "apollo-server-fastify": "^2.24.0",
+    "apollo-server-fastify": "^2.25.0",
     "bcrypt": "^5.0.1",
     "chalk": "^4.1.1",
     "cross-env": "^7.0.3",
