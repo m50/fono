@@ -98,7 +98,7 @@
     "@types/tailwindcss": "^2.0.3",
     "@types/tern": "^0.23.3",
     "@types/yup": "^0.29.11",
-    "autoprefixer": "^10.2.4",
+    "autoprefixer": "^10.2.6",
     "babel-jest": "^27.0.2",
     "babel-loader": "^8.2.2",
     "babel-plugin-inline-react-svg": "^2.0.1",
