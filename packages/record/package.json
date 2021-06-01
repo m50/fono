@@ -67,7 +67,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.14.0",
     "@jadex/snowpack-plugin-tailwindcss-jit": "^0.3.0",
-    "@jest/types": "^26.6.2",
+    "@jest/types": "^27.0.2",
     "@open-wc/webpack-import-meta-loader": "^0.4.7",
     "@snowpack/app-scripts-react": "^2.0.1",
     "@snowpack/plugin-dotenv": "^2.1.0",
