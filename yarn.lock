@@ -1612,10 +1612,10 @@
     meros "^1.1.2"
     subscriptions-transport-ws "^0.9.18"
 
-"@graphiql/toolkit@^0.2.0", "@graphiql/toolkit@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@graphiql/toolkit/-/toolkit-0.2.1.tgz#2e23829ab7327d79006126dfe72cfed72c61250c"
-  integrity sha512-ogW2TCVmZOV9fwDhO33h4q64KoCoekCEg+hHY6TzN2Gw8qCKOjRmIL7QW6+uiplJEgQHQqr9wFgzs7I/AcOQhQ==
+"@graphiql/toolkit@^0.2.0", "@graphiql/toolkit@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@graphiql/toolkit/-/toolkit-0.2.2.tgz#193d570afcf686c9ee61c92054c1782b9f3c1255"
+  integrity sha512-kDgYhqnS4p4LqSo1KvLd3tbX8Hhdj0ZrgQuGsosjjEnahiPYmmylxUL1p9lj6348OsypcTlCncGpEjeb9S3TiQ==
   dependencies:
     "@n1ru4l/push-pull-async-iterable-iterator" "^2.1.4"
     graphql-ws "^4.3.2"

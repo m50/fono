@@ -32,7 +32,7 @@
     "@fono/gramophone": "1.0.0",
     "@fono/horn": "1.0.0",
     "@graphiql/create-fetcher": "^0.1.0",
-    "@graphiql/toolkit": "^0.2.1",
+    "@graphiql/toolkit": "^0.2.2",
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
     "@hookform/resolvers": "^2.4.0",
